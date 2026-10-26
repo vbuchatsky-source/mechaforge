@@ -137,16 +137,16 @@ function buildPart(type, opts = {}) {
       boltRing(g, 4, 1.25, d.len / 2 - 0.05, 0.08);
     } else {
       const can = latheX([[-L2, 0], [-L2, d.r * 0.9], [-L2 + 0.08, d.r], [L2 - 0.6, d.r], [L2 - 0.52, d.r * 0.96], [L2 - 0.52, 0]], M.steel, 64);
-      g.add(can);
-      const bell = latheX([[L2 - 0.6, 0], [L2 - 0.6, d.r * 0.97], [L2 - 0.1, d.r * 0.92], [L2, d.r * 0.55], [L2, 0]], M.black, 64); g.add(bell);
+      g.add(can); can.userData.house = 1;
+      const bell = latheX([[L2 - 0.6, 0], [L2 - 0.6, d.r * 0.97], [L2 - 0.1, d.r * 0.92], [L2, d.r * 0.55], [L2, 0]], M.black, 64); g.add(bell); bell.userData.house = 1;
       for (let k = 0; k < 8; k++) { const a = k / 8 * Math.PI * 2; const v = rbox(0.7, 0.07, 0.24, 0.03, M.rubber); v.position.set(-L2 + 0.9, Math.cos(a) * d.r * 0.995, Math.sin(a) * d.r * 0.995); v.rotation.x = -a; g.add(v); }
       for (const z of [-0.4, 0.4]) { const t = rbox(0.1, 0.5, 0.18, 0.02, M.brass); t.position.set(-L2 - 0.05, 0, z * d.r); g.add(t); }
       const band = cylX(d.r + 0.01, d.r + 0.01, 0.08, 64, M.dark, 0); band.position.x = L2 - 1.2; g.add(band);
     }
     const sh = outShaft(type === 'hobby' ? 0.08 : 0.18); sp.push({ o: sh, f: 1 });
   } else if (d.kind === 'gear') {
-    const w = 0.55, ring = ringGear(d.zr, d.m, w, d.r); g.add(ring);
-    const back = latheX([[-L2, 0.22], [-L2, d.r], [-L2 + 0.25, d.r], [-L2 + 0.25, 0.22]], M.dark, 64, 30); g.add(back);
+    const w = 0.55, ring = ringGear(d.zr, d.m, w, d.r); g.add(ring); ring.userData.house = 1;
+    const back = latheX([[-L2, 0.22], [-L2, d.r], [-L2 + 0.25, d.r], [-L2 + 0.25, 0.22]], M.dark, 64, 30); g.add(back); back.userData.house = 1;
     ring.position.x = -L2 + 0.25 + w / 2 + 0.01;
     boltRing(g, 6, d.r - 0.17, -L2 - 0.03);
     const sun = spurGear(d.zs, d.m, w, 0.1); sun.position.x = ring.position.x; g.add(sun); sp.push({ o: sun, f: 1 });
@@ -164,13 +164,13 @@ function buildPart(type, opts = {}) {
     const os = cylX(0.18, 0.18, L2 - (ring.position.x + w / 2 + 0.19) + GAP - 0.04, 24, M.steel); os.position.x = w / 2 + 0.19 + (L2 - (ring.position.x + w / 2 + 0.19) + GAP - 0.04) / 2; carrier.add(os);
     g.userData.carrier = carrier; g.userData.sun = sun;
     // front retainer ring (open so the gears stay visible)
-    const fr = latheX([[ring.position.x + w / 2 + 0.02, d.r - 0.28], [ring.position.x + w / 2 + 0.02, d.r], [ring.position.x + w / 2 + 0.12, d.r], [ring.position.x + w / 2 + 0.12, d.r - 0.28]], M.alu, 64, 30); g.add(fr);
+    const fr = latheX([[ring.position.x + w / 2 + 0.02, d.r - 0.28], [ring.position.x + w / 2 + 0.02, d.r], [ring.position.x + w / 2 + 0.12, d.r], [ring.position.x + w / 2 + 0.12, d.r - 0.28]], M.alu, 64, 30); g.add(fr); fr.userData.house = 1;
   } else if (d.kind === 'clutch') {
-    const back = latheX([[-L2, 0.2], [-L2, d.r], [-L2 + 0.2, d.r], [-L2 + 0.2, 0.2]], M.dark, 64, 30); g.add(back);
+    const back = latheX([[-L2, 0.2], [-L2, d.r], [-L2 + 0.2, d.r], [-L2 + 0.2, 0.2]], M.dark, 64, 30); g.add(back); back.userData.house = 1;
     const rot = new THREE.Group(); g.add(rot); sp.push({ o: rot, f: 1 });
     const plate = latheX([[-L2 + 0.24, 0.2], [-L2 + 0.24, 1.25], [-L2 + 0.4, 1.25], [-L2 + 0.4, 0.2]], M.steel, 64, 30); rot.add(plate);
     for (let k = 0; k < 6; k++) { const a = k / 6 * Math.PI * 2; const b = new THREE.Mesh(new THREE.SphereGeometry(0.11, 20, 14), M.steel); b.castShadow = true; b.position.set(-L2 + 0.51, Math.cos(a) * 0.95, Math.sin(a) * 0.95); rot.add(b); }
-    const plate2 = latheX([[-L2 + 0.62, 0.2], [-L2 + 0.62, 1.25], [-L2 + 0.74, 1.25], [-L2 + 0.74, 0.2]], M.alu, 64, 30); g.add(plate2);
+    const plate2 = latheX([[-L2 + 0.62, 0.2], [-L2 + 0.62, 1.25], [-L2 + 0.74, 1.25], [-L2 + 0.74, 0.2]], M.alu, 64, 30); g.add(plate2); plate2.userData.house = 1;
     const helix = new THREE.Curve(); helix.getPoint = (t, v = new THREE.Vector3()) => v.set(-L2 + 0.78 + t * 0.32, Math.cos(t * Math.PI * 12) * 0.13, Math.sin(t * Math.PI * 12) * 0.13);
     const sg = new THREE.TubeGeometry(helix, 120, 0.03, 6, false);
     for (let k = 0; k < 6; k++) { const a = k / 6 * Math.PI * 2; const s = new THREE.Mesh(sg, M.steel); s.castShadow = true; s.position.set(0, Math.cos(a) * 0.95, Math.sin(a) * 0.95); g.add(s); }
@@ -191,6 +191,7 @@ function buildPart(type, opts = {}) {
   }
   if (!opts.noPed) addPedestal(g, d);
   g.traverse(o => { if (o.isMesh) o.userData.part = g; });
+  const hm = []; g.traverse(o => { if (o.userData.house) o.traverse(m => { if ((m.isMesh || m.isLineSegments) && !hm.includes(m)) { m.material = m.material.clone(); hm.push(m); } }); }); g.userData.house = hm; g.userData.ha = 1;
   return g;
 }
 
@@ -218,8 +219,8 @@ function buildChuck() {
 
 // ---------------- bench scene ----------------
 const bench = new THREE.Group(); scene.add(bench);
-const plate = rbox(27, 0.3, 7, 0.08, M.dark); plate.position.y = -0.15; plate.castShadow = false; bench.add(plate);
-for (const z of [-2, 0, 2]) { const s = new THREE.Mesh(new THREE.BoxGeometry(26.6, 0.02, 0.22), M.black); s.position.set(0, 0.002, z); bench.add(s); }
+const plate = rbox(27, 0.3, 7, 0.08, M.dark.clone()); plate.position.y = -0.15; plate.castShadow = false; bench.add(plate);
+for (const z of [-2, 0, 2]) { const s = new THREE.Mesh(new THREE.BoxGeometry(26.6, 0.02, 0.22), M.black.clone()); s.position.set(0, 0.002, z); bench.add(s); }
 const shadowGround = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.ShadowMaterial({ opacity: 0.45 }));
 shadowGround.rotation.x = -Math.PI / 2; shadowGround.position.y = -0.3; shadowGround.receiveShadow = true; scene.add(shadowGround);
 const grid = new THREE.GridHelper(120, 120, 0x343941, 0x262a30); grid.position.y = -0.299; grid.material.transparent = true; grid.material.opacity = 0.7; scene.add(grid);
@@ -307,7 +308,7 @@ function onDrag(e) {
   const gh = $('dragGhost'); gh.style.display = 'block'; gh.style.left = e.clientX + 'px'; gh.style.top = e.clientY + 'px';
   let best = null, bd = 1e9;
   for (const m of sockMeshes) { const p = proj(m.position); const dd = Math.hypot(p.x - e.clientX, p.y - e.clientY); if (dd < bd) { bd = dd; best = m; } }
-  drag.sock = bd < (MOBILE ? 170 : 230) ? best : null;
+  drag.sock = bd < (TUT ? (MOBILE ? 170 : 230) : (MOBILE ? 110 : 140)) ? best : null;
   if (TUT && TUT.want === drag.t && TUT.idx !== undefined) { const tm = sockMeshes.find(m => m.userData.s.i === TUT.idx); if (tm) drag.sock = tm; }
   drag.why = drag.sock ? canInsert(drag.t, drag.sock.userData.s.i) : null;
   for (const m of sockMeshes) { m.material.color.set(m === drag.sock ? (drag.why ? 0xe5484d : 0x3fb97a) : 0x8a919b); m.material.opacity = m === drag.sock ? 0.95 : 0.3; m.scale.setScalar(m === drag.sock ? 1.15 : 1); }
@@ -321,7 +322,7 @@ function endDrag() {
   let idx, why;
   if (!d.moved) { idx = PT[d.t].kind === 'src' ? 0 : chain.length; why = canInsert(d.t, idx); }
   else { if (!d.sock) { if (TUT && TUT.want === d.t) { idx = TUT.idx; why = null; insertPart(d.t, idx); } return; } idx = d.sock.userData.s.i; why = d.why; }
-  if (why) { toast(why, true); return; }
+  if (why) { toast(why, true); acadReject(d.t, why); return; }
   insertPart(d.t, idx);
 }
 
@@ -462,6 +463,7 @@ function finishRun() {
   $('result').classList.add('show');
   $('bImp').onclick = () => $('result').classList.remove('show');
   if ($('bRev')) $('bRev').onclick = () => { $('result').classList.remove('show'); startReveal(); };
+  acadRunDone(ev);
 }
 function hintFor(ev) {
   if (!ev.ck[0].ok) return L('רמז: התחל במנוע.', 'Hint: start with a motor.');
@@ -475,7 +477,7 @@ const drill = new THREE.Group(); drill.visible = false; scene.add(drill);
 let RV = null;
 const S = 0.4;
 function fadeable(root) { const mats = []; root.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); mats.push(o.material); } }); return mats; }
-function setOpacity(mats, a) { for (const m of mats) { m.transparent = a < 0.999; m.opacity = a; m.depthWrite = a > 0.5; } }
+function setOpacity(mats, a) { for (const m of mats) { const tr = a < 0.999; if (m.transparent !== tr) { m.transparent = tr; m.needsUpdate = true; } m.opacity = a; m.depthWrite = a > 0.5; } }
 function buildDrill(types) {
   drill.clear();
   const parts = []; let x = -2.0;
@@ -511,7 +513,7 @@ function buildDrill(types) {
   const lat = rbox(0.4, 0.2, 0.9, 0.05, M.rubber); lat.position.set(0.95, 0.15, 0); bat.add(lat);
   bat.position.set(-0.55, -4.18, 0); drill.add(bat); parts.push({ g: bat, x: -0.55, y: -4.18, name: L('סוללה 18V Li-ion', '18 V Li-ion battery'), from: 'y', mats: fadeable(bat) });
   const motorPart = parts[0];
-  drill.userData = { parts, nearMats: fadeable(near), farMats: fadeable(far), chuck: ch, types };
+  drill.userData = { near, far, parts, nearMats: fadeable(near), farMats: fadeable(far), chuck: ch, types };
   drill.position.set(0, 4.6, 0); drill.traverse(o => { if (o.isMesh) o.castShadow = true; });
 }
 function startReveal() {
@@ -539,7 +541,10 @@ function updateReveal(dt) {
   let shell = 1;
   if (t > T_FADE[0]) shell = lerp(1, 0.12, ease(clamp((t - T_FADE[0]) / (T_FADE[1] - T_FADE[0]))));
   if (t > T_CLOSE[0]) shell = lerp(0.12, 1, ease(clamp((t - T_CLOSE[0]) / (T_CLOSE[1] - T_CLOSE[0]))));
-  setOpacity(u.nearMats, shell);
+  if (XRAY || SEC) shell = Math.min(shell, 0.14);
+  setOpacity(u.nearMats, shell); for (const m of u.nearMats) if (m.emissive) m.emissive.setHex(shell < 0.5 ? 0x0a1016 : 0);
+  setOpacity(u.farMats, lerp(0.22, 1, clamp((shell - 0.14) / 0.86)));
+  { const cs = shell > 0.6; if (u.cs !== cs) { u.cs = cs; for (const g of [u.near, u.far]) g.traverse(o => { if (o.isMesh) o.castShadow = cs; }); } }
   const running = t < T_HIDE[0] || (t > T_RUN);
   P.forEach((p, k) => {
     let vis = 1, off = 0;
@@ -562,7 +567,7 @@ function updateReveal(dt) {
   u.chuck.userData.ang = (u.chuck.userData.ang || 0) + w * VIS * dt * 6; u.chuck.userData.rot.rotation.x = u.chuck.userData.ang;
   let cap = ''; for (const c of R.caps) if (t >= c[0]) cap = c[1]; $('revCap').textContent = cap;
   // slow orbit
-  const ang = 0.5 + Math.sin(t * 0.18) * 0.45, dist = MOBILE ? 19 : 11.5; if (!R.user) { camera.position.set(-0.2 + Math.sin(ang) * dist, 6.4 + Math.sin(t * 0.25) * 0.5, Math.cos(ang) * dist); }
+  const asm = t > T_AS - 0.6 && t < T_RUN + 0.6, ang = asm ? 0.12 + Math.sin(t * 0.18) * 0.1 : 0.5 + Math.sin(t * 0.18) * 0.45, dist = MOBILE ? 19 : 11.5; if (!R.user) { camera.position.set(-0.2 + Math.sin(ang) * dist, 6.4 + Math.sin(t * 0.25) * 0.5, Math.cos(ang) * dist); }
   if (t > T_CLOSE[1] + 0.3) { $('rNext').disabled = true; R.done = true; }
 }
 controls.addEventListener('start', () => { if (RV) RV.user = true; camGoal = null; });
@@ -586,7 +591,7 @@ function showBrief() {
   <h6 style="color:#8a919b;font-size:11px;letter-spacing:.8px">${L('אילוצים', 'CONSTRAINTS')}</h6>
   <ul><li>${L(`זרם ≤ ${LIM.I} A בעומס הברגה של 10 N·m`, `Current ≤ ${LIM.I} A at a 10 N·m screwing load`)}</li><li>${L('עד 5 רכיבים, הכול בתוך גוף המברגה', 'Up to 5 components, all inside the drill body')}</li><li>${L('★ בונוס: הגנה כשהבורג מתיישב (עומס חוסם)', '★ Bonus: protect when the screw seats (blocking load)')}</li></ul>
   <div class="row"><button class="primary" id="bGo">${L('לבנייה', 'Start building')}</button></div>`;
-  $('brief').classList.add('show'); $('bGo').onclick = () => { $('brief').classList.remove('show'); if (mode === 'start') mode = 'build'; updateStats(); if (window.__tutAfterBrief) { window.__tutAfterBrief = false; startGuide(); } };
+  $('brief').classList.add('show'); $('bGo').onclick = () => { $('brief').classList.remove('show'); if (mode === 'start') mode = 'build'; updateStats(); };
 }
 $('lvl').textContent = L('אתגר 1 · מברגה חשמלית', 'Challenge 1 · Drill driver');
 $('palT').textContent = L('ספריית רכיבים', 'Component library');
@@ -594,7 +599,7 @@ $('bBrief').textContent = L('תדריך', 'Brief'); $('bClear').textContent = L(
 $('sTag').textContent = L('אתגרי מנגנונים למהנדסים', 'Mechanism challenges for engineers');
 $('bPlay').textContent = L('התחל', 'Play'); $('bLang').textContent = EN ? 'עב' : 'EN'; $('bLang2').textContent = EN ? 'עברית' : 'English';
 $('rReplay').textContent = L('↺ שוב', '↺ Replay'); $('rBack').textContent = L('חזרה לבנייה', 'Back to build'); $('rNext').textContent = L('אתגר 2 – בקרוב', 'Challenge 2 – soon');
-$('bPlay').onclick = () => { $('start').classList.remove('show'); if (!localStorage.getItem('mf_tut') || QS.has('tut')) startIntro(); else showBrief(); };
+$('bPlay').onclick = () => { $('start').classList.remove('show'); showModes(); };
 $('bBrief').onclick = showBrief;
 for (const b of [$('bLang'), $('bLang2')]) b.onclick = switchLang;
 for (const b of [$('bHQ'), $('bHQ2')]) b.onclick = () => { HQ = !HQ; localStorage.setItem('mf_hq', HQ ? '1' : '0'); applyQuality(); toast(HQ ? L('איכות גבוהה', 'High quality') : L('מצב מהיר', 'Fast mode')); };
@@ -606,93 +611,305 @@ $('rBack').onclick = endReveal;
 layout(true); applyQuality(); frame(true); updateStats();
 if (QS.has('demo')) { $('start').classList.remove('show'); mode = 'build'; for (const t of QS.get('demo').split(',')) insertPart(t, PT[t].kind === 'src' ? 0 : chain.length); for (const c of chain) c.g.position.y = AX; select(null); frame(true); }
 
-// ---------------- onboarding / guided tutorial ----------------
-let TUT = null;
-const TSTEPS = [
-  { t: 'motor', idx: 0, h: ['שלב 1 · מנוע – מקור התנועה', 'Step 1 · Motor – the motion source'],
-    b: ['גרור את <b>מנוע DC 18V</b> מהספרייה אל הטבעת הזוהרת. המנוע מהיר מאוד (18,000 סל"ד) אך חלש (1.6 N·m) – לבורג זה לא מספיק.', 'Drag the <b>DC motor 18 V</b> from the library onto the glowing ring. It is very fast (18,000 rpm) but weak (1.6 N·m) – not enough for a screw.'] },
-  { t: 'pl4', idx: 1, h: ['שלב 2 · שלב פלנטרי 4:1', 'Step 2 · Planetary stage 4:1'],
-    b: ['חבר <b>שלב פלנטרי 4:1</b> מיד אחרי המנוע. גלגל שמש, 3 לוויינים וטבעת: הסל"ד יורד פי 4 והמומנט עולה פי 4 – והכול נשאר על אותו ציר.', 'Attach the <b>planetary 4:1</b> right after the motor. Sun, 3 planets and a ring: speed ÷4, torque ×4 – all on the same axis.'] },
-  { t: 'pl5', idx: 2, h: ['שלב 3 · שלב פלנטרי 5:1', 'Step 3 · Planetary stage 5:1'],
-    b: ['הוסף <b>שלב פלנטרי 5:1</b>. יחס כולל 4×5 = <b>20:1</b> → כ-900 סל"ד ו-29 N·m ביציאה. בדיוק בטווח היעד.', 'Add the <b>planetary 5:1</b>. Total 4×5 = <b>20:1</b> → ≈900 rpm and 29 N·m at the output – right on target.'] },
-  { t: 'clutch', idx: 3, h: ['שלב 4 · מצמד מומנט (בונוס ★)', 'Step 4 · Torque clutch (bonus ★)'],
-    b: ['הוסף <b>מצמד מומנט</b> לפני הצ\'אק. כשהבורג מתיישב הוא מחליק – מגן על המנוע ועל הבורג. אפשר לכוון את מומנט ההחלקה במחוון אחרי לחיצה עליו.', 'Add the <b>torque clutch</b> before the chuck. When the screw seats it slips, protecting motor and screw. Click it to tune the slip torque.'] },
-  { run: true, h: ['שלב 5 · בדיקה', 'Step 5 · Test run'],
-    b: ['השרשרת מוכנה. לחץ <b>"הפעל בדיקה"</b> – המנוע יאיץ, הבורג יתיישב והגרפים יראו סל"ד, מומנט וזרם.', 'The chain is ready. Press <b>"Run test"</b> – the motor spins up, the screw seats and the graphs show rpm, torque and current.'] },
-];
-const INTRO = [
-  { h: ['ברוך הבא ל-MechaForge', 'Welcome to MechaForge'], b: [
-    '<p>בכל אתגר אתה מתכנן מנגנון אמיתי מרכיבים סטנדרטיים, ובודק אותו בסימולציה פיזיקלית.</p><p><b>אתגר 1 – מברגה חשמלית:</b> המנוע מסתובב מהר מדי וחלש מדי. המשימה: לבנות בינו לבין הצ\'אק תמסורת שתיתן <b>500–1200 סל"ד</b> ו-<b>20 N·m לפחות</b>, על אותו ציר.</p><div class="tflow"><span>מנוע</span><i>→</i><span>תמסורת</span><i>→</i><span>מצמד</span><i>→</i><span>צ\'אק</span></div>',
-    '<p>Each challenge you design a real mechanism from standard parts and test it in a physics simulation.</p><p><b>Challenge 1 – drill driver:</b> the motor is too fast and too weak. Build a drivetrain to the chuck giving <b>500–1200 rpm</b> and <b>≥ 20 N·m</b>, on the same axis.</p><div class="tflow"><span>Motor</span><i>→</i><span>Gearbox</span><i>→</i><span>Clutch</span><i>→</i><span>Chuck</span></div>'] },
-  { h: ['שליטה', 'Controls'], b: [
-    '<table class="tctl"><tr><td>🖱 גרירה שמאלית</td><td>סיבוב המבט</td></tr><tr><td>🖱 גלגלת</td><td>זום</td></tr><tr><td>🖱 גרירה ימנית</td><td>הזזת המבט</td></tr><tr><td>👆 גרירת רכיב מהספרייה</td><td>הרכבה – שחרר ליד טבעת החיבור</td></tr><tr><td>🟢 / 🔴 טבעת</td><td>ירוק = נכנס (Snap) · אדום = לא מתאים, עם הסבר</td></tr><tr><td>👆 לחיצה על רכיב</td><td>בחירה, נתונים, הסרה</td></tr><tr><td>👆 לחיצה קצרה על רכיב בספרייה</td><td>מוסיף אותו לסוף השרשרת</td></tr></table>',
-    '<table class="tctl"><tr><td>🖱 Left drag</td><td>Orbit</td></tr><tr><td>🖱 Wheel</td><td>Zoom</td></tr><tr><td>🖱 Right drag</td><td>Pan</td></tr><tr><td>👆 Drag a library part</td><td>Assemble – release near a connection ring</td></tr><tr><td>🟢 / 🔴 ring</td><td>Green = snaps · Red = doesn\'t fit, with reason</td></tr><tr><td>👆 Click a part</td><td>Select, data, remove</td></tr><tr><td>👆 Tap a library part</td><td>Appends it to the chain</td></tr></table>'] },
-  { h: ['מה כל רכיב עושה', 'What each part does'], b: [
-    '<ul class="tparts"><li><b>מנועים</b> – מקור התנועה, תמיד ראשונים. 18V חזק, צעצוע חלש מדי, מנוע צעד איטי מדי.</li><li><b>שלב פלנטרי</b> – מוריד סל"ד ומכפיל מומנט ביחס שלו, על אותו ציר. שלבים מוכפלים: 4×5 = 20.</li><li><b>מצמד מומנט</b> – מחליק בעומס יתר ומגן על המערכת.</li><li><b>בורג אינסופי / זוג גלגלים</b> – משנים כיוון או מסיטים את הציר – לא מתאימים למברגה.</li></ul><p class="sub">עכשיו נרכיב יחד, צעד אחר צעד. אפשר ללחוץ "הראה לי" בכל שלב.</p>',
-    '<ul class="tparts"><li><b>Motors</b> – the source, always first. 18 V is strong, hobby too weak, stepper too slow.</li><li><b>Planetary stage</b> – cuts speed and multiplies torque by its ratio, same axis. Stages multiply: 4×5 = 20.</li><li><b>Torque clutch</b> – slips on overload, protects the system.</li><li><b>Worm / spur pair</b> – turn or offset the axis – unsuitable for a drill.</li></ul><p class="sub">Now let\'s assemble together, step by step. Press "Show me" any time.</p>'] },
-];
-const tEl = document.createElement('div'); tEl.id = 'tut'; document.body.appendChild(tEl);
+// ================= MechaForge Academy: learn / practice / test, explain, X-ray, section =================
+let TUT = null, ACAD = null, XRAY = false, SEC = false, hoverT = null;
+const PROG = Object.assign({ learn: false, practice: false, best: 0, badge: false }, JSON.parse(localStorage.getItem('mf_prog') || '{}'));
+const saveProg = () => localStorage.setItem('mf_prog', JSON.stringify(PROG));
+const fmt = n => Math.round(n).toLocaleString('en-US');
+// ---------- knowledge base ----------
+const SVG = {
+  motor: `<svg viewBox="0 0 220 120"><line x1="30" y1="100" x2="210" y2="100" class="ax"/><line x1="30" y1="100" x2="30" y2="10" class="ax"/><line x1="30" y1="18" x2="200" y2="100" class="cv"/><circle cx="30" cy="18" r="4" class="pt"/><circle cx="200" cy="100" r="4" class="pt"/><text x="36" y="16">${L('מומנט עצירה 1.6', 'stall 1.6')} N·m</text><text x="150" y="92">18,000 rpm</text><text x="120" y="116">${L('סל"ד', 'speed')} →</text><text x="4" y="60" transform="rotate(-90 12 60)">T ↑</text></svg>`,
+  gear: (zs, zp, zr) => `<svg viewBox="0 0 220 150"><circle cx="110" cy="75" r="66" class="ring"/><circle cx="110" cy="75" r="58" class="ring2"/>${[0, 1, 2].map(k => { const a = k * 2.094 - 1.57, x = 110 + Math.cos(a) * 37, y = 75 + Math.sin(a) * 37; return `<line x1="110" y1="75" x2="${x}" y2="${y}" class="car"/><circle cx="${x}" cy="${y}" r="20" class="pl"/>`; }).join('')}<circle cx="110" cy="75" r="16" class="sun"/><text x="110" y="79" text-anchor="middle" class="dk">Zs ${zs}</text><text x="110" y="28" text-anchor="middle">Zp ${zp}</text><text x="196" y="16" text-anchor="middle">Zr ${zr}</text></svg>
+   <p class="fx">i = 1 + Z<sub>r</sub>/Z<sub>s</sub> = 1 + ${zr}/${zs} = <b>${1 + zr / zs}</b></p>`,
+  clutch: `<svg viewBox="0 0 220 110"><rect x="20" y="15" width="18" height="80" class="pl2"/><rect x="92" y="15" width="14" height="80" class="pl2"/>${[30, 55, 80].map(y => `<circle cx="65" cy="${y}" r="10" class="ball"/>`).join('')}<polyline points="106,55 116,40 126,70 136,40 146,70 156,40 166,70 176,55" class="spr"/><rect x="176" y="15" width="14" height="80" class="pl2"/><text x="20" y="108">${L('צלחת מונעת', 'drive plate')}</text><text x="120" y="108">${L('קפיץ = מומנט החלקה', 'spring = slip torque')}</text></svg>`,
+};
+const INFO = {
+  motor: { what: ['מנוע DC בעל מברשות, 18V. הופך אנרגיה חשמלית מהסוללה לסיבוב.', 'Brushed 18 V DC motor – turns battery power into rotation.'],
+    how: ['ככל שהעומס (המומנט) גדל, הסל"ד יורד באופן ליניארי והזרם עולה. ללא עומס: 18,000 סל"ד. בעצירה: 1.6 N·m ו-80 A.', 'As load torque rises, speed drops linearly and current rises. No-load 18,000 rpm; stall 1.6 N·m at 80 A.'],
+    why: ['זה "המקור" – תמיד ראשון בשרשרת. הבעיה: מהיר פי 20 ממה שבורג צריך, וחלש פי 12.', 'It is the source – always first. Problem: 20× too fast for a screw and 12× too weak.'], svg: SVG.motor,
+    q: { q: ['המנוע נותן 1.6 N·m. כמה פעמים צריך להגדיל את המומנט כדי להגיע ל-20 N·m?', 'The motor gives 1.6 N·m. By how much must torque be multiplied to reach 20 N·m?'], o: ['×2', '×5', '×12.5', '×100'], c: 2, e: ['20 / 1.6 = 12.5. לכן נצטרך תמסורת ביחס של לפחות ~14 (בגלל הפסדי נצילות).', '20 / 1.6 = 12.5 – so we need a ratio of at least ~14 (efficiency losses).'] } },
+  pl4: { what: ['תמסורת פלנטרית: גלגל שמש במרכז, 3 גלגלי לוויין, וטבעת שיניים פנימית קבועה בגוף.', 'Planetary gearbox: a central sun gear, 3 planets and a fixed internal ring gear.'],
+    how: ['הכניסה מסובבת את השמש. הלוויינים מתגלגלים בתוך הטבעת הקבועה ומסובבים את הנשא (Carrier) – שהוא היציאה. הנשא מסתובב פי 4 לאט יותר, והמומנט גדל פי 4 (פחות 5% הפסד).', 'Input drives the sun. The planets roll inside the fixed ring and turn the carrier – the output. The carrier turns 4× slower and torque rises 4× (minus 5% loss).'],
+    why: ['קומפקטי, קואקסיאלי (כניסה ויציאה על אותו ציר) ומחלק את העומס על 3 לוויינים – בדיוק מה שנכנס בקנה של מברגה.', 'Compact, coaxial (in and out on the same axis) and load shared by 3 planets – exactly what fits a drill barrel.'], svg: SVG.gear(12, 12, 36),
+    q: { q: ['השמש מסתובבת ב-18,000 סל"ד. מה סל"ד הנשא (היציאה) בשלב 4:1?', 'The sun turns at 18,000 rpm. What is the carrier (output) speed of the 4:1 stage?'], o: ['72,000', '18,000', '4,500', '1,800'], c: 2, e: ['n_out = n_in / i = 18,000 / 4 = 4,500 סל"ד. עדיין מהיר מדי – היעד 500–1200.', 'n_out = n_in / i = 18,000 / 4 = 4,500 rpm. Still too fast – the target is 500–1200.'] } },
+  pl5: { what: ['שלב פלנטרי שני, יחס 5:1 (טבעת 48 שיניים, שמש 12).', 'A second planetary stage, 5:1 (ring 48 teeth, sun 12).'],
+    how: ['הנשא של השלב הקודם מסובב את השמש של השלב הזה. בשלבים בטור היחסים <b>מוכפלים</b>: 4 × 5 = 20, והנצילויות מוכפלות: 0.95 × 0.95 ≈ 90%.', 'The previous carrier drives this sun. Ratios of stages in series <b>multiply</b>: 4 × 5 = 20, and efficiencies multiply: 0.95 × 0.95 ≈ 90%.'],
+    why: ['שלב אחד גדול של 20:1 היה דורש שמש זעירה וטבעת ענקית. שני שלבים קטנים נשארים בקוטר הקנה.', 'A single 20:1 stage would need a tiny sun and a huge ring. Two small stages stay inside the barrel diameter.'], svg: SVG.gear(12, 18, 48),
+    q: { pre: true, q: ['נבא לפני שמסתובב: מה יהיה הסל"ד ביציאה אחרי 4:1 ואז 5:1?', 'Predict before it spins: output speed after 4:1 then 5:1?'], o: ['3,600', '900', '4,500', '22,500'], c: 1, e: ['18,000 / (4×5) = 900 סל"ד ✓ בטווח. מומנט: 1.6 × 20 × 0.9 ≈ 28.9 N·m ✓', '18,000 / (4×5) = 900 rpm ✓ in range. Torque: 1.6 × 20 × 0.9 ≈ 28.9 N·m ✓'] } },
+  clutch: { what: ['מצמד מומנט: צלחת עם כדורים שנלחצים לשקעים ע"י קפיצים. זו הטבעת הממוספרת בחזית מברגה אמיתית.', 'Torque clutch: a plate with balls pressed into detents by springs – the numbered collar on a real drill.'],
+    how: ['כל עוד המומנט נמוך – הכדורים נשארים בשקעים והכול מסתובב יחד. כשהמומנט עובר את הסף – הכדורים קופצים החוצה והמצמד מחליק ("טרררר"). הסף נקבע לפי כוח הקפיצים.', 'Below the threshold the balls stay seated and everything turns together. Above it, the balls ride out and the clutch slips (the familiar ratchet). Spring force sets the threshold.'],
+    why: ['כשהבורג מתיישב העומס קופץ לאינסוף. בלי מצמד – המנוע נעצר, מושך 80 A ונשרף, או שהראש של הבורג נהרס.', 'When the screw seats the load jumps to "infinite". Without a clutch the motor stalls, draws 80 A and burns, or the screw head strips.'], svg: SVG.clutch,
+    q: { q: ['המצמד מכוון ל-12 N·m והבורג מתיישב. מה קורה?', 'Clutch set to 12 N·m and the screw seats. What happens?'], o: [L('המנוע נעצר ומושך 80 A', 'Motor stalls at 80 A'), L('המצמד מחליק, המומנט נשאר 12 N·m', 'Clutch slips, torque stays 12 N·m'), L('הסל"ד עולה', 'Speed rises'), L('התמסורת נשברת', 'Gearbox breaks')], c: 1, e: ['נכון – המצמד מגביל את המומנט ל-12 N·m, המנוע ממשיך להסתובב והזרם נשאר נמוך.', 'Right – the clutch caps torque at 12 N·m; the motor keeps turning and current stays low.'] } },
+  hobby: { what: ['מנוע צעצוע 3V – זול וקטן.', 'Small cheap 3 V hobby motor.'], how: ['מומנט עצירה 0.06 N·m בלבד.', 'Only 0.06 N·m stall torque.'], why: ['גם עם 20:1 ייתן רק ~1 N·m – חלש מדי למברגה.', 'Even with 20:1 it gives only ~1 N·m – far too weak.'] },
+  stepper: { what: ['מנוע צעד NEMA17 – מדויק, איטי.', 'NEMA 17 stepper – precise, slow.'], how: ['1,200 סל"ד ו-0.45 N·m.', '1,200 rpm and 0.45 N·m.'], why: ['כבר איטי; כל תמסורת שתגדיל מומנט תוריד את הסל"ד מתחת ל-500.', 'Already slow; any gearbox big enough for torque drops speed below 500.'] },
+  worm: { what: ['בורג אינסופי 30:1.', 'Worm drive 30:1.'], how: ['יחס גבוה בשלב אחד, אבל היציאה ב-90° והנצילות נמוכה (~50%).', 'High ratio in one stage, but 90° output and low efficiency (~50%).'], why: ['במברגה הצ\'אק חייב להיות על ציר המנוע – לכן נדחה.', 'In a drill the chuck must be on the motor axis – so it is rejected.'] },
+  spur: { what: ['זוג גלגלי שיניים חיצוניים.', 'External spur gear pair.'], how: ['מעביר תנועה בין שני צירים מקבילים במרחק.', 'Transfers motion between two parallel offset axes.'], why: ['מסיט את הציר ב-18 מ"מ – לא נכנס בקנה הצר.', 'Offsets the axis by 18 mm – won\'t fit the narrow barrel.'] },
+};
+const LSTEPS = ['motor', 'pl4', 'pl5', 'clutch'];
+function chainMath() {
+  let n = 0, T = 0, i = 1, eta = 1; const rows = [];
+  for (const c of chain) { const d = PT[c.type];
+    if (d.kind === 'src') { n = d.w0; T = d.Ts; rows.push([EN ? d.en : d.he, n, T, '—']); }
+    else if (d.kind === 'gear') { n /= d.i; T *= d.i * d.eta; i *= d.i; eta *= d.eta; rows.push([EN ? d.en : d.he, n, T, `÷${d.i} · ×${(d.i * d.eta).toFixed(2)}`]); }
+    else if (d.kind === 'clutch') { const lim = Math.min(T, clutchTc); rows.push([EN ? d.en : d.he, n, lim, L(`מוגבל ל-${clutchTc}`, `capped ${clutchTc}`)]); } }
+  const okN = n >= LIM.rpmLo && n <= LIM.rpmHi, okT = T >= LIM.tq;
+  return `<table class="mt"><tr><th>${L('רכיב', 'Part')}</th><th>${L('סל"ד', 'rpm')}</th><th>N·m ${L('מרבי', 'max')}</th><th></th></tr>${rows.map(r => `<tr><td>${r[0]}</td><td>${fmt(r[1])}</td><td>${r[2].toFixed(1)}</td><td class="op">${r[3]}</td></tr>`).join('') || `<tr><td colspan="4">${L('השרשרת ריקה', 'Chain is empty')}</td></tr>`}</table>
+  <div class="mtot"><span>i = <b>${i}:1</b></span><span>η = <b>${(eta * 100).toFixed(0)}%</b></span><span class="${okN ? 'ok' : 'no'}">${fmt(n)} rpm ${okN ? '✓' : '✗'}</span><span class="${okT ? 'ok' : 'no'}">${T.toFixed(1)} N·m ${okT ? '✓' : '✗'}</span></div>
+  <p class="fx">n<sub>out</sub> = n<sub>motor</sub> / i · T<sub>out</sub> = T<sub>motor</sub> × i × η</p>`;
+}
+function infoHTML(t) {
+  const f = INFO[t], d = PT[t];
+  return `<div class="kb"><h4>${EN ? d.en : d.he} <small>${EN ? d.sen : d.she}</small></h4>
+  <h6>${L('מה זה', 'What it is')}</h6><p>${L(...f.what)}</p><h6>${L('איך זה עובד', 'How it works')}</h6><p>${L(...f.how)}</p><h6>${L('למה כאן', 'Why here')}</h6><p>${L(...f.why)}</p>${f.svg ? `<div class="dg">${f.svg}</div>` : ''}</div>`;
+}
+// ---------- side panel ----------
+const side = document.createElement('aside'); side.id = 'side';
+side.innerHTML = `<div class="sh"><span id="sideT"></span><span class="sp"></span><button id="sideW" title="${L('רוחב', 'Width')}">⇔</button><button id="sideMin" title="${L('מזער', 'Minimise')}">–</button></div><div id="sideB"></div>`;
+document.body.appendChild(side);
 const tPtr = document.createElement('div'); tPtr.id = 'tptr'; document.body.appendChild(tPtr);
-const tIntro = document.createElement('div'); tIntro.id = 'tintro'; tIntro.className = 'ov'; tIntro.innerHTML = '<div class="card" id="tiCard"></div>'; document.body.appendChild(tIntro);
-const tBtn = document.createElement('button'); tBtn.className = 'tb'; tBtn.id = 'bTut'; tBtn.textContent = L('🎓 הדרכה', '🎓 Tutorial'); $('bBrief').before(tBtn);
-tBtn.onclick = () => { if (mode === 'run' || mode === 'reveal') return; $('start').classList.remove('show'); $('brief').classList.remove('show'); startIntro(); };
+const ioL = [0, 1].map(() => { const e = document.createElement('div'); e.className = 'lab io'; $('labels').appendChild(e); return e; });
+$('sideW').onclick = () => { side.classList.toggle('wide'); viewShift(); };
+$('sideMin').onclick = () => { side.classList.toggle('min'); viewShift(); };
+function viewShift() {
+  const on = side.classList.contains('show') && !side.classList.contains('min') && !MOBILE;
+  const w = innerWidth, h = innerHeight, pw = on ? side.offsetWidth + 12 : 0, s = Math.round((pw - 228) / 2);
+  if (on && s > 0) camera.setViewOffset(w + 2 * s, h, 0, 0, w, h); else camera.clearViewOffset();
+  document.body.classList.toggle('sideOn', on); camera.updateProjectionMatrix();
+}
+addEventListener('resize', viewShift);
+function panel(title, html) { side.classList.add('show'); side.classList.remove('min'); $('sideT').innerHTML = title; $('sideB').innerHTML = html; $('sideB').scrollTop = 0; viewShift(); }
+function closePanel() { side.classList.remove('show'); viewShift(); }
+// ---------- header buttons ----------
+const hb = (id, txt) => { const b = document.createElement('button'); b.className = 'tb'; b.id = id; b.textContent = txt; $('bBrief').before(b); return b; };
+const bModes = hb('bModes', L('🎓 מצבים', '🎓 Modes')), bExp = hb('bExp', L('❓ הסבר', '❓ Explain')), bX = hb('bX', 'X-RAY'), bSec = hb('bSec', L('✂ חתך', '✂ Section'));
+bModes.onclick = () => { if (mode === 'run') return; if (mode === 'reveal') endReveal(); showModes(); };
+bExp.onclick = () => acadExplain();
+bX.onclick = () => { XRAY = !XRAY; bX.classList.toggle('on', XRAY); toast(XRAY ? L('X-RAY: מעטפות שקופות', 'X-RAY: transparent housings') : L('X-RAY כבוי', 'X-RAY off')); };
+bSec.onclick = () => { SEC = !SEC; bSec.classList.toggle('on', SEC); applySec(); toast(SEC ? L('חתך לאורך הציר', 'Section along the axis') : L('חתך כבוי', 'Section off')); };
+palList.querySelectorAll('.pitem').forEach(el => { el.addEventListener('pointerenter', () => hoverT = el.dataset.t); el.addEventListener('pointerleave', () => hoverT = null); });
+// ---------- section (clipping plane z=0 with coloured caps) ----------
+renderer.localClippingEnabled = true;
+const secPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0), SECU = { value: 0 };
+function secMat(m) {
+  if (!m.userData.capInst) { m.userData.capInst = 1; m.userData.side0 = m.side; const prev = m.onBeforeCompile;
+    m.onBeforeCompile = (sh, r) => { prev && prev(sh, r); sh.uniforms.uSec = SECU; sh.fragmentShader = 'uniform float uSec;\n' + sh.fragmentShader.replace('#include <dithering_fragment>', '#include <dithering_fragment>\nif (uSec > 0.5 && !gl_FrontFacing) gl_FragColor = vec4(0.52, 0.27, 0.11, 1.0);'); };
+    m.customProgramCacheKey = () => 'sec'; m.needsUpdate = true; }
+  const want = SEC ? 1 : 0; if (m.userData.secOn === want) return; m.userData.secOn = want;
+  m.clippingPlanes = SEC ? [secPlane] : null; m.side = SEC ? THREE.DoubleSide : m.userData.side0; m.needsUpdate = true;
+}
+function applySec() {
+  SECU.value = SEC ? 1 : 0;
+  const roots = [...chain.map(c => c.g), chuck, drill];
+  for (const r of roots) r.traverse(o => { if ((o.isMesh || o.isLineSegments) && o.material && !o.material.isMeshBasicMaterial && o.material !== ghostMat) secMat(o.material); });
+}
+// ---------- housing transparency (X-ray, auto on insert, learn focus) ----------
+function setHouse(g, a) {
+  const u = g.userData; if (!u.house || Math.abs(u.ha - a) < 0.004) return; u.ha = a;
+  for (const m of u.house) { const mt = m.material; const tr = a < 0.99; if (mt.transparent !== tr) { mt.transparent = tr; mt.needsUpdate = true; } mt.opacity = m.isLineSegments ? 0.55 * a : a; mt.depthWrite = a > 0.6; if (mt.emissive) mt.emissive.setHex(a < 0.6 ? 0x1a2a3a : 0); }
+}
+// ---------- learn-mode ghost / target ----------
 const ghostMat = new THREE.MeshStandardMaterial({ color: 0xff7a1a, emissive: 0xff6a00, emissiveIntensity: 0.35, transparent: true, opacity: 0.28, depthWrite: false, roughness: 0.5 });
 const tRing = new THREE.Mesh(new THREE.TorusGeometry(1, 0.06, 12, 96).rotateY(Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffa040, transparent: true, opacity: 0.9, depthWrite: false }));
 const tRing2 = new THREE.Mesh(tRing.geometry, tRing.material.clone()); tRing.visible = tRing2.visible = false; bench.add(tRing, tRing2);
 let tGhost = null;
+function clearHi() { document.querySelectorAll('.tutHi').forEach(e => e.classList.remove('tutHi')); if (tGhost) { bench.remove(tGhost); tGhost = null; } tRing.visible = tRing2.visible = false; tPtr.style.display = 'none'; TUT = null; ioL.forEach(e => e.style.opacity = 0); }
+function guideTo(t, idx) {
+  clearHi(); TUT = { want: t, idx, t: 0 };
+  const it = document.querySelector(`.pitem[data-t="${t}"]`); it.classList.add('tutHi'); it.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  tGhost = buildPart(t, { noPed: true }); tGhost.traverse(o => { if (o.isMesh) { o.material = ghostMat; o.castShadow = false; } if (o.isLineSegments) o.visible = false; });
+  let x = X0; for (let k = 0; k < idx; k++) x += PT[chain[k].type].len + GAP;
+  TUT.x = x + PT[t].len / 2; tGhost.position.set(TUT.x, AX, 0); bench.add(tGhost);
+  tRing.position.set(idx === 0 ? X0 + 1 : x - GAP / 2, AX, 0); tRing2.position.copy(tRing.position); tRing.visible = tRing2.visible = true; TUT.r = PT[t].r + 0.2;
+}
+function resetBench(types = []) { for (const c of chain) bench.remove(c.g); chain.length = 0; select(null); for (const t of types) insertPart(t, chain.length); for (const c of chain) c.g.position.y = AX; select(null); layout(); frame(); $('graphs').style.display = 'none'; }
+// ---------- mode chooser ----------
+const mOv = document.createElement('div'); mOv.id = 'modes'; mOv.className = 'ov'; mOv.innerHTML = '<div class="card wide" id="mCard"></div>'; document.body.appendChild(mOv);
+function showModes() {
+  clearHi(); ACAD = null; closePanel(); document.body.classList.remove('testOn'); $('result').classList.remove('show'); $('brief').classList.remove('show');
+  const card = (id, ic, h, p, st, rec) => `<button class="mcard${rec ? ' rec' : ''}" id="${id}"><span class="mi">${ic}</span><b>${h}</b><span class="mp">${p}</span><span class="ms">${st}</span></button>`;
+  $('mCard').innerHTML = `<p class="sub">${L('אתגר 1 · מברגה חשמלית', 'Challenge 1 · Drill driver')}</p><h2>${L('איך תרצה להתחיל?', 'How do you want to start?')}</h2>
+  <div class="mgrid">${card('mL', '📘', L('למידה', 'Learn'), L('הסבר מלא על כל רכיב, עם הרכבה בידיים, אנימציה פנימית ושאלת בדיקה.', 'Full explanation of every part, hands-on assembly, internal animation and a check question.'), PROG.learn ? L('✓ הושלם', '✓ Done') : L('מומלץ להתחיל כאן', 'Start here'), !PROG.learn)}
+  ${card('mP', '🧪', L('תרגול', 'Practice'), L('הרצת סימולציה, הסבר הגרפים, ונסיון תצורות שגויות כדי לראות למה הן נכשלות.', 'Run the simulation, understand the graphs, and try wrong setups to see why they fail.'), PROG.practice ? L('✓ הושלם', '✓ Done') : (PROG.learn ? L('הצעד הבא', 'Next step') : ''), PROG.learn && !PROG.practice)}
+  ${card('mT', '🎯', L('מבחן', 'Test'), L('הרכב לבד: בלי רמזים, בלי רוחות רפאים ובלי הצמדה אוטומטית. ציון ותג סיום.', 'Assemble alone: no hints, no ghosts, no auto-snap. Score and a completion badge.'), PROG.badge ? `🏅 ${L('עבר', 'Passed')} · ${PROG.best}` : (PROG.best ? `${L('הכי טוב', 'Best')}: ${PROG.best}` : ''), PROG.practice && !PROG.badge)}</div>
+  <div class="row"><button class="ghost" id="mF">${L('בנייה חופשית', 'Free build')}</button>${PROG.learn || PROG.practice || PROG.best ? `<button class="ghost" id="mR">${L('אפס התקדמות', 'Reset progress')}</button>` : ''}</div>`;
+  mOv.classList.add('show');
+  $('mL').onclick = () => { mOv.classList.remove('show'); startIntro(0); };
+  $('mP').onclick = () => { mOv.classList.remove('show'); startPractice(); };
+  $('mT').onclick = () => { mOv.classList.remove('show'); startTest(); };
+  $('mF').onclick = () => { mOv.classList.remove('show'); showBrief(); };
+  if ($('mR')) $('mR').onclick = () => { Object.assign(PROG, { learn: false, practice: false, best: 0, badge: false }); saveProg(); showModes(); };
+}
+// ---------- intro ----------
+const INTRO = [
+  { h: ['המשימה', 'The mission'], b: ['<p>בכל אתגר מתכננים מנגנון אמיתי מרכיבים סטנדרטיים ובודקים אותו בסימולציה פיזיקלית.</p><p><b>אתגר 1 – מברגה חשמלית:</b> המנוע מהיר מדי וחלש מדי. בונים בינו לבין הצ\'אק תמסורת שתיתן <b>500–1200 סל"ד</b> ו-<b>20 N·m לפחות</b>, על אותו ציר.</p><div class="tflow"><span>מנוע</span><i>→</i><span>תמסורת</span><i>→</i><span>מצמד</span><i>→</i><span>צ\'אק</span></div>', '<p>Each challenge you design a real mechanism from standard parts and test it in a physics simulation.</p><p><b>Challenge 1 – drill driver:</b> the motor is too fast and too weak. Build a drivetrain giving <b>500–1200 rpm</b> and <b>≥ 20 N·m</b> on the same axis.</p><div class="tflow"><span>Motor</span><i>→</i><span>Gearbox</span><i>→</i><span>Clutch</span><i>→</i><span>Chuck</span></div>'] },
+  { h: ['שליטה', 'Controls'], b: ['<table class="tctl"><tr><td>🖱 גרירה שמאלית</td><td>סיבוב המבט</td></tr><tr><td>🖱 גלגלת</td><td>זום</td></tr><tr><td>🖱 גרירה ימנית</td><td>הזזת המבט</td></tr><tr><td>👆 גרירת רכיב מהספרייה</td><td>הרכבה – שחרר ליד טבעת החיבור</td></tr><tr><td>🟢 / 🔴 טבעת</td><td>ירוק = נכנס · אדום = לא מתאים, עם הסבר</td></tr><tr><td>👆 לחיצה על רכיב</td><td>בחירה, נתונים, הסרה</td></tr><tr><td>❓ הסבר</td><td>הסבר על הרכיב הנבחר / שמתחת לעכבר – בכל רגע</td></tr><tr><td>X-RAY / ✂ חתך</td><td>מעטפת שקופה / חתך לאורך הציר</td></tr></table>', '<table class="tctl"><tr><td>🖱 Left drag</td><td>Orbit</td></tr><tr><td>🖱 Wheel</td><td>Zoom</td></tr><tr><td>🖱 Right drag</td><td>Pan</td></tr><tr><td>👆 Drag a library part</td><td>Assemble – release near a ring</td></tr><tr><td>🟢 / 🔴 ring</td><td>Green fits · Red doesn\'t, with reason</td></tr><tr><td>👆 Click a part</td><td>Select, data, remove</td></tr><tr><td>❓ Explain</td><td>Explains the selected / hovered part, any time</td></tr><tr><td>X-RAY / ✂ Section</td><td>Transparent housing / axial cut</td></tr></table>'] },
+];
+const tIntro = document.createElement('div'); tIntro.id = 'tintro'; tIntro.className = 'ov'; tIntro.innerHTML = '<div class="card" id="tiCard"></div>'; document.body.appendChild(tIntro);
 function startIntro(p = 0) {
-  endGuide(true);
   const pg = INTRO[p];
-  $('tiCard').innerHTML = `<p class="sub">${L('הסבר מקדים', 'Introduction')} · ${p + 1}/${INTRO.length}</p><div class="tdots">${INTRO.map((_, k) => `<i class="${k <= p ? 'on' : ''}"></i>`).join('')}</div><h2>${L(...pg.h)}</h2><div class="tib">${L(...pg.b)}</div>
-  <div class="row"><button class="ghost" id="tiSkip">${L('דלג על ההדרכה', 'Skip tutorial')}</button>${p ? `<button class="ghost" id="tiBack">${L('הקודם', 'Back')}</button>` : ''}<button class="primary" id="tiNext">${p < INTRO.length - 1 ? L('הבא', 'Next') : L('בוא נרכיב ←', 'Let\'s build →')}</button></div>`;
+  $('tiCard').innerHTML = `<p class="sub">${L('למידה · הקדמה', 'Learn · intro')} ${p + 1}/${INTRO.length}</p><h2>${L(...pg.h)}</h2><div class="tib">${L(...pg.b)}</div>
+  <div class="row"><button class="ghost" id="tiSkip">${L('חזרה לתפריט', 'Back to menu')}</button>${p ? `<button class="ghost" id="tiBack">${L('הקודם', 'Back')}</button>` : ''}<button class="primary" id="tiNext">${p < INTRO.length - 1 ? L('הבא', 'Next') : L('מתחילים להרכיב', 'Start assembling')}</button></div>`;
   tIntro.classList.add('show');
-  $('tiNext').onclick = () => { if (p < INTRO.length - 1) startIntro(p + 1); else { tIntro.classList.remove('show'); startGuide(); } };
+  $('tiNext').onclick = () => { if (p < INTRO.length - 1) startIntro(p + 1); else { tIntro.classList.remove('show'); startLearn(); } };
   if ($('tiBack')) $('tiBack').onclick = () => startIntro(p - 1);
-  $('tiSkip').onclick = () => { tIntro.classList.remove('show'); localStorage.setItem('mf_tut', '1'); showBrief(); };
+  $('tiSkip').onclick = () => { tIntro.classList.remove('show'); showModes(); };
 }
-function startGuide() {
-  mode = 'build'; for (const c of chain) bench.remove(c.g); chain.length = 0; select(null); layout(); frame();
-  TUT = { k: -1, t: 0 }; tEl.classList.add('show'); tutStep(0);
+// ---------- LEARN ----------
+const prog = (k, n, lab) => `<div class="tprog">${Array.from({ length: n }, (_, j) => `<i class="${j < k ? 'done' : j === k ? 'cur' : ''}"></i>`).join('')}<span>${lab}</span></div>`;
+function startLearn() { mode = 'build'; resetBench(); ACAD = { mode: 'learn', k: 0, ph: 'drag', t: 0 }; learnStep(); }
+function learnStep() {
+  const A = ACAD, t = LSTEPS[A.k], d = PT[t], f = INFO[t], hd = `${L('למידה', 'Learn')} · ${A.k + 1}/${LSTEPS.length}`;
+  const top = prog(A.k, LSTEPS.length, `${A.k + 1}/${LSTEPS.length}`);
+  if (A.ph === 'pre') { // predict before placing
+    panel(hd, top + `<h3>${EN ? d.en : d.he}</h3>` + quizHTML(f.q) + `<h6>${L('המצב עכשיו', 'Current state')}</h6>` + chainMath()); bindQuiz(f.q, () => { A.ph = 'drag'; learnStep(); }); return; }
+  if (A.ph === 'drag') {
+    if (f.q.pre && !A.predicted) { A.predicted = true; A.ph = 'pre'; learnStep(); return; }
+    guideTo(t, A.k);
+    panel(hd, top + `<h3>${EN ? d.en : d.he}</h3><p class="lead">${L(...f.what)}</p><div class="todo">👉 ${L(`גרור את <b>${d.he}</b> מהספרייה אל הטבעת הכתומה. הרוח הכתומה מראה לאן.`, `Drag <b>${d.en}</b> from the library onto the orange ring. The orange ghost shows where.`)}</div>
+      <h6>${L('המצב עכשיו', 'Current state')}</h6>${chainMath()}<div class="row"><button class="ghost" id="lMenu">${L('תפריט', 'Menu')}</button><button class="ghost" id="lShow">${L('הראה לי', 'Show me')}</button></div>`);
+    $('lShow').onclick = acadShowMe; $('lMenu').onclick = showModes; return;
+  }
+  if (A.ph === 'explore') {
+    clearHi(); select(null); const c = chain[A.k]; c.xr = true; A.spin = true; A.focus = c;
+    const T = new THREE.Vector3(c.g.position.x, AX, 0); camGoal = { t: T, p: T.clone().add(new THREE.Vector3(3.2, 2.4, d.kind === 'src' ? 7.5 : 6.2)) };
+    panel(hd, top + `<div class="okb">✓ ${L('חובר נכון!', 'Connected!')}</div>` + infoHTML(t) + `<h6>${L('המספרים – מתעדכנים חי', 'The numbers – live')}</h6>` + chainMath() +
+      `<p class="note">${L('המעטפת שקופה כרגע כדי לראות את החלקים הפנימיים. שים לב למהירות הכניסה מול היציאה (התוויות על המודל).', 'The housing is see-through so you can watch the internals. Compare input vs output speed (labels on the model).')}</p><div class="row"><button class="primary" id="lQ">${f.q.pre ? L('המשך', 'Continue') : L('בדוק את עצמך ←', 'Check yourself →')}</button></div>`);
+    $('lQ').onclick = () => { if (f.q.pre) learnNext(); else { A.ph = 'quiz'; learnStep(); } }; return;
+  }
+  if (A.ph === 'quiz') { panel(hd, top + `<h3>${L('בדוק את עצמך', 'Check yourself')}</h3>` + quizHTML(f.q)); bindQuiz(f.q, learnNext); }
 }
-function clearHi() { document.querySelectorAll('.tutHi').forEach(e => e.classList.remove('tutHi')); if (tGhost) { bench.remove(tGhost); tGhost = null; } tRing.visible = tRing2.visible = false; tPtr.style.display = 'none'; }
-function tutTargetX(st) { let x = X0; for (let k = 0; k < st.idx; k++) x += PT[TSTEPS[k].t].len + GAP; return x; }
-function tutStep(k) {
-  clearHi(); TUT.k = k; TUT.t = 0; const st = TSTEPS[k];
-  TUT.want = st.t; TUT.idx = st.idx;
-  tEl.innerHTML = `<div class="tprog">${TSTEPS.map((_, j) => `<i class="${j < k ? 'done' : j === k ? 'cur' : ''}"></i>`).join('')}<span>${k + 1}/${TSTEPS.length}</span></div><h5>${L(...st.h)}</h5><p>${L(...st.b)}</p><div class="row"><button class="ghost" id="tSkip">${L('סיים הדרכה', 'End tutorial')}</button><button class="ghost" id="tReplay">↺ ${L('מההתחלה', 'Restart')}</button><button class="primary" id="tShow">${st.run ? L('הפעל בשבילי', 'Run it for me') : L('הראה לי', 'Show me')}</button></div>`;
-  $('tSkip').onclick = () => { endGuide(); localStorage.setItem('mf_tut', '1'); };
-  $('tReplay').onclick = () => startIntro(0);
-  $('tShow').onclick = tutShowMe;
-  if (st.run) { $('bRun').classList.add('tutHi'); return; }
-  const it = document.querySelector(`.pitem[data-t="${st.t}"]`); it.classList.add('tutHi'); it.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  tGhost = buildPart(st.t, { noPed: true }); tGhost.traverse(o => { if (o.isMesh) { o.material = ghostMat; o.castShadow = false; } if (o.isLineSegments) o.visible = false; });
-  const x = tutTargetX(st); TUT.x = x + PT[st.t].len / 2; tGhost.position.set(TUT.x, AX, 0); bench.add(tGhost);
-  const sx = st.idx === 0 ? X0 + 1 : x - GAP / 2; TUT.sx = sx;
-  tRing.position.set(sx, AX, 0); tRing2.position.copy(tRing.position); tRing.visible = tRing2.visible = true;
+function learnNext() {
+  const A = ACAD; const c = chain[A.k]; if (c) c.xr = false; A.spin = false; A.focus = null; frame();
+  A.k++; A.ph = 'drag'; A.predicted = false;
+  if (A.k >= LSTEPS.length) { PROG.learn = true; saveProg(); clearHi();
+    panel(L('למידה · הושלם', 'Learn · done'), `${prog(4, 4, '4/4')}<div class="okb big">🎉 ${L('סיימת את שלב הלמידה', 'Learning complete')}</div><p class="lead">${L('בנית מנוע → 4:1 → 5:1 → מצמד. יחס 20:1, כ-900 סל"ד, כ-29 N·m ומצמד מגן.', 'You built motor → 4:1 → 5:1 → clutch: 20:1, ≈900 rpm, ≈29 N·m and a protective clutch.')}</p>${chainMath()}<p>${L('עכשיו נריץ את הסימולציה ונבין את התוצאות.', 'Now let\'s run the simulation and understand the results.')}</p><div class="row"><button class="ghost" id="lMenu">${L('תפריט', 'Menu')}</button><button class="primary" id="lP">${L('לתרגול ←', 'To practice →')}</button></div>`);
+    $('lP').onclick = () => startPractice(true); $('lMenu').onclick = showModes; return; }
+  learnStep();
 }
-function tutShowMe() {
-  if (!TUT) return; const st = TSTEPS[TUT.k];
-  if (st.run) { startRun(); return; }
-  insertPart(st.t, st.idx);
+function quizHTML(q) { return `<div class="quiz"><p class="qq">${L(...q.q)}</p>${q.o.map((o, k) => `<button class="qo" data-k="${k}">${o}</button>`).join('')}<div class="qfb"></div></div>`; }
+function bindQuiz(q, next) {
+  document.querySelectorAll('.qo').forEach(b => b.onclick = () => {
+    const k = +b.dataset.k, fb = document.querySelector('.qfb');
+    if (k === q.c) { b.classList.add('right'); document.querySelectorAll('.qo').forEach(x => x.disabled = true); fb.innerHTML = `<p class="ok">✓ ${L(...q.e)}</p><div class="row"><button class="primary" id="qN">${L('המשך', 'Continue')}</button></div>`; $('qN').onclick = next; }
+    else { b.classList.add('wrong'); b.disabled = true; fb.innerHTML = `<p class="no">✗ ${L('לא בדיוק – נסה שוב. רמז: ', 'Not quite – try again. Hint: ')}${L('חשב לפי n_out = n_in / i ו-T_out = T_in × i × η', 'use n_out = n_in / i and T_out = T_in × i × η')}</p>`; }
+  });
 }
-function endGuide(silent) { if (!TUT) return; clearHi(); TUT = null; tEl.classList.remove('show'); if (!silent) toast(L('ההדרכה הסתיימה – אפשר לחזור אליה בכפתור 🎓', 'Tutorial ended – reopen it with 🎓')); }
-function tutTick(dt) {
-  if (!TUT) return; TUT.t += dt; const st = TSTEPS[TUT.k];
-  if (st.run) { if (mode === 'run' || run) { $('bRun').classList.remove('tutHi'); tEl.querySelector('p').innerHTML = L('הבדיקה רצה… שים לב לגרפים: הסל"ד יורד כשהבורג מתיישב, והמצמד מחליק.', 'Test running… watch the graphs: rpm drops as the screw seats and the clutch slips.'); TUT.wait = true; }
-    else if (TUT.wait) { localStorage.setItem('mf_tut', '1'); TUT.done = true; window.__tutDone = true; endGuide(true); toast(L('כל הכבוד! סיימת את ההדרכה 🎉 עכשיו נסה לשפר בעצמך', 'Well done! Tutorial complete 🎉 Now try improving it yourself')); }
-    return; }
-  // check progress
-  const ok = TSTEPS.slice(0, TUT.k + 1).every((s, j) => chain[j] && chain[j].type === s.t) && chain.length === TUT.k + 1;
-  if (ok) { tutStep(TUT.k + 1); return; }
-  const bad = chain.findIndex((c, j) => !TSTEPS[j] || TSTEPS[j].run || c.type !== TSTEPS[j].t);
-  if (bad >= 0) { const c = chain[bad]; toast(L(`בהדרכה צריך כאן "${PT[TSTEPS[TUT.k].t].he}" – ${PT[c.type].he} הוסר`, `The tutorial needs "${PT[TSTEPS[TUT.k].t].en}" here – ${PT[c.type].en} removed`), true); removePart(c); return; }
-  const ph = (TUT.t % 2.4) / 2.4, pul = 0.5 + 0.5 * Math.sin(TUT.t * 5);
-  if (tGhost) { const e = ease(clamp(ph / 0.6)); tGhost.position.y = AX + 2.2 * (1 - e); ghostMat.opacity = 0.18 + 0.22 * (ph < 0.6 ? e : 1 - (ph - 0.6) / 0.4 * 0.5); }
-  const r = PT[st.t].r + 0.2; tRing.scale.setScalar(r * (1 + 0.06 * pul)); tRing.material.opacity = 0.55 + 0.45 * pul;
-  tRing2.scale.setScalar(r * (1 + ph * 0.6)); tRing2.material.opacity = 0.6 * (1 - ph);
-  if (!drag) { const it = document.querySelector('.pitem.tutHi'); if (it) { const a = it.getBoundingClientRect(); const b = proj(new THREE.Vector3(TUT.x, AX, 0)); const q = ease(clamp((ph - 0.05) / 0.6));
-    tPtr.style.display = 'block'; tPtr.style.left = lerp(a.left + a.width / 2, b.x, q) + 'px'; tPtr.style.top = lerp(a.top + a.height / 2, b.y, q) + 'px'; tPtr.style.opacity = ph > 0.85 ? (1 - ph) / 0.15 : 1; } }
-  else tPtr.style.display = 'none';
+function acadShowMe() { if (TUT) insertPart(TUT.want, TUT.idx); }
+// ---------- PRACTICE ----------
+const PSTEPS = [
+  { load: ['motor', 'pl4', 'pl5', 'clutch'], h: ['הרצת הסימולציה', 'Run the simulation'], b: ['זו השרשרת שבנית. לחץ <b>"הפעל בדיקה"</b>. הדינמומטר בקצה מעמיס בהדרגה כמו בורג שנכנס לעץ, עד שהבורג "מתיישב" (עומס חוסם).', 'This is the chain you built. Press <b>"Run test"</b>. The dynamometer loads it gradually like a screw going into wood, until the screw seats (blocking load).'] },
+  { load: ['motor', 'pl4'], h: ['תצורה שגויה 1: שלב אחד בלבד', 'Wrong setup 1: a single stage'], b: ['טענו מנוע + 4:1 בלבד. לפני ההרצה – נבא: האם יעבוד? לחץ <b>"הפעל בדיקה"</b> וראה.', 'Loaded motor + 4:1 only. Predict first: will it work? Press <b>"Run test"</b>.'] },
+  { load: ['hobby', 'pl4', 'pl5', 'clutch'], h: ['תצורה שגויה 2: מנוע חלש', 'Wrong setup 2: weak motor'], b: ['אותה תמסורת, אבל עם מנוע צעצוע 3V. לחץ <b>"הפעל בדיקה"</b>.', 'Same drivetrain with the 3 V hobby motor. Press <b>"Run test"</b>.'] },
+  { reject: true, load: ['motor', 'pl4'], h: ['תצורה שגויה 3: רכיב לא מתאים', 'Wrong setup 3: unsuitable part'], b: ['נסה לגרור את <b>הבורג האינסופי 30:1</b> אל השרשרת – ותראה למה הוא נדחה.', 'Try dragging the <b>worm drive 30:1</b> into the chain – and see why it is rejected.'] },
+];
+function startPractice(fromLearn) { mode = 'build'; clearHi(); ACAD = { mode: 'practice', k: 0 }; practiceStep(); }
+function practiceStep(res) {
+  const A = ACAD, st = PSTEPS[A.k], hd = `${L('תרגול', 'Practice')} · ${A.k + 1}/${PSTEPS.length}`, top = prog(A.k, PSTEPS.length, `${A.k + 1}/${PSTEPS.length}`);
+  if (!res) { resetBench(st.load); if (!st.reject) $('bRun').classList.add('tutHi');
+    panel(hd, top + `<h3>${L(...st.h)}</h3><p class="lead">${L(...st.b)}</p>${chainMath()}${graphGuide()}<div class="row"><button class="ghost" id="pMenu">${L('תפריט', 'Menu')}</button>${st.reject ? `<button class="ghost" id="pSkip">${L('דלג', 'Skip')}</button>` : `<button class="ghost" id="pRun">${L('הפעל בשבילי', 'Run it for me')}</button>`}</div>`);
+    $('pMenu').onclick = showModes; if ($('pRun')) $('pRun').onclick = () => startRun(); if ($('pSkip')) $('pSkip').onclick = practiceNext; return; }
+  $('bRun').classList.remove('tutHi');
+  panel(hd, top + `<h3>${L(...st.h)}</h3>${res}<div class="row"><button class="ghost" id="pAgain">↺ ${L('שוב', 'Again')}</button><button class="primary" id="pNext">${A.k < PSTEPS.length - 1 ? L('הבא ←', 'Next →') : L('סיום תרגול', 'Finish practice')}</button></div>`);
+  $('pAgain').onclick = () => practiceStep(); $('pNext').onclick = practiceNext;
+}
+function practiceNext() { const A = ACAD; A.k++; if (A.k < PSTEPS.length) return practiceStep();
+  PROG.practice = true; saveProg(); resetBench(['motor', 'pl4', 'pl5', 'clutch']);
+  panel(L('תרגול · הושלם', 'Practice · done'), `<div class="okb big">🎉 ${L('סיימת תרגול', 'Practice complete')}</div><p class="lead">${L('עכשיו אתה מבין למה כל רכיב שם ומה קורה כשמשהו חסר. מוכן למבחן? במבחן אין רמזים ואין הצמדה אוטומטית. כפתור "הסבר" זמין, אבל ייספר כרמז.', 'You now know why each part is there and what happens when something is missing. Ready for the test? No hints, no auto-snap. "Explain" is available but counts as a hint.')}</p><div class="row"><button class="ghost" id="pRev">${L('ראה את המוצר האמיתי ▶', 'See the real product ▶')}</button><button class="primary" id="pT">${L('למבחן ←', 'To the test →')}</button></div>`);
+  $('pT').onclick = startTest; $('pRev').onclick = () => { closePanel(); lastResult = lastResult || { ev: evaluate(analyse()), a: analyse() }; startReveal(); };
+}
+function graphGuide() { return `<h6>${L('איך קוראים את הגרפים (חלון הגרפים)', 'Reading the graphs panel')}</h6><ul class="gl"><li><i>1</i>${L('<b>סל"ד יציאה</b> (עליון): הפס הירוק = טווח היעד 500–1200. הסל"ד יורד ככל שהעומס עולה – זה קו המנוע.', '<b>Output rpm</b> (top): the green band is the 500–1200 target. Speed drops as load rises – the motor line.')}</li><li><i>2</i>${L('<b>מומנט יציאה</b> (אמצעי): הקו הירוק המקווקו = 20 N·m נדרש. עם מצמד – העקומה נעצרת בסף ההחלקה.', '<b>Output torque</b> (middle): dashed green = 20 N·m required. With a clutch the curve flattens at the slip threshold.')}</li><li><i>3</i>${L('<b>זרם מנוע</b> (תחתון): הקו האדום = 50 A מקסימום. קפיצה ל-80 A = המנוע נעצר (Stall).', '<b>Motor current</b> (bottom): dashed red = 50 A max. A jump to 80 A = motor stall.')}</li></ul>`; }
+function explainResult(ev, a) {
+  const li = c => `<li class="${c.ok ? 'ok' : 'no'}">${c.ok ? '✓' : '✗'} ${c.t}${c.v ? ` — <b>${c.v}</b>` : ''}</li>`;
+  let why = '';
+  if (!ev.ck[0].ok) why = L('אין מנוע בתחילת השרשרת.', 'No motor at the start.');
+  else if (ev.free > LIM.rpmHi) why = L(`עם יחס ${a.i}:1 בלבד: 18,000/${a.i} = ${fmt(ev.free)} סל"ד – מהיר מדי, ומומנט ${ev.tmax.toFixed(1)} N·m בלבד. שלב אחד לא מספיק – צריך יחס כולל 15–36.`, `With only ${a.i}:1: 18,000/${a.i} = ${fmt(ev.free)} rpm – too fast, and only ${ev.tmax.toFixed(1)} N·m. One stage is not enough – you need a total ratio of 15–36.`);
+  else if (ev.free < LIM.rpmLo) why = L('יחס גבוה מדי – איטי מדי.', 'Ratio too high – too slow.');
+  else if (!ev.ck[2].ok) why = L(`הסל"ד בסדר, אבל המנוע חלש: ${a.src.Ts} × ${a.i} × ${(a.eta).toFixed(2)} = ${ev.tmax.toFixed(1)} N·m. תמסורת מחליפה מהירות במומנט – היא לא יוצרת אנרגיה. צריך מנוע חזק יותר.`, `Speed is fine but the motor is weak: ${a.src.Ts} × ${a.i} × ${a.eta.toFixed(2)} = ${ev.tmax.toFixed(1)} N·m. A gearbox trades speed for torque – it doesn't create power. Use a stronger motor.`);
+  else if (!ev.ck[3].ok) why = L('הזרם גבוה מדי בעומס הברגה.', 'Current too high under load.');
+  else why = L(`הכול עובר: ${fmt(ev.free)} סל"ד, ${ev.tmax.toFixed(1)} N·m, ${ev.I.toFixed(0)} A ב-10 N·m.${a.clutch ? ` בגרף רואים שהמומנט נעצר ב-${clutchTc} N·m כשהבורג מתיישב – זה המצמד שמחליק, והזרם לא קופץ ל-80 A.` : ''}`, `All pass: ${fmt(ev.free)} rpm, ${ev.tmax.toFixed(1)} N·m, ${ev.I.toFixed(0)} A at 10 N·m.${a.clutch ? ` The torque flattens at ${clutchTc} N·m when the screw seats – the clutch slipping, so current never jumps to 80 A.` : ''}`);
+  return `<div class="${ev.pass ? 'okb' : 'nob'}">${ev.pass ? L('✓ המנגנון עובד', '✓ Mechanism works') : L('✗ נכשל – וזה בדיוק מה שרצינו לראות', '✗ Failed – exactly what we wanted to see')}</div><ul class="chk2">${ev.ck.map(li).join('')}</ul><h6>${L('למה?', 'Why?')}</h6><p>${why}</p>${graphGuide()}`;
+}
+// ---------- TEST ----------
+function startTest() {
+  mode = 'build'; clearHi(); resetBench(); document.body.classList.add('testOn');
+  ACAD = { mode: 'test', t0: performance.now(), runs: 0, rejects: [], fails: [], hints: 0 }; testPanel();
+}
+function testPanel() {
+  const A = ACAD;
+  panel(`🎯 ${L('מבחן', 'Test')}`, `<p class="lead">${L('הרכב לבד מברגה שעומדת ביעדים, ולחץ "הפעל בדיקה". אין רמזים ואין הצמדה אוטומטית.', 'Assemble a drill that meets the targets on your own, then press "Run test". No hints, no auto-snap.')}</p>
+   <div class="spec2"><div>${L('יעד', 'Target')}</div><b>500–1200 rpm · ≥ 20 N·m · ≤ 50 A</b><div>${L('בונוס', 'Bonus')}</div><b>${L('הגנה כשהבורג מתיישב · 800–1000 סל"ד', 'protection when the screw seats · 800–1000 rpm')}</b></div>
+   <div class="tstat"><span>⏱ <b id="tTime">0:00</b></span><span>${L('ניסיונות', 'Attempts')} <b>${A.runs}</b></span><span>${L('טעויות', 'Mistakes')} <b>${A.rejects.length + A.fails.length}</b></span><span>${L('רמזים', 'Hints')} <b>${A.hints}</b></span></div>
+   <div class="row"><button class="ghost" id="tMenu">${L('תפריט', 'Menu')}</button><button class="ghost" id="tEnd">${L('סיים מבחן', 'End test')}</button></div>`);
+  $('tMenu').onclick = showModes; $('tEnd').onclick = () => finishTest(null);
+}
+const scOv = document.createElement('div'); scOv.id = 'score'; scOv.className = 'ov'; scOv.innerHTML = '<div class="card" id="scCard"></div>'; document.body.appendChild(scOv);
+function finishTest(ev) {
+  const A = ACAD, sec = (performance.now() - A.t0) / 1000, pass = !!(ev && ev.pass);
+  let score = pass ? 100 - 12 * (A.runs - 1) - 5 * A.rejects.length - 10 * A.hints - (sec > 300 ? 10 : 0) + 0 : 0; score = clamp(score, 0, 100);
+  if (pass && ev.stars < 3) score = Math.max(0, score - (3 - ev.stars) * 8);
+  const ok = pass && score >= 60; if (ok) PROG.badge = true; PROG.best = Math.max(PROG.best, Math.round(score)); saveProg();
+  const ms = [...A.rejects.map(r => `<li>🔴 ${L('ניסית לחבר', 'Tried to attach')} <b>${EN ? PT[r.t].en : PT[r.t].he}</b>: ${r.why}</li>`), ...A.fails.map(f => `<li>🟠 ${L('הרצה', 'Run')} ${f.n}: ${f.txt}</li>`)];
+  if (pass && !ev.extra[0].ok) ms.push(`<li>⭐ ${L('בלי מצמד – הבורג והמנוע לא מוגנים כשהבורג מתיישב.', 'No clutch – screw and motor unprotected when the screw seats.')}</li>`);
+  if (pass && !ev.extra[1].ok) ms.push(`<li>⭐ ${L('הסל"ד לא בטווח האופטימלי 800–1000 (נסה 4:1 + 5:1).', 'Speed not in the 800–1000 sweet spot (try 4:1 + 5:1).')}</li>`);
+  if (A.hints) ms.push(`<li>❓ ${L(`השתמשת ב"הסבר" ${A.hints} פעמים (−${10 * A.hints})`, `Used "Explain" ${A.hints}× (−${10 * A.hints})`)}</li>`);
+  $('scCard').innerHTML = `<p class="sub">${L('אתגר 1 · תוצאות מבחן', 'Challenge 1 · Test results')}</p><h2>${ok ? L('עברת! 🏅', 'Passed! 🏅') : pass ? L('עבר – אבל הציון נמוך', 'Works – but low score') : L('לא עבר', 'Not passed')}</h2>
+   <div class="scbig"><b>${Math.round(score)}</b><span>/100</span></div><div class="stars">${[1, 2, 3].map(k => `<i class="${ev && ev.pass && ev.stars >= k ? 'on' : ''}">★</i>`).join('')}</div>
+   <div class="tstat c"><span>${L('נכון', 'Correct')} <b>${pass ? '✓' : '✗'}</b></span><span>${L('ניסיונות', 'Attempts')} <b>${A.runs}</b></span><span>⏱ <b>${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}</b></span><span>${L('רמזים', 'Hints')} <b>${A.hints}</b></span></div>
+   ${ok ? `<div class="badge">🏅 ${L('תג סיום: מתכנן תמסורות – מברגה חשמלית', 'Badge: Drivetrain designer – drill driver')}</div>` : ''}
+   <h6>${L('משוב', 'Feedback')}</h6><ul class="fb">${ms.join('') || `<li>✓ ${L('ללא טעויות – מושלם!', 'No mistakes – perfect!')}</li>`}</ul>
+   <div class="row"><button class="ghost" id="sMenu">${L('תפריט', 'Menu')}</button>${pass ? `<button class="ghost" id="sRev">${L('גלה את המוצר ▶', 'Reveal product ▶')}</button>` : ''}<button class="primary" id="sAgain">↺ ${L('מבחן חוזר', 'Retake')}</button></div>`;
+  scOv.classList.add('show'); window.__testDone = { score, pass, ok };
+  $('sMenu').onclick = () => { scOv.classList.remove('show'); showModes(); };
+  $('sAgain').onclick = () => { scOv.classList.remove('show'); startTest(); };
+  if ($('sRev')) $('sRev').onclick = () => { scOv.classList.remove('show'); closePanel(); document.body.classList.remove('testOn'); ACAD = null; startReveal(); };
+}
+// ---------- hooks ----------
+function acadReject(t, why) {
+  if (!ACAD) return;
+  if (ACAD.mode === 'test') { ACAD.rejects.push({ t, why }); testPanel(); }
+  if (ACAD.mode === 'practice' && PSTEPS[ACAD.k].reject && PT[t].bad) practiceStep(`<div class="nob">✗ ${L('נדחה', 'Rejected')}</div><p class="lead">${why}</p>${infoHTML(t)}`);
+}
+function acadRunDone(ev) {
+  if (!ACAD) return; const a = lastResult.a;
+  if (ACAD.mode === 'practice') { $('result').classList.remove('show'); practiceStep(explainResult(ev, a)); }
+  else if (ACAD.mode === 'test') { $('result').classList.remove('show'); ACAD.runs++;
+    if (ev.pass) finishTest(ev); else { ACAD.fails.push({ n: ACAD.runs, txt: ev.ck.filter(c => !c.ok).map(c => c.t + (c.v ? ` (${c.v})` : '')).join(' · ') }); toast(L(`לא עבר (ניסיון ${ACAD.runs}) – תקן ונסה שוב`, `Failed (attempt ${ACAD.runs}) – fix and retry`), true); testPanel(); } }
+}
+function acadExplain() {
+  const t = sel ? sel.type : hoverT, A = ACAD;
+  if (A && A.mode === 'test') { A.hints++; }
+  const back = A ? `<div class="row"><button class="primary" id="eBack">${L('חזרה', 'Back')}</button></div>` : `<div class="row"><button class="ghost" id="eBack">${L('סגור', 'Close')}</button></div>`;
+  const body = (A && A.mode === 'test' ? `<p class="note">${L('נרשם כשימוש ברמז', 'Counted as a hint')}</p>` : '') + (t ? infoHTML(t) : `<p class="lead">${L('לא נבחר רכיב – הנה מצב השרשרת. בחר רכיב (לחיצה) או רחף מעל רכיב בספרייה ולחץ שוב "הסבר".', 'No part selected – here is the chain state. Click a part or hover a library item and press "Explain" again.')}</p>`) +
+    `<h6>${L('מצב השרשרת עכשיו', 'Chain state now')}</h6>` + chainMath() + back;
+  panel(`❓ ${L('הסבר', 'Explain')}`, body);
+  $('eBack').onclick = () => { if (!A) return closePanel(); if (A.mode === 'test') testPanel(); else if (A.mode === 'learn') learnStep(); else practiceStep(); };
+}
+let tickN = 0, lastLen = -1;
+function acadTick(dt) {
+  tickN++;
+  for (const c of chain) setHouse(c.g, (XRAY || c.xr || c.g.position.y > AX + 0.08) ? lerp(c.g.userData.ha, 0.14, 0.2) : lerp(c.g.userData.ha, 1, 0.12));
+  if (SEC && (tickN % 20 === 0 || chain.length !== lastLen)) applySec(); lastLen = chain.length;
+  if (ACAD && ACAD.mode === 'test') { const e = $('tTime'); if (e && tickN % 15 === 0) { const s = (performance.now() - ACAD.t0) / 1000; e.textContent = `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`; } }
+  if (ACAD && ACAD.mode === 'learn') {
+    const A = ACAD; A.t += dt;
+    if (A.ph === 'drag') {
+      const ok = chain.length === A.k + 1 && LSTEPS.slice(0, A.k + 1).every((s, j) => chain[j].type === s);
+      if (ok && chain[A.k].g.position.y < AX + 0.1) { A.ph = 'explore'; learnStep(); }
+      else if (chain.length > A.k + 1 || (chain.length === A.k + 1 && !ok)) { const c = chain[chain.length - 1]; toast(L(`כאן צריך "${PT[LSTEPS[A.k]].he}" – ${PT[c.type].he} הוסר`, `"${PT[LSTEPS[A.k]].en}" is needed here – ${PT[c.type].en} removed`), true); removePart(c); guideTo(LSTEPS[A.k], A.k); }
+    }
+    if (A.spin && !run) { spinChain(2400, dt);
+      const c = A.focus; if (c) { const d = PT[c.type]; let nin = 18000; for (const x of chain) { if (x === c) break; if (PT[x.type].i) nin /= PT[x.type].i; }
+        const nout = d.kind === 'src' ? nin : nin / (d.i || 1);
+        const pi = proj(new THREE.Vector3(c.g.position.x - d.len / 2 - 0.2, AX + d.r + 0.5, 0)), po = proj(new THREE.Vector3(c.g.position.x + d.len / 2 + 0.3, AX + d.r + 0.5, 0));
+        ioL[0].style.opacity = d.kind === 'src' ? 0 : 1; ioL[0].innerHTML = `${L('כניסה', 'IN')} <b>${fmt(nin)}</b> rpm`; ioL[0].style.left = pi.x + 'px'; ioL[0].style.top = pi.y + 'px';
+        ioL[1].style.opacity = 1; ioL[1].innerHTML = `${L('יציאה', 'OUT')} <b>${fmt(nout)}</b> rpm`; ioL[1].style.left = po.x + 'px'; ioL[1].style.top = po.y + 'px'; } }
+  }
+  if (TUT) { TUT.t += dt; const ph = (TUT.t % 2.4) / 2.4, pul = 0.5 + 0.5 * Math.sin(TUT.t * 5);
+    if (tGhost) { const e = ease(clamp(ph / 0.6)); tGhost.position.y = AX + 2.2 * (1 - e); ghostMat.opacity = 0.18 + 0.22 * (ph < 0.6 ? e : 1 - (ph - 0.6) / 0.4 * 0.5); }
+    tRing.scale.setScalar(TUT.r * (1 + 0.06 * pul)); tRing.material.opacity = 0.55 + 0.45 * pul; tRing2.scale.setScalar(TUT.r * (1 + ph * 0.6)); tRing2.material.opacity = 0.6 * (1 - ph);
+    const it = document.querySelector('.pitem.tutHi');
+    if (!drag && it) { const a = it.getBoundingClientRect(), b = proj(new THREE.Vector3(TUT.x, AX, 0)), q = ease(clamp((ph - 0.05) / 0.6));
+      tPtr.style.display = 'block'; tPtr.style.left = lerp(a.left + a.width / 2, b.x, q) + 'px'; tPtr.style.top = lerp(a.top + a.height / 2, b.y, q) + 'px'; tPtr.style.opacity = ph > 0.85 ? (1 - ph) / 0.15 : 1; } else tPtr.style.display = 'none'; }
 }
 // ---------------- main loop ----------------
 const clock = new THREE.Clock(); let acc = 0, fpsT = 0, fpsN = 0; window.__fps = 0;
@@ -710,9 +927,9 @@ function loop() {
   }
   if (camGoal && mode !== 'reveal') { const q = 1 - Math.exp(-dt * 4); controls.target.lerp(camGoal.t, q); camera.position.lerp(camGoal.p, q); if (camera.position.distanceTo(camGoal.p) < 0.01) camGoal = null; }
   if (mode === 'reveal' && RV) updateReveal(dt);
-  tutTick(dt);
+  acadTick(dt);
   controls.update();
   renderer.render(scene, camera);
 }
-window.__mf = { tut: () => TUT, tutShow: () => tutShowMe(), chain, insertPart, startRun, startReveal, analyse, evaluate, get mode() { return mode; }, get RV() { return RV; } };
+window.__mf = { drill, acad: () => ACAD, tut: () => TUT, showMe: () => acadShowMe(), chain, insertPart, startRun, startReveal, analyse, evaluate, get mode() { return mode; }, get RV() { return RV; } };
 loop();
