@@ -307,7 +307,8 @@ function onDrag(e) {
   const gh = $('dragGhost'); gh.style.display = 'block'; gh.style.left = e.clientX + 'px'; gh.style.top = e.clientY + 'px';
   let best = null, bd = 1e9;
   for (const m of sockMeshes) { const p = proj(m.position); const dd = Math.hypot(p.x - e.clientX, p.y - e.clientY); if (dd < bd) { bd = dd; best = m; } }
-  drag.sock = bd < (MOBILE ? 110 : 140) ? best : null;
+  drag.sock = bd < (MOBILE ? 170 : 230) ? best : null;
+  if (TUT && TUT.want === drag.t && TUT.idx !== undefined) { const tm = sockMeshes.find(m => m.userData.s.i === TUT.idx); if (tm) drag.sock = tm; }
   drag.why = drag.sock ? canInsert(drag.t, drag.sock.userData.s.i) : null;
   for (const m of sockMeshes) { m.material.color.set(m === drag.sock ? (drag.why ? 0xe5484d : 0x3fb97a) : 0x8a919b); m.material.opacity = m === drag.sock ? 0.95 : 0.3; m.scale.setScalar(m === drag.sock ? 1.15 : 1); }
   const d = PT[drag.t];
@@ -319,7 +320,7 @@ function endDrag() {
   if (!drag) return; const d = drag; drag = null;
   let idx, why;
   if (!d.moved) { idx = PT[d.t].kind === 'src' ? 0 : chain.length; why = canInsert(d.t, idx); }
-  else { if (!d.sock) return; idx = d.sock.userData.s.i; why = d.why; }
+  else { if (!d.sock) { if (TUT && TUT.want === d.t) { idx = TUT.idx; why = null; insertPart(d.t, idx); } return; } idx = d.sock.userData.s.i; why = d.why; }
   if (why) { toast(why, true); return; }
   insertPart(d.t, idx);
 }
@@ -585,7 +586,7 @@ function showBrief() {
   <h6 style="color:#8a919b;font-size:11px;letter-spacing:.8px">${L('אילוצים', 'CONSTRAINTS')}</h6>
   <ul><li>${L(`זרם ≤ ${LIM.I} A בעומס הברגה של 10 N·m`, `Current ≤ ${LIM.I} A at a 10 N·m screwing load`)}</li><li>${L('עד 5 רכיבים, הכול בתוך גוף המברגה', 'Up to 5 components, all inside the drill body')}</li><li>${L('★ בונוס: הגנה כשהבורג מתיישב (עומס חוסם)', '★ Bonus: protect when the screw seats (blocking load)')}</li></ul>
   <div class="row"><button class="primary" id="bGo">${L('לבנייה', 'Start building')}</button></div>`;
-  $('brief').classList.add('show'); $('bGo').onclick = () => { $('brief').classList.remove('show'); if (mode === 'start') mode = 'build'; updateStats(); };
+  $('brief').classList.add('show'); $('bGo').onclick = () => { $('brief').classList.remove('show'); if (mode === 'start') mode = 'build'; updateStats(); if (window.__tutAfterBrief) { window.__tutAfterBrief = false; startGuide(); } };
 }
 $('lvl').textContent = L('אתגר 1 · מברגה חשמלית', 'Challenge 1 · Drill driver');
 $('palT').textContent = L('ספריית רכיבים', 'Component library');
@@ -593,7 +594,7 @@ $('bBrief').textContent = L('תדריך', 'Brief'); $('bClear').textContent = L(
 $('sTag').textContent = L('אתגרי מנגנונים למהנדסים', 'Mechanism challenges for engineers');
 $('bPlay').textContent = L('התחל', 'Play'); $('bLang').textContent = EN ? 'עב' : 'EN'; $('bLang2').textContent = EN ? 'עברית' : 'English';
 $('rReplay').textContent = L('↺ שוב', '↺ Replay'); $('rBack').textContent = L('חזרה לבנייה', 'Back to build'); $('rNext').textContent = L('אתגר 2 – בקרוב', 'Challenge 2 – soon');
-$('bPlay').onclick = () => { $('start').classList.remove('show'); showBrief(); };
+$('bPlay').onclick = () => { $('start').classList.remove('show'); if (!localStorage.getItem('mf_tut') || QS.has('tut')) startIntro(); else showBrief(); };
 $('bBrief').onclick = showBrief;
 for (const b of [$('bLang'), $('bLang2')]) b.onclick = switchLang;
 for (const b of [$('bHQ'), $('bHQ2')]) b.onclick = () => { HQ = !HQ; localStorage.setItem('mf_hq', HQ ? '1' : '0'); applyQuality(); toast(HQ ? L('איכות גבוהה', 'High quality') : L('מצב מהיר', 'Fast mode')); };
@@ -605,6 +606,94 @@ $('rBack').onclick = endReveal;
 layout(true); applyQuality(); frame(true); updateStats();
 if (QS.has('demo')) { $('start').classList.remove('show'); mode = 'build'; for (const t of QS.get('demo').split(',')) insertPart(t, PT[t].kind === 'src' ? 0 : chain.length); for (const c of chain) c.g.position.y = AX; select(null); frame(true); }
 
+// ---------------- onboarding / guided tutorial ----------------
+let TUT = null;
+const TSTEPS = [
+  { t: 'motor', idx: 0, h: ['שלב 1 · מנוע – מקור התנועה', 'Step 1 · Motor – the motion source'],
+    b: ['גרור את <b>מנוע DC 18V</b> מהספרייה אל הטבעת הזוהרת. המנוע מהיר מאוד (18,000 סל"ד) אך חלש (1.6 N·m) – לבורג זה לא מספיק.', 'Drag the <b>DC motor 18 V</b> from the library onto the glowing ring. It is very fast (18,000 rpm) but weak (1.6 N·m) – not enough for a screw.'] },
+  { t: 'pl4', idx: 1, h: ['שלב 2 · שלב פלנטרי 4:1', 'Step 2 · Planetary stage 4:1'],
+    b: ['חבר <b>שלב פלנטרי 4:1</b> מיד אחרי המנוע. גלגל שמש, 3 לוויינים וטבעת: הסל"ד יורד פי 4 והמומנט עולה פי 4 – והכול נשאר על אותו ציר.', 'Attach the <b>planetary 4:1</b> right after the motor. Sun, 3 planets and a ring: speed ÷4, torque ×4 – all on the same axis.'] },
+  { t: 'pl5', idx: 2, h: ['שלב 3 · שלב פלנטרי 5:1', 'Step 3 · Planetary stage 5:1'],
+    b: ['הוסף <b>שלב פלנטרי 5:1</b>. יחס כולל 4×5 = <b>20:1</b> → כ-900 סל"ד ו-29 N·m ביציאה. בדיוק בטווח היעד.', 'Add the <b>planetary 5:1</b>. Total 4×5 = <b>20:1</b> → ≈900 rpm and 29 N·m at the output – right on target.'] },
+  { t: 'clutch', idx: 3, h: ['שלב 4 · מצמד מומנט (בונוס ★)', 'Step 4 · Torque clutch (bonus ★)'],
+    b: ['הוסף <b>מצמד מומנט</b> לפני הצ\'אק. כשהבורג מתיישב הוא מחליק – מגן על המנוע ועל הבורג. אפשר לכוון את מומנט ההחלקה במחוון אחרי לחיצה עליו.', 'Add the <b>torque clutch</b> before the chuck. When the screw seats it slips, protecting motor and screw. Click it to tune the slip torque.'] },
+  { run: true, h: ['שלב 5 · בדיקה', 'Step 5 · Test run'],
+    b: ['השרשרת מוכנה. לחץ <b>"הפעל בדיקה"</b> – המנוע יאיץ, הבורג יתיישב והגרפים יראו סל"ד, מומנט וזרם.', 'The chain is ready. Press <b>"Run test"</b> – the motor spins up, the screw seats and the graphs show rpm, torque and current.'] },
+];
+const INTRO = [
+  { h: ['ברוך הבא ל-MechaForge', 'Welcome to MechaForge'], b: [
+    '<p>בכל אתגר אתה מתכנן מנגנון אמיתי מרכיבים סטנדרטיים, ובודק אותו בסימולציה פיזיקלית.</p><p><b>אתגר 1 – מברגה חשמלית:</b> המנוע מסתובב מהר מדי וחלש מדי. המשימה: לבנות בינו לבין הצ\'אק תמסורת שתיתן <b>500–1200 סל"ד</b> ו-<b>20 N·m לפחות</b>, על אותו ציר.</p><div class="tflow"><span>מנוע</span><i>→</i><span>תמסורת</span><i>→</i><span>מצמד</span><i>→</i><span>צ\'אק</span></div>',
+    '<p>Each challenge you design a real mechanism from standard parts and test it in a physics simulation.</p><p><b>Challenge 1 – drill driver:</b> the motor is too fast and too weak. Build a drivetrain to the chuck giving <b>500–1200 rpm</b> and <b>≥ 20 N·m</b>, on the same axis.</p><div class="tflow"><span>Motor</span><i>→</i><span>Gearbox</span><i>→</i><span>Clutch</span><i>→</i><span>Chuck</span></div>'] },
+  { h: ['שליטה', 'Controls'], b: [
+    '<table class="tctl"><tr><td>🖱 גרירה שמאלית</td><td>סיבוב המבט</td></tr><tr><td>🖱 גלגלת</td><td>זום</td></tr><tr><td>🖱 גרירה ימנית</td><td>הזזת המבט</td></tr><tr><td>👆 גרירת רכיב מהספרייה</td><td>הרכבה – שחרר ליד טבעת החיבור</td></tr><tr><td>🟢 / 🔴 טבעת</td><td>ירוק = נכנס (Snap) · אדום = לא מתאים, עם הסבר</td></tr><tr><td>👆 לחיצה על רכיב</td><td>בחירה, נתונים, הסרה</td></tr><tr><td>👆 לחיצה קצרה על רכיב בספרייה</td><td>מוסיף אותו לסוף השרשרת</td></tr></table>',
+    '<table class="tctl"><tr><td>🖱 Left drag</td><td>Orbit</td></tr><tr><td>🖱 Wheel</td><td>Zoom</td></tr><tr><td>🖱 Right drag</td><td>Pan</td></tr><tr><td>👆 Drag a library part</td><td>Assemble – release near a connection ring</td></tr><tr><td>🟢 / 🔴 ring</td><td>Green = snaps · Red = doesn\'t fit, with reason</td></tr><tr><td>👆 Click a part</td><td>Select, data, remove</td></tr><tr><td>👆 Tap a library part</td><td>Appends it to the chain</td></tr></table>'] },
+  { h: ['מה כל רכיב עושה', 'What each part does'], b: [
+    '<ul class="tparts"><li><b>מנועים</b> – מקור התנועה, תמיד ראשונים. 18V חזק, צעצוע חלש מדי, מנוע צעד איטי מדי.</li><li><b>שלב פלנטרי</b> – מוריד סל"ד ומכפיל מומנט ביחס שלו, על אותו ציר. שלבים מוכפלים: 4×5 = 20.</li><li><b>מצמד מומנט</b> – מחליק בעומס יתר ומגן על המערכת.</li><li><b>בורג אינסופי / זוג גלגלים</b> – משנים כיוון או מסיטים את הציר – לא מתאימים למברגה.</li></ul><p class="sub">עכשיו נרכיב יחד, צעד אחר צעד. אפשר ללחוץ "הראה לי" בכל שלב.</p>',
+    '<ul class="tparts"><li><b>Motors</b> – the source, always first. 18 V is strong, hobby too weak, stepper too slow.</li><li><b>Planetary stage</b> – cuts speed and multiplies torque by its ratio, same axis. Stages multiply: 4×5 = 20.</li><li><b>Torque clutch</b> – slips on overload, protects the system.</li><li><b>Worm / spur pair</b> – turn or offset the axis – unsuitable for a drill.</li></ul><p class="sub">Now let\'s assemble together, step by step. Press "Show me" any time.</p>'] },
+];
+const tEl = document.createElement('div'); tEl.id = 'tut'; document.body.appendChild(tEl);
+const tPtr = document.createElement('div'); tPtr.id = 'tptr'; document.body.appendChild(tPtr);
+const tIntro = document.createElement('div'); tIntro.id = 'tintro'; tIntro.className = 'ov'; tIntro.innerHTML = '<div class="card" id="tiCard"></div>'; document.body.appendChild(tIntro);
+const tBtn = document.createElement('button'); tBtn.className = 'tb'; tBtn.id = 'bTut'; tBtn.textContent = L('🎓 הדרכה', '🎓 Tutorial'); $('bBrief').before(tBtn);
+tBtn.onclick = () => { if (mode === 'run' || mode === 'reveal') return; $('start').classList.remove('show'); $('brief').classList.remove('show'); startIntro(); };
+const ghostMat = new THREE.MeshStandardMaterial({ color: 0xff7a1a, emissive: 0xff6a00, emissiveIntensity: 0.35, transparent: true, opacity: 0.28, depthWrite: false, roughness: 0.5 });
+const tRing = new THREE.Mesh(new THREE.TorusGeometry(1, 0.06, 12, 96).rotateY(Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffa040, transparent: true, opacity: 0.9, depthWrite: false }));
+const tRing2 = new THREE.Mesh(tRing.geometry, tRing.material.clone()); tRing.visible = tRing2.visible = false; bench.add(tRing, tRing2);
+let tGhost = null;
+function startIntro(p = 0) {
+  endGuide(true);
+  const pg = INTRO[p];
+  $('tiCard').innerHTML = `<p class="sub">${L('הסבר מקדים', 'Introduction')} · ${p + 1}/${INTRO.length}</p><div class="tdots">${INTRO.map((_, k) => `<i class="${k <= p ? 'on' : ''}"></i>`).join('')}</div><h2>${L(...pg.h)}</h2><div class="tib">${L(...pg.b)}</div>
+  <div class="row"><button class="ghost" id="tiSkip">${L('דלג על ההדרכה', 'Skip tutorial')}</button>${p ? `<button class="ghost" id="tiBack">${L('הקודם', 'Back')}</button>` : ''}<button class="primary" id="tiNext">${p < INTRO.length - 1 ? L('הבא', 'Next') : L('בוא נרכיב ←', 'Let\'s build →')}</button></div>`;
+  tIntro.classList.add('show');
+  $('tiNext').onclick = () => { if (p < INTRO.length - 1) startIntro(p + 1); else { tIntro.classList.remove('show'); startGuide(); } };
+  if ($('tiBack')) $('tiBack').onclick = () => startIntro(p - 1);
+  $('tiSkip').onclick = () => { tIntro.classList.remove('show'); localStorage.setItem('mf_tut', '1'); showBrief(); };
+}
+function startGuide() {
+  mode = 'build'; for (const c of chain) bench.remove(c.g); chain.length = 0; select(null); layout(); frame();
+  TUT = { k: -1, t: 0 }; tEl.classList.add('show'); tutStep(0);
+}
+function clearHi() { document.querySelectorAll('.tutHi').forEach(e => e.classList.remove('tutHi')); if (tGhost) { bench.remove(tGhost); tGhost = null; } tRing.visible = tRing2.visible = false; tPtr.style.display = 'none'; }
+function tutTargetX(st) { let x = X0; for (let k = 0; k < st.idx; k++) x += PT[TSTEPS[k].t].len + GAP; return x; }
+function tutStep(k) {
+  clearHi(); TUT.k = k; TUT.t = 0; const st = TSTEPS[k];
+  TUT.want = st.t; TUT.idx = st.idx;
+  tEl.innerHTML = `<div class="tprog">${TSTEPS.map((_, j) => `<i class="${j < k ? 'done' : j === k ? 'cur' : ''}"></i>`).join('')}<span>${k + 1}/${TSTEPS.length}</span></div><h5>${L(...st.h)}</h5><p>${L(...st.b)}</p><div class="row"><button class="ghost" id="tSkip">${L('סיים הדרכה', 'End tutorial')}</button><button class="ghost" id="tReplay">↺ ${L('מההתחלה', 'Restart')}</button><button class="primary" id="tShow">${st.run ? L('הפעל בשבילי', 'Run it for me') : L('הראה לי', 'Show me')}</button></div>`;
+  $('tSkip').onclick = () => { endGuide(); localStorage.setItem('mf_tut', '1'); };
+  $('tReplay').onclick = () => startIntro(0);
+  $('tShow').onclick = tutShowMe;
+  if (st.run) { $('bRun').classList.add('tutHi'); return; }
+  const it = document.querySelector(`.pitem[data-t="${st.t}"]`); it.classList.add('tutHi'); it.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  tGhost = buildPart(st.t, { noPed: true }); tGhost.traverse(o => { if (o.isMesh) { o.material = ghostMat; o.castShadow = false; } if (o.isLineSegments) o.visible = false; });
+  const x = tutTargetX(st); TUT.x = x + PT[st.t].len / 2; tGhost.position.set(TUT.x, AX, 0); bench.add(tGhost);
+  const sx = st.idx === 0 ? X0 + 1 : x - GAP / 2; TUT.sx = sx;
+  tRing.position.set(sx, AX, 0); tRing2.position.copy(tRing.position); tRing.visible = tRing2.visible = true;
+}
+function tutShowMe() {
+  if (!TUT) return; const st = TSTEPS[TUT.k];
+  if (st.run) { startRun(); return; }
+  insertPart(st.t, st.idx);
+}
+function endGuide(silent) { if (!TUT) return; clearHi(); TUT = null; tEl.classList.remove('show'); if (!silent) toast(L('ההדרכה הסתיימה – אפשר לחזור אליה בכפתור 🎓', 'Tutorial ended – reopen it with 🎓')); }
+function tutTick(dt) {
+  if (!TUT) return; TUT.t += dt; const st = TSTEPS[TUT.k];
+  if (st.run) { if (mode === 'run' || run) { $('bRun').classList.remove('tutHi'); tEl.querySelector('p').innerHTML = L('הבדיקה רצה… שים לב לגרפים: הסל"ד יורד כשהבורג מתיישב, והמצמד מחליק.', 'Test running… watch the graphs: rpm drops as the screw seats and the clutch slips.'); TUT.wait = true; }
+    else if (TUT.wait) { localStorage.setItem('mf_tut', '1'); TUT.done = true; window.__tutDone = true; endGuide(true); toast(L('כל הכבוד! סיימת את ההדרכה 🎉 עכשיו נסה לשפר בעצמך', 'Well done! Tutorial complete 🎉 Now try improving it yourself')); }
+    return; }
+  // check progress
+  const ok = TSTEPS.slice(0, TUT.k + 1).every((s, j) => chain[j] && chain[j].type === s.t) && chain.length === TUT.k + 1;
+  if (ok) { tutStep(TUT.k + 1); return; }
+  const bad = chain.findIndex((c, j) => !TSTEPS[j] || TSTEPS[j].run || c.type !== TSTEPS[j].t);
+  if (bad >= 0) { const c = chain[bad]; toast(L(`בהדרכה צריך כאן "${PT[TSTEPS[TUT.k].t].he}" – ${PT[c.type].he} הוסר`, `The tutorial needs "${PT[TSTEPS[TUT.k].t].en}" here – ${PT[c.type].en} removed`), true); removePart(c); return; }
+  const ph = (TUT.t % 2.4) / 2.4, pul = 0.5 + 0.5 * Math.sin(TUT.t * 5);
+  if (tGhost) { const e = ease(clamp(ph / 0.6)); tGhost.position.y = AX + 2.2 * (1 - e); ghostMat.opacity = 0.18 + 0.22 * (ph < 0.6 ? e : 1 - (ph - 0.6) / 0.4 * 0.5); }
+  const r = PT[st.t].r + 0.2; tRing.scale.setScalar(r * (1 + 0.06 * pul)); tRing.material.opacity = 0.55 + 0.45 * pul;
+  tRing2.scale.setScalar(r * (1 + ph * 0.6)); tRing2.material.opacity = 0.6 * (1 - ph);
+  if (!drag) { const it = document.querySelector('.pitem.tutHi'); if (it) { const a = it.getBoundingClientRect(); const b = proj(new THREE.Vector3(TUT.x, AX, 0)); const q = ease(clamp((ph - 0.05) / 0.6));
+    tPtr.style.display = 'block'; tPtr.style.left = lerp(a.left + a.width / 2, b.x, q) + 'px'; tPtr.style.top = lerp(a.top + a.height / 2, b.y, q) + 'px'; tPtr.style.opacity = ph > 0.85 ? (1 - ph) / 0.15 : 1; } }
+  else tPtr.style.display = 'none';
+}
 // ---------------- main loop ----------------
 const clock = new THREE.Clock(); let acc = 0, fpsT = 0, fpsN = 0; window.__fps = 0;
 function loop() {
@@ -621,8 +710,9 @@ function loop() {
   }
   if (camGoal && mode !== 'reveal') { const q = 1 - Math.exp(-dt * 4); controls.target.lerp(camGoal.t, q); camera.position.lerp(camGoal.p, q); if (camera.position.distanceTo(camGoal.p) < 0.01) camGoal = null; }
   if (mode === 'reveal' && RV) updateReveal(dt);
+  tutTick(dt);
   controls.update();
   renderer.render(scene, camera);
 }
-window.__mf = { chain, insertPart, startRun, startReveal, analyse, evaluate, get mode() { return mode; }, get RV() { return RV; } };
+window.__mf = { tut: () => TUT, tutShow: () => tutShowMe(), chain, insertPart, startRun, startReveal, analyse, evaluate, get mode() { return mode; }, get RV() { return RV; } };
 loop();

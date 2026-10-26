@@ -76,3 +76,19 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
  .spec{grid-template-columns:1fr}
  .logoBig{font-size:30px}
 }
+/* tutorial */
+#tut{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);width:min(460px,92vw);padding:14px 16px;border-radius:12px;background:rgba(26,29,34,.9);backdrop-filter:blur(10px);border:1px solid rgba(255,122,26,.35);box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:6;display:none}
+#tut.show{display:block}
+#tut h5{font-size:14.5px;color:#ff9a4a;margin:6px 0 4px}#tut p{font-size:13px;color:#c9ced5;margin-bottom:10px}#tut b{color:#fff}
+#tut .row,#tiCard .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.tprog{display:flex;align-items:center;gap:5px}.tprog i{flex:1;height:4px;border-radius:2px;background:#3a3e45}.tprog i.done{background:#3fb97a}.tprog i.cur{background:#ff7a1a}.tprog span{font-size:11px;color:#8a919b;margin-inline-start:6px}
+.tutHi{position:relative;border-color:#ff7a1a!important;animation:tglow 1.2s ease-in-out infinite}
+@keyframes tglow{0%,100%{box-shadow:0 0 0 0 rgba(255,122,26,.0)}50%{box-shadow:0 0 0 4px rgba(255,122,26,.45),0 0 18px rgba(255,122,26,.5)}}
+#tptr{position:fixed;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:2px solid #ff7a1a;background:rgba(255,122,26,.25);box-shadow:0 0 14px rgba(255,122,26,.8);pointer-events:none;z-index:7;display:none}
+.tdots{display:flex;gap:6px;margin-bottom:10px}.tdots i{width:26px;height:4px;border-radius:2px;background:#3a3e45}.tdots i.on{background:#ff7a1a}
+.tib p{font-size:13.5px;color:#c3c8cf;margin-bottom:10px}
+.tflow{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0;direction:inherit}.tflow span{padding:6px 12px;border-radius:8px;background:#2a2e35;border:1px solid rgba(255,255,255,.1);font-size:12.5px}.tflow i{color:#ff7a1a;font-style:normal}
+[dir=rtl] .tflow i{transform:scaleX(-1)}
+.tctl{width:100%;border-collapse:collapse;margin-bottom:12px}.tctl td{padding:7px 6px;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}.tctl td:first-child{color:#e3e6ea;white-space:nowrap}.tctl td:last-child{color:#9aa1aa}
+.tparts li{margin-bottom:7px}
+@media (max-width:760px){#tut{bottom:auto;top:96px;padding:10px 12px}#tut p{font-size:12px}}
