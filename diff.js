@@ -40,7 +40,15 @@ const cyl = (r, l, mat, s = 24) => new THREE.Mesh(new THREE.CylinderGeometry(r, 
 // part groups
 const G = {}, spin = {};
 function mk(k) { const g = new THREE.Group(); g.visible = false; scene.add(g); G[k] = g; return g; }
-{ const g = mk('dcase'); const sh = new THREE.Mesh(new THREE.SphereGeometry(1.15, 40, 24), M.caseM); sh.scale.set(0.95, 1, 1); g.add(sh); spin.caseG = g; M.caseM.clippingPlanes = [];
+{ const g = mk('dcase'); spin.caseG = g; M.caseM.clippingPlanes = [];
+  // cast housing: lathe profile along X (bearing hub, bulged body, flange for crown bolts, hub)
+  const prof = [[-1.55, 0.18], [-1.55, 0.36], [-1.05, 0.36], [-0.95, 0.55], [-0.7, 0.95], [-0.3, 1.08], [0.3, 1.08], [0.7, 0.98], [0.86, 1.05], [0.86, 1.38], [1.0, 1.38], [1.0, 0.7], [1.15, 0.5], [1.55, 0.36], [1.55, 0.18]];
+  const lg = new THREE.LatheGeometry(prof.map(([x, r]) => new THREE.Vector2(r, x)), 56); lg.rotateZ(-Math.PI / 2); lg.computeVertexNormals();
+  const body = new THREE.Mesh(lg, M.caseM); body.userData.caseBody = 1; g.add(body);
+  for (let k = 0; k < 10; k++) { const a = k / 10 * Math.PI * 2, b = cyl(0.06, 0.26, M.dark, 8); b.rotation.z = Math.PI / 2; b.position.set(0.93, Math.cos(a) * 1.22, Math.sin(a) * 1.22); g.add(b); }
+  // window frames (cast openings) showing the spider gears
+  for (const s of [1, -1]) { const f = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.045, 8, 32), M.dark); f.position.set(0, 0, s * 1.06); g.add(f); }
+  for (const s of [1, -1]) { const hb = cyl(0.4, 0.14, M.steel, 32); hb.rotation.z = Math.PI / 2; hb.position.x = s * 1.42; g.add(hb); }
   const pin = cyl(0.08, 2.1, M.dark, 12); g.add(pin); }
 { const g = mk('side'); spin.side = []; for (const s of [1, -1]) { const o = new THREE.Group(); o.rotation.y = s > 0 ? -Math.PI / 2 : Math.PI / 2; o.position.x = s * 0.62; const q = gear(16, 0.1, 0.32, 0.4, M.steel); o.add(q); g.add(o); spin.side.push([q, s]); } }
 { const g = mk('spider'); spin.sp = []; for (const s of [1, -1]) { const o = new THREE.Group(); o.rotation.x = s > 0 ? Math.PI / 2 : -Math.PI / 2; o.position.y = s * 0.62; const q = gear(10, 0.1, 0.3, 0.4, M.brass); o.add(q); g.add(o); spin.sp.push([q, s]); } }
@@ -139,7 +147,7 @@ function resize() { const w = innerWidth, h = innerHeight; R.setSize(w, h, false
 addEventListener('resize', resize); resize();
 function frame(now) { const dt = Math.min(0.05, (now - tPrev) / 1000); tPrev = now;
   for (const k in G) { const g = G[k]; if (g.userData.t !== undefined && g.userData.t < 1) { g.userData.t += dt * 3; g.scale.setScalar(0.6 + 0.4 * Math.min(1, g.userData.t)); } }
-  const xr = XRAY || (AUTOX && running); M.caseM.transparent = xr; M.caseM.opacity = xr ? 0.18 : 1; M.caseM.depthWrite = !xr;
+  const xr = XRAY || (AUTOX && (running || placed.some(k => k === 'side' || k === 'spider'))); M.caseM.transparent = xr; M.caseM.opacity = xr ? 0.26 : 1; M.caseM.depthWrite = !xr; M.caseM.roughness = xr ? 0.15 : 0.42;
   if (running) { const w = 2.2; wc += w * dt; let d = 0;
     if (scen === 'turn') d = 0.35 * w; if (scen === 'ice') d = LSD ? 0.25 * w : w;
     if (placed.includes('solid')) d = 0;
@@ -154,3 +162,8 @@ requestAnimationFrame(frame);
 setMode('learn'); stats(); hint();
 if (QS.get('demo') === 'all') { $('start').classList.remove('show'); ORDER.forEach(add); }
 window.__c2 = { add, run, setMode, placed: () => placed, setRatio: i => { ri = i; sel.value = i; stats(); }, setLSD: v => { LSD = v; $('lsd').checked = v; }, scen: s => { scen = s; running = true; scnText(); } };
+
+window.MF_SCENE_PART = k => { if (!G[k]) return null; const c = G[k].clone(true); c.visible = true; c.position.set(0, 0, 0); c.rotation.set(0, 0, 0);
+  if (k === 'dcase') { const gm = M.caseM.clone(); gm.transparent = true; gm.opacity = 0.35; gm.depthWrite = false; c.traverse(o => { if (o.material === M.caseM) o.material = gm; });
+    for (const p of ['side', 'spider']) { const q = G[p].clone(true); q.visible = true; q.position.set(0, 0, 0); c.add(q); } }
+  return { g: c, d: 8, tick: t => { c.rotation.x = k === 'dcase' || k === 'crown' || k === 'spider' ? t * 0.6 : 0; } }; };

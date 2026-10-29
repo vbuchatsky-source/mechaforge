@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>MechaForge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1b1e23">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%228%22 cy=%228%22 r=%226%22 fill=%22none%22 stroke=%22%23ff7a1a%22 stroke-width=%223%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css?v=16">
+<script async src="./vendor/es-module-shims.js"></script>
+<script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/jsm/"}}</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<header id="top">
+  <div class="brand"><span class="logo"></span>Mecha<b>Forge</b></div>
+  <div id="lvl"></div>
+  <div class="tbtns"><button id="bBrief" class="tb"></button><button id="bHQ" class="tb">HQ</button><button id="bLang" class="tb">EN</button></div>
+</header>
+<aside id="palette"><h4 id="palT"></h4><div id="palList"></div></aside>
+<div id="hint"></div>
+<div id="insp"></div>
+<div id="dock">
+  <div id="stats"></div>
+  <div class="dbtns"><button id="bClear" class="ghost"></button><button id="bRun" class="primary"></button></div>
+</div>
+<div id="graphs"><canvas id="g"></canvas><div id="gleg"></div></div>
+<div id="dragGhost"></div>
+<div id="toast"></div>
+<div id="start" class="ov show">
+  <div class="card hero">
+    <div class="logoBig"><span class="logo"></span>Mecha<b>Forge</b></div>
+    <p id="sTag"></p>
+    <button id="bPlay" class="primary big"></button>
+    <div class="row"><button id="bLang2" class="ghost">English</button><button id="bHQ2" class="ghost">HQ</button></div>
+  </div>
+</div>
+<div id="brief" class="ov"><div class="card" id="briefCard"></div></div>
+<div id="result" class="ov"><div class="card" id="resCard"></div></div>
+<div id="reveal" class="ov2"><div id="revCap"></div><div class="rbtns"><button id="rReplay" class="ghost"></button><button id="rBack" class="ghost"></button><button id="rNext" class="primary" disabled></button></div></div>
+<script type="module" src="app.js?v=16"></script>
+<script type="module" src="glossary.js?v=16"></script>
+<script src="selector.js?v=16" defer></script>
+<script src="iv1.js?v=16" defer></script><script src="theory.js?v=16" defer></script>
+<script src="faq.js?v=16" defer></script>
+</body>
+</html>

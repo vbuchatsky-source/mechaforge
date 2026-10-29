@@ -45,6 +45,10 @@ const G = {
   trigger: ['הדק (Trigger)', 'Trigger', 'המתג שלוחצים עליו. ככל שלוחצים חזק יותר, הבקר שולח יותר חשמל והמנוע מהיר יותר. קפיץ מחזיר אותו.', 'The switch you squeeze. The harder you press, the more current the controller sends and the faster the motor. A spring returns it.', 'trigger'],
   battery: ['סוללה (Battery)', 'Battery', 'כמה תאים קטנים (כמו סוללות AA גדולות) מחוברים יחד. 5 תאים של 3.6 וולט נותנים 18 וולט.', 'Several small cells (like big AA batteries) joined together. 5 cells of 3.6 V give 18 V.', 'battery'],
   bushing: ['תותב (Bushing)', 'Bushing', 'שרוול מתכת חלק בלי כדורים. הציר מסתובב בתוכו עם קצת שמן. זול וקטן.', 'A smooth metal sleeve without balls. The shaft turns inside it with a little oil. Cheap and small.', 'bearing'],
+  drill: ['מברגה אלחוטית (Cordless Drill)', 'Cordless drill', 'כלי עם סוללה, מנוע, תמסורת פלנטרית, מצמד וצ׳אק. המנוע מהיר וחלש, והתמסורת הופכת אותו לאיטי וחזק.', 'A battery tool with a motor, planetary gearbox, clutch and chuck. The gearbox turns fast-and-weak into slow-and-strong.', 'drill'],
+  ujoint: ['מפרק קרדן (Universal Joint)', 'Universal joint', 'שני מזלגות וצלב באמצע. מעביר סיבוב בין שני צירים שלא נמצאים על אותו קו, כמו בציר ההנעה של משאית.', 'Two yokes and a cross. Passes rotation between two shafts at an angle, like a truck drive shaft.', 'ujoint'],
+  camshaft: ['גל זיזים (Camshaft)', 'Camshaft', 'ציר עם בליטות בצורת ביצה. כשהוא מסתובב, כל בליטה דוחפת שסתום למעלה ולמטה בזמן הנכון.', 'A shaft with egg-shaped lobes. As it turns, each lobe pushes a valve up and down at the right moment.', 'camshaft'],
+  fourbar: ['מנגנון ארבע מוטות (Four-Bar Linkage)', 'Four-bar linkage', 'ארבעה מוטות מחוברים בצירים. מוט אחד מסתובב סביב, ומוט אחר רק מתנדנד הלוך וחזור.', 'Four bars joined by pins. One bar turns all the way round while another only swings back and forth.', 'fourbar'],
 };
 window.MF_GLOSS = G;
 
@@ -226,6 +230,41 @@ const B = {
   motor(hl) { const g = new THREE.Group(), can = cyl(1, 2.4, MAT.alu, 48); can.rotation.z = Math.PI / 2; const cap = cyl(0.95, 0.3, MAT.dark, 48); cap.rotation.z = Math.PI / 2; cap.position.x = 1.35;
     const sh = cyl(0.1, 1.2, MAT.steel, 16); sh.rotation.z = Math.PI / 2; sh.position.x = -1.75; const pin = gear(10, 0.08, 0.3); pin.rotation.y = Math.PI / 2; pin.position.x = -2.2; g.add(can, cap, sh, pin);
     return { g, d: 7, tick: t => { sh.rotation.x = t * 6; pin.rotation.z = t * 6; } }; },
+  drill(hl) { const g = new THREE.Group();
+    const body = cyl(0.75, 3.2, MAT.dark, 40); body.rotation.z = Math.PI / 2; body.position.set(0.3, 1.6, 0);
+    const back = new THREE.Mesh(new THREE.SphereGeometry(0.75, 32, 16), MAT.dark); back.position.set(1.9, 1.6, 0);
+    const grip = new THREE.Mesh(new THREE.BoxGeometry(0.9, 2.4, 0.8), MAT.carbon); grip.position.set(0.9, 0.2, 0); grip.rotation.z = -0.18;
+    const bat = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.8, 1.3), MAT.dark); bat.position.set(1.1, -1.2, 0);
+    const trig = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.55, 0.35), MAT.hi); trig.position.set(0.3, 0.75, 0);
+    const ring = cyl(0.8, 0.35, MAT.hi, 40); ring.rotation.z = Math.PI / 2; ring.position.set(-1.45, 1.6, 0);
+    const ch = new THREE.Group(); const cs = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.6, 1.0, 32), MAT.steel); cs.rotation.z = Math.PI / 2; ch.add(cs);
+    for (let k = 0; k < 12; k++) { const r = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.05, 0.05), MAT.dark); const a = k / 12 * Math.PI * 2; r.position.set(0.05, Math.cos(a) * 0.52, Math.sin(a) * 0.52); ch.add(r); }
+    const bit = helix(0.07, 0.25, 6, 0.04, MAT.alu); bit.rotation.z = Math.PI / 2; bit.position.x = -0.9; ch.add(bit);
+    ch.position.set(-2.1, 1.6, 0); g.add(body, back, grip, bat, trig, ring, ch);
+    return { g, d: 9, tick: t => { ch.rotation.x = t * 6; } }; },
+  ujoint(hl) { const g = new THREE.Group(), ANG = 0.45;
+    const yoke = m => { const y = new THREE.Group(); const sh = cyl(0.22, 2.6, m, 24); sh.rotation.z = Math.PI / 2; sh.position.x = -1.5; const base = new THREE.Mesh(new THREE.BoxGeometry(0.25, 1.3, 0.4), m); base.position.x = -0.35;
+      y.add(sh, base); for (const s of [1, -1]) { const arm = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.18, 0.4), m); arm.position.set(-0.1, s * 0.56, 0); const eye = cyl(0.2, 0.42, m, 20); eye.rotation.x = Math.PI / 2; eye.position.set(0.12, s * 0.56, 0); y.add(arm, eye); } return y; };
+    const a = yoke(MAT.steel), bWrap = new THREE.Group(), b = yoke(MAT.alu); b.rotation.y = Math.PI; bWrap.add(b); bWrap.rotation.z = ANG;
+    const cross = new THREE.Group(); const c1 = cyl(0.1, 1.3, MAT.hi, 16), c2 = cyl(0.1, 1.3, MAT.hi, 16); c2.rotation.x = Math.PI / 2; cross.add(c1, c2, new THREE.Mesh(new THREE.SphereGeometry(0.17, 16, 12), MAT.hi));
+    g.add(a, bWrap, cross);
+    return { g, d: 7, tick: t => { const th = t * 1.6; a.rotation.x = th; const ob = Math.atan2(Math.sin(th), Math.cos(th) * Math.cos(ANG)); b.rotation.x = -ob + Math.PI / 2; cross.rotation.set(th, 0, 0); cross.children[1].rotation.set(Math.PI / 2, 0, 0); } }; },
+  camshaft(hl) { const g = new THREE.Group(), N = 4, lobes = [], vs = [];
+    const sh = cyl(0.18, 6, MAT.steel, 24); sh.rotation.z = Math.PI / 2; g.add(sh);
+    const s = new THREE.Shape(); for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2, r = 0.5 + 0.38 * Math.pow(Math.max(0, Math.cos(a)), 3); i ? s.lineTo(Math.cos(a) * r, Math.sin(a) * r) : s.moveTo(Math.cos(a) * r, Math.sin(a) * r); }
+    const geo = new THREE.ExtrudeGeometry(s, { depth: 0.4, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.03, bevelSegments: 2 }); geo.translate(0, 0, -0.2);
+    for (let k = 0; k < N; k++) { const x = -2.1 + k * 1.4, l = new THREE.Mesh(geo, MAT.alu); l.rotation.y = Math.PI / 2; const lg = new THREE.Group(); lg.add(l); lg.position.x = x; g.add(lg); lobes.push([lg, k * Math.PI / 2]);
+      const v = new THREE.Group(); const stem = cyl(0.08, 1.8, MAT.steel, 12); stem.position.y = 0.9; const tap = cyl(0.3, 0.25, MAT.hi, 24); const head = cyl(0.42, 0.08, MAT.dark, 24); head.position.y = 1.8; v.add(stem, tap, head); v.position.x = x; g.add(v); vs.push(v); }
+    return { g, d: 9, tick: t => { const th = t * 1.5; lobes.forEach(([lg, ph], i) => { lg.rotation.x = th + ph; const a = Math.PI / 2 - (th + ph); let best = 0; for (let j = 0; j < 24; j++) { const b = j / 24 * Math.PI * 2, r = 0.5 + 0.38 * Math.pow(Math.max(0, Math.cos(b)), 3); best = Math.max(best, r * Math.cos(b - a)); } vs[i].position.y = best + 0.12; }); } }; },
+  fourbar(hl) { const g = new THREE.Group(), A = [-1.5, 0], D = [1.5, 0], a = 0.9, b = 3.0, c = 2.2;
+    const bar = (m, w) => { const o = new THREE.Group(); const bx = new THREE.Mesh(new THREE.BoxGeometry(1, w, 0.18), m); bx.position.x = 0.5; o.add(bx); o.userData.bx = bx; return o; };
+    const set = (o, p, q) => { const dx = q[0] - p[0], dy = q[1] - p[1], L = Math.hypot(dx, dy); o.position.set(p[0], p[1], o.position.z); o.rotation.z = Math.atan2(dy, dx); o.userData.bx.scale.x = L; o.userData.bx.position.x = L / 2; };
+    const gr = bar(MAT.dark, 0.3); gr.position.z = -0.25; set(gr, [A[0] - 0.3, A[1]], [D[0] + 0.3, D[1]]);
+    const cr = bar(MAT.hi, 0.22), cp = bar(MAT.steel, 0.2), rk = bar(MAT.alu, 0.22); cp.position.z = 0.2; g.add(gr, cr, cp, rk);
+    const pins = [0, 1, 2, 3].map(() => { const p = cyl(0.13, 0.7, MAT.brass, 16); p.rotation.x = Math.PI / 2; g.add(p); return p; });
+    for (const P of [A, D]) { const blk = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), MAT.dark); blk.position.set(P[0], P[1] - 0.35, -0.25); g.add(blk); }
+    return { g, d: 8, tick: t => { const th = t * 1.4, B = [A[0] + a * Math.cos(th), A[1] + a * Math.sin(th)], dx = D[0] - B[0], dy = D[1] - B[1], d = Math.hypot(dx, dy), aa = (b * b - c * c + d * d) / (2 * d), h = Math.sqrt(Math.max(0, b * b - aa * aa)), mx = B[0] + aa * dx / d, my = B[1] + aa * dy / d, C = [mx - h * dy / d, my + h * dx / d];
+      set(cr, A, B); set(cp, B, C); set(rk, D, C); [A, B, C, D].forEach((P, i) => pins[i].position.set(P[0], P[1], 0)); } }; },
   diff(hl) { const g = new THREE.Group(), H = k => hl === k ? MAT.hi : (hl ? MAT.alu : MAT.steel);
     const crown = gear(36, 0.12, 0.45, { cone: 0.35, mat: H('crown') }); crown.rotation.y = -Math.PI / 2; crown.position.x = 1.1;
     const cr = new THREE.Group(); cr.add(crown);
@@ -254,7 +293,7 @@ function open(key) {
   const t0 = performance.now(); cancelAnimationFrame(raf);
   const loop = () => { if (!pop.classList.contains('show')) return; anim.tick((performance.now() - t0) / 1000); ctl.update(); R.render(scene, cam); raf = requestAnimationFrame(loop); }; loop();
 }
-window.mfGlossOpen = open;
+window.mfGlossOpen = open; window.MF_B = B; window.MF_MAT = MAT;
 const THC = {};
 window.mfGlossThumb = key => { if (THC[key]) return THC[key]; const d = G[key]; if (!d || !B[d[4]]) return ''; init();
   const prev = root; if (prev) scene.remove(prev); const M = B[d[4]](d[5]); M.tick(1.3); const bx = new THREE.Box3().setFromObject(M.g); M.g.position.sub(bx.getCenter(new THREE.Vector3())); scene.add(M.g);
@@ -277,7 +316,7 @@ const PARTS = {
 };
 window.mfPartWhy = key => {
   const p = (window.MF_PARTS && window.MF_PARTS[key]) || PARTS[key]; if (!p) return;
-  const [mk, mh] = p[0].split(':'); G['_p'] = [p[1], p[2], '', '', mk, mh]; open('_p');
+  let [mk, mh] = p[0].split(':'); const sc = window.MF_SCENE_PART && window.MF_SCENE_PART(key); if (sc) { B._scene = () => sc; mk = '_scene'; mh = undefined; } G['_p'] = [p[1], p[2], '', '', mk, mh]; open('_p');
   document.getElementById('gP').innerHTML = `<h6>${L('מה זה', 'What it is')}</h6>${L(p[3], p[4])}<h6>${L('מתאים כאן?', 'Does it fit here?')}</h6>${L(p[5], p[6])}<h6>${L('איפה כן משתמשים בו', 'Where it IS used')}</h6>${L(p[7], p[8])}`;
 };
 window.MF_GLOSS_OPEN_PART = window.mfPartWhy;

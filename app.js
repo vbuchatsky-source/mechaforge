@@ -935,3 +935,7 @@ function loop() {
 }
 window.__mf = { drill, PT, LSTEPS, PSTEPS, LANG, sel: () => sel, last: () => lastResult, acad: () => ACAD, tut: () => TUT, showMe: () => acadShowMe(), chain, insertPart, startRun, startReveal, analyse, evaluate, get mode() { return mode; }, get RV() { return RV; } };
 loop();
+
+// "?" popups show the exact same model as the scene
+window.MF_SCENE_PART = k => { if (!PT[k]) return null; const g = buildPart(k); g.position.set(0, 0, 0);
+  return { g, d: 6, tick: t => { for (const s of g.userData.spin || []) s.o.rotation.x = t * 2.5; } }; };
