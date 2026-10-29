@@ -50,11 +50,15 @@
     ['במצב מהירות 2 במברגה:', 'In speed position 2 the drill is:', [L('איטית וחזקה', 'Slow and strong'), L('מהירה – שלב אחד לא מאט', 'Fast – one stage does not slow'), L('נעולה', 'Locked'), L('הפוכה', 'Reversed')], 1]
   ];
   if (window.MF_C2) { TH = window.MF_C2.th; IV = window.MF_C2.iv; QZ = window.MF_C2.qz; }
-  window.__mfInterview = IV.map(x => `Q: ${x[1]} A: ${x[3].replace(/\{[a-z]+\|([^}]+)\}/g,'$1')}`).join('\n');
+  const UNITS = (window.MF_C2 && window.MF_C2.units) || window.MF_UNITS || [];
+  const UK = window.MF_C2 ? 'mf_units_c2' : 'mf_units_c1';
+  const uGet = () => { try { return JSON.parse(localStorage.getItem(UK)) || []; } catch (e) { return []; } };
+  let unit = -1, uMode = 'read', uOrder = [];
+  window.__mfInterview = UNITS.flatMap(u => u.items).map(x => `Q: ${x[1]} A: ${x[3]}`).join('\n');
   const $ = id => document.getElementById(id);
   const PK = window.MF_C2 ? 'mf_quiz_c2' : 'mf_quiz_c1';
   const box = document.createElement('div'); box.id = 'theory'; box.dir = EN ? 'ltr' : 'rtl';
-  box.innerHTML = `<div class="ch"><b>📚 ${L('חומר תיאורטי', 'Theory')}</b><button id="tX">✕</button></div><div class="tabs"><button data-t="th" class="on">${L('פרקי תיאוריה', 'Chapters')}</button><button data-t="iv">${L('שאלות ראיון עבודה', 'Interview Q&A')}</button><button data-t="qz">${L('מבחן ראיון', 'Interview quiz')}</button></div><div id="tBody"></div>`;
+  box.innerHTML = `<div class="ch"><b>📚 ${L('חומר תיאורטי', 'Theory')}</b><button id="tX">✕</button></div><div class="tabs"><button data-t="th" class="on">${L('פרקי תיאוריה', 'Chapters')}</button><button data-t="iv">${L('שאלות ראיון ומבחנים', 'Interview Q&A & tests')}</button></div><div id="tBody"></div>`;
   document.body.appendChild(box);
   const btn = document.createElement('button'); btn.className = 'tb'; btn.id = 'bTheory'; btn.textContent = L('📚 חומר תיאורטי', '📚 Theory');
   const tb = document.querySelector('#top .tbtns'); tb.insertBefore(btn, tb.firstChild);
@@ -64,24 +68,41 @@
     box.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === tab));
     const B = $('tBody');
     if (tab === 'th') B.innerHTML = TH.map((c, i) => `<details${i ? '' : ' open'}><summary>${i + 1}. ${L(c[0], c[1])}</summary><p>${GL(L(c[2], c[3]))}</p></details>`).join('');
-    else if (tab === 'iv') B.innerHTML = `<p class="note">${L('שאלות נפוצות בראיונות למהנדס מכונות – נסה לענות לבד לפני שפותחים.', 'Common mechanical-engineering interview questions – try to answer before opening.')}</p>` + IV.map((c, i) => `<details><summary>${i + 1}. ${L(c[0], c[1])}</summary><p>${GL(L(c[2], c[3]))}</p></details>`).join('');
     else {
-      const best = +(localStorage.getItem(PK) || 0);
-      B.innerHTML = `<p class="note">${L('ציון שמור הכי טוב', 'Best saved score')}: <b>${best}%</b>${best >= 70 ? ' 🏅' : ''}</p>` + QZ.map((q, i) => `<div class="qz"><div class="qq">${i + 1}. ${L(q[0], q[1])}</div>${q[2] ? q[2].map((o, j) => `<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('') : `<input class="num" id="n${i}" type="number" step="any" dir="ltr">`}<div class="fb" id="f${i}"></div></div>`).join('') + `<button id="qGo" class="pr">${L('בדוק תשובות', 'Check answers')}</button><div id="qRes"></div>`;
-      $('qGo').onclick = () => {
-        let ok = 0;
-        QZ.forEach((q, i) => { let good; if (q[2]) { const s = box.querySelector(`input[name=q${i}]:checked`); good = s && +s.value === q[3]; } else { const v = parseFloat($('n' + i).value); good = isFinite(v) && Math.abs(v - q[3]) <= Math.abs(q[3]) * 0.03 + 1e-9; }
-          if (good) ok++; const f = $('f' + i); f.textContent = good ? '✓' : '✗ ' + (q[2] ? q[2][q[3]] : q[3]); f.className = 'fb ' + (good ? 'ok' : 'bad'); });
-        const sc = Math.round(ok / QZ.length * 100); if (sc > best) localStorage.setItem(PK, sc);
-        $('qRes').innerHTML = `<h3>${sc}% ${sc >= 70 ? L('– עברת! 🏅', '– Passed! 🏅') : L('– נסה שוב (70% לעבור)', '– try again (70% to pass)')}</h3>`;
-      };
-      B.querySelectorAll('input').forEach(i => ['keydown', 'keyup'].forEach(t => i.addEventListener(t, e => e.stopPropagation())));
+      const mkBar = () => { const sc = uGet(), passed = UNITS.filter((u, i) => (sc[i] || 0) >= 70).length; return `<div class="uprog"><div class="ut">${L(`עברת ${passed} מתוך ${UNITS.length} מבחנים`, `Passed ${passed} of ${UNITS.length} tests`)}</div><div class="ubar"><i style="width:${passed / UNITS.length * 100}%"></i></div><div class="ubadges">${UNITS.map((u, i) => `<span class="${(sc[i] || 0) >= 70 ? 'got' : ''}" title="${L(u.he, u.en)}">${(sc[i] || 0) >= 70 ? '🏅' : '○'}</span>`).join('')}</div></div>`; };
+      const sc = uGet(), bar = mkBar();
+      const open_ = i => i === 0 || (sc[i - 1] || 0) >= 70;
+      if (unit < 0) {
+        B.innerHTML = bar + `<p class="note">${L('5 יחידות, 10 שאלות בכל אחת. קוראים, ואז עושים מבחן. עוברים ב-7 מתוך 10, ואז נפתחת היחידה הבאה.', '5 units of 10 questions. Read, then take the test. Pass with 7 of 10 to unlock the next unit.')}</p>` +
+          UNITS.map((u, i) => `<button class="ucard${open_(i) ? '' : ' lock'}" data-u="${i}" ${open_(i) ? '' : 'disabled'}><b>${L('יחידה', 'Unit')} ${i + 1}: ${L(u.he, u.en)}</b><span>${open_(i) ? ((sc[i] || 0) >= 70 ? `🏅 ${sc[i]}%` : (sc[i] ? `${sc[i]}% – ${L('נסה שוב', 'retry')}` : L('פתוח', 'Open'))) : '🔒 ' + L('עבור קודם את המבחן הקודם', 'Pass the previous test first')}</span></button>`).join('');
+        B.querySelectorAll('.ucard').forEach(c => c.onclick = () => { unit = +c.dataset.u; uMode = 'read'; render(); });
+      } else if (uMode === 'read') {
+        const u = UNITS[unit];
+        B.innerHTML = bar + `<button class="uback">→ ${L('כל היחידות', 'All units')}</button><h3>${L('יחידה', 'Unit')} ${unit + 1}: ${L(u.he, u.en)}</h3>` +
+          u.items.map((c, i) => `<details${i ? '' : ' open'}><summary>${i + 1}. ${L(c[0], c[1])}</summary><p>${GL(L(c[2], c[3]))}</p></details>`).join('') +
+          `<button id="uGo" class="pr ubig">📝 ${L(`התחל מבחן ${unit + 1}`, `Start test ${unit + 1}`)}</button>`;
+        $('uGo').onclick = () => { uMode = 'quiz'; uOrder = u.items.map(c => c[4].map((o, j) => j).sort(() => Math.random() - 0.5)); render(); };
+      } else {
+        const u = UNITS[unit];
+        B.innerHTML = bar + `<button class="uback">→ ${L('חזרה לקריאה', 'Back to reading')}</button><h3>${L('מבחן', 'Test')} ${unit + 1}: ${L(u.he, u.en)}</h3>` +
+          u.items.map((c, i) => `<div class="qz"><div class="qq">${i + 1}. ${L(c[0], c[1])}</div>${uOrder[i].map(j => `<label><input type="radio" name="q${i}" value="${j}"> ${L(c[4][j], c[5][j])}</label>`).join('')}<div class="fb" id="f${i}"></div></div>`).join('') +
+          `<button id="qGo" class="pr ubig">${L('בדוק תשובות', 'Check answers')}</button><div id="qRes"></div>`;
+        $('qGo').onclick = () => {
+          let ok = 0;
+          u.items.forEach((c, i) => { const s = box.querySelector(`input[name=q${i}]:checked`), good = s && +s.value === c[6]; if (good) ok++; const f = $('f' + i); f.textContent = good ? '✓' : '✗ ' + L(c[4][c[6]], c[5][c[6]]); f.className = 'fb ' + (good ? 'ok' : 'bad'); });
+          const p = ok * 10, all = uGet(); if (p > (all[unit] || 0)) { all[unit] = p; localStorage.setItem(UK, JSON.stringify(all)); }
+          const pass = p >= 70, last = unit === UNITS.length - 1;
+          $('qRes').innerHTML = `<h3>${ok}/10 ${pass ? L('– עברת! 🏅', '– Passed! 🏅') : L('– צריך 7 מתוך 10', '– need 7 of 10')}</h3>` + (pass ? (last ? '' : `<button id="uNext" class="pr ubig">${L(`ליחידה ${unit + 2} ←`, `To unit ${unit + 2} →`)}</button>`) : `<button id="uRe" class="pr ubig">🔁 ${L('נסה שוב', 'Try again')}</button>`);
+          B.querySelector('.uprog').outerHTML = mkBar(); const nx = $('uNext'), re = $('uRe'); if (nx) nx.onclick = () => { unit++; uMode = 'read'; render(); }; if (re) re.onclick = () => { uMode = 'quiz'; render(); };
+        };
+      }
+      const bk = B.querySelector('.uback'); if (bk) bk.onclick = () => { if (uMode === 'quiz') uMode = 'read'; else unit = -1; render(); };
     }
     B.scrollTop = 0;
   }
-  box.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { tab = b.dataset.t; render(); });
+  box.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { tab = b.dataset.t; unit = -1; render(); });
   function open(o) { box.classList.toggle('show', o); btn.classList.toggle('on', o); if (o) { ['chat', 'faq'].forEach(id => { const e = $(id); e && e.classList.remove('show'); }); render(); } }
-  window.__mfTheoryOpen = (o, t) => { if (t) tab = t; open(o); };
+  window.__mfTheoryOpen = (o, t) => { if (t) tab = t === 'qz' ? 'iv' : t; open(o); };
   btn.onclick = () => open(!box.classList.contains('show'));
   $('tX').onclick = () => open(false);
 })();

@@ -184,3 +184,10 @@ body.sideOn #insp{inset-inline-end:404px}body.sideOn #graphs{inset-inline-end:40
 #gP h6{margin:8px 0 2px;color:#ff9a4a;font-size:12px;letter-spacing:.5px}
 #gpop.part #gC{height:240px}
 .gen{color:#9aa3ad;font-size:.9em}
+.uprog{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.uprog .ut{font-weight:700;margin-bottom:6px}.ubar{height:8px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}.ubar i{display:block;height:100%;background:linear-gradient(90deg,#ff7a1a,#ffb070)}
+.ubadges{display:flex;gap:8px;margin-top:8px;font-size:20px}.ubadges span{opacity:.45}.ubadges span.got{opacity:1}
+.ucard{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:start;margin:6px 0;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,154,74,.35);background:rgba(255,122,26,.06);color:inherit;font:inherit;cursor:pointer}
+.ucard:hover{background:rgba(255,122,26,.15)}.ucard.lock{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.1)}.ucard span{font-size:12px;color:#c9ced6}
+.uback{background:none;border:0;color:#ff9a4a;cursor:pointer;font:inherit;padding:4px 0}
+.ubig{display:block;width:100%;margin-top:12px;padding:12px;font-size:15px}
