@@ -1,9 +1,12 @@
-// Challenge selector (header)
+// Header: Home + challenge selector
 (function () {
   const EN = (localStorage.getItem('mf_lang') || 'he') === 'en' || new URLSearchParams(location.search).get('lang') === 'en';
-  const L = (h, e) => EN ? e : h; const c2 = !!window.MF_C2;
+  const L = (h, e) => EN ? e : h, here = location.pathname.split('/').pop() || 'index.html';
+  const CH = [['drill.html', '🔩', 'מברגה', 'Drill'], ['diff.html', '⚙', 'דיפרנציאל', 'Differential'], ['ratchet.html', '🔧', 'ראצ׳ט ומצמד', 'Ratchet & Clutch'], ['ujoint.html', '✚', 'מפרק קרדן', 'U-Joint'], ['cam.html', '🥚', 'גל זיזים', 'Camshaft'], ['fourbar.html', '📐', 'ארבע מוטות', 'Four-Bar']];
   const d = document.createElement('div'); d.className = 'chsel';
-  d.innerHTML = `<a href="./index.html" class="home" id="chH">🏠 ${L('בית (Home)', 'Home')}</a><a href="./drill.html" class="${c2 ? '' : 'on'}" id="ch1">🔩 ${L('אתגר 1: מברגה', 'Challenge 1: Drill')}</a><a href="./diff.html" class="${c2 ? 'on' : ''}" id="ch2">⚙ ${L('אתגר 2: דיפרנציאל', 'Challenge 2: Differential')}</a>`;
+  const cur = CH.findIndex(c => c[0] === here);
+  d.innerHTML = `<a href="./index.html" class="home" id="chH">🏠 ${L('בית (Home)', 'Home')}</a><select id="chS" title="${L('בחר אתגר', 'Pick a challenge')}">${CH.map((c, i) => `<option value="${c[0]}"${i === cur ? ' selected' : ''}>${c[1]} ${L('אתגר', 'Challenge')} ${i + 1}: ${L(c[2], c[3])}</option>`).join('')}</select>`;
+  d.querySelector('#chS').onchange = e => location.href = './' + e.target.value;
   const lvl = document.getElementById('lvl'); lvl.parentNode.insertBefore(d, lvl);
 })();
 try{['xai','openai'].forEach(p=>localStorage.removeItem('mf_ai_key_'+p));}catch(e){}

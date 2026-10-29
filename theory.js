@@ -51,12 +51,12 @@
   ];
   if (window.MF_C2) { TH = window.MF_C2.th; IV = window.MF_C2.iv; QZ = window.MF_C2.qz; }
   const UNITS = (window.MF_C2 && window.MF_C2.units) || window.MF_UNITS || [];
-  const UK = window.MF_C2 ? 'mf_units_c2' : 'mf_units_c1';
+  const UK = window.MF_C2 ? (window.MF_C2.uk || 'mf_units_c2') : 'mf_units_c1';
   const uGet = () => { try { return JSON.parse(localStorage.getItem(UK)) || []; } catch (e) { return []; } };
   let unit = -1, uMode = 'read', uOrder = [];
   window.__mfInterview = UNITS.flatMap(u => u.items).map(x => `Q: ${x[1]} A: ${x[3]}`).join('\n');
   const $ = id => document.getElementById(id);
-  const PK = window.MF_C2 ? 'mf_quiz_c2' : 'mf_quiz_c1';
+  const PK = window.MF_C2 ? (window.MF_C2.qk || 'mf_quiz_c2') : 'mf_quiz_c1';
   const box = document.createElement('div'); box.id = 'theory'; box.dir = EN ? 'ltr' : 'rtl';
   box.innerHTML = `<div class="ch"><b>📚 ${L('חומר תיאורטי', 'Theory')}</b><button id="tX">✕</button></div><div class="tabs"><button data-t="th" class="on">${L('פרקי תיאוריה', 'Chapters')}</button><button data-t="iv">${L('שאלות ראיון ומבחנים', 'Interview Q&A & tests')}</button></div><div id="tBody"></div>`;
   document.body.appendChild(box);
