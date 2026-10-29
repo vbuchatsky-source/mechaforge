@@ -14,7 +14,7 @@ const M = [
   { k: 'fourbar', he: 'מנגנון ארבע מוטות', en: 'Four-Bar Linkage', dh: 'ארבעה מוטות – סיבוב מלא הופך לנדנוד.', de: 'Four bars – full rotation becomes a swing.', url: 'fourbar.html', uk: 'mf_units_c6', pk: 'mf_prog_c6' }
 ];
 document.getElementById('hT').textContent = L('בחר מנגנון לתרגול', 'Pick a mechanism to practice');
-document.getElementById('hS').textContent = L('לחץ על כרטיס כדי לפתוח את האתגר. כרטיסים שמסומנים "בקרוב" מציגים רק תצוגה מקדימה.', 'Click a card to open its challenge. Cards marked "Coming soon" show a preview only.');
+document.getElementById('hS').textContent = L('לחץ על כרטיס כדי לפתוח את האתגר: לימוד, תרגול, מבחן, חומר תיאורטי ומבחני ראיון.', 'Click a card to open its challenge: learn, practice, test, theory and interview tests.');
 const hl = document.getElementById('hLang'); hl.textContent = EN ? 'עברית' : 'EN'; hl.onclick = () => { localStorage.setItem('mf_lang', EN ? 'he' : 'en'); location.reload(); };
 const grid = document.getElementById('grid');
 M.forEach((m, i) => {
