@@ -165,3 +165,18 @@ body.sideOn #insp{inset-inline-end:404px}body.sideOn #graphs{inset-inline-end:40
 #faq summary{cursor:pointer;font-weight:600;color:#e6e9ee}
 #faq details p{margin:8px 0 2px;line-height:1.55;color:#c3c8cf}
 #faq .cnt{color:#8f98a3;font-size:12px;padding:0 12px}
+#bTheory{background:#2f3a2a;color:#e8f2e0;border-color:#7aa05b;font-weight:700;font-size:13px;padding:6px 14px}
+#theory{position:fixed;top:56px;bottom:12px;inset-inline-end:12px;width:500px;max-width:calc(100vw - 24px);z-index:62;display:none;flex-direction:column;background:linear-gradient(#24282e,#16191d);border:1px solid rgba(255,255,255,.14);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.6);color:#d6dae0;font-size:14px}
+#theory.show{display:flex}
+#theory .ch{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.1)}#theory .ch b{flex:1;color:#a8d08a}
+#theory button{background:#2e333a;color:#d6dae0;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:6px 10px;cursor:pointer;font:inherit;font-size:13px}
+#theory button.pr,#theory .tabs button.on{background:#e0650c;color:#fff;border-color:#ff9a4a}
+#theory .tabs{display:flex;gap:6px;padding:8px 12px}
+#tBody{flex:1;overflow:auto;padding:4px 12px 12px}
+#theory details{background:#1d2126;border:1px solid rgba(255,255,255,.08);border-radius:8px;margin:5px 0;padding:8px 10px}
+#theory summary{cursor:pointer;font-weight:600;color:#e6e9ee}#theory details p{line-height:1.6;color:#c3c8cf}
+#theory .note{color:#8f98a3;font-size:12px}
+#theory .qz{background:#1d2126;border-radius:8px;padding:8px 10px;margin:6px 0}#theory .qq{font-weight:600;margin-bottom:4px}
+#theory .qz label{display:block;padding:2px 0;cursor:pointer}
+#theory .num{background:#0f1114;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px;width:120px}
+#theory .fb.ok{color:#7bd88f}#theory .fb.bad{color:#ff8a8a}

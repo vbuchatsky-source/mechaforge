@@ -173,7 +173,7 @@
       html += `<h5>${L(...C[k])}</h5>` + items.map(f => `<details${q ? ' open' : ''}><summary>${L(f[1], f[2])}</summary><p>${L(f[3], f[4])}</p></details>`).join(''); n += items.length; }
     $('faqList').innerHTML = html || `<p>${L('לא נמצא. נסה את צ\'אט ה-AI.', 'Nothing found. Try the AI chat.')}</p>`; $('fCnt').textContent = `${n} ${L('שאלות', 'questions')}`;
   }
-  function open(o) { box.classList.toggle('show', o); btn.classList.toggle('on', o); if (o) { const c = $('chat'); if (c) c.classList.remove('show'); render($('fQ').value); } }
+  function open(o) { box.classList.toggle('show', o); btn.classList.toggle('on', o); if (o) { ['chat','theory'].forEach(i => { const c = $(i); if (c) c.classList.remove('show'); }); render($('fQ').value); } }
   window.__mfFaqOpen = open;
   btn.onclick = () => open(!box.classList.contains('show'));
   $('fX').onclick = () => open(false);

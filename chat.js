@@ -52,7 +52,7 @@ Answer in the user's language (Hebrew or English), concisely, with numbers. Use 
   function fillSet() { $('cProv').value = prov; $('cModel').value = modelOf(prov); $('cKey').value = keyOf(prov); const a = $('cKeyLink'); a.href = PROV[prov].keyUrl; a.textContent = PROV[prov].keyUrl.replace('https://', ''); }
   function msg(cls, t) { const d = document.createElement('div'); d.className = 'm ' + cls; d.textContent = t; $('chatLog').appendChild(d); $('chatLog').scrollTop = 1e9; return d; }
   function render() { $('chatLog').innerHTML = ''; if (!hist.length) msg('a', L('שלום! אני מורה למכניקה של המברגה. שאל אותי על המנוע, השלבים הפלנטריים, המצמד, יחסי תמסורת, מומנט או סל"ד. אני רואה את השלב שלך ואת השרשרת שבנית.', 'Hi! Ask me about the motor, planetary stages, clutch, gear ratios, torque or rpm. I can see your current step and chain.')); hist.forEach(h => msg(h.role === 'user' ? 'u' : 'a', h.content)); }
-  function open(o) { box.classList.toggle('show', o); btn.classList.toggle('on', o); if (o) { const f = document.getElementById('faq'); if (f) f.classList.remove('show'); fillSet(); if (!keyOf(prov)) $('chatSet').classList.add('show'); render(); $('cIn').focus(); } }
+  function open(o) { box.classList.toggle('show', o); btn.classList.toggle('on', o); if (o) { ['faq','theory'].forEach(i => { const f = document.getElementById(i); if (f) f.classList.remove('show'); }); fillSet(); if (!keyOf(prov)) $('chatSet').classList.add('show'); render(); $('cIn').focus(); } }
   btn.onclick = () => open(!box.classList.contains('show'));
   $('cX').onclick = () => open(false);
   $('cSetB').onclick = () => { $('chatSet').classList.toggle('show'); fillSet(); };
@@ -67,7 +67,7 @@ Answer in the user's language (Hebrew or English), concisely, with numbers. Use 
 
   function buildRequest(text) {
     const P = PROV[prov];
-    const messages = [{ role: 'system', content: SYS + '\n\nFAQ (reference knowledge, reuse when relevant):\n' + (window.__mfFAQ || '') + '\n\n' + ctx() }, ...hist.slice(-16), { role: 'user', content: text }];
+    const messages = [{ role: 'system', content: SYS + '\n\nFAQ (reference knowledge, reuse when relevant):\n' + (window.__mfFAQ || '') + '\n\nINTERVIEW Q&A:\n' + (window.__mfInterview || '') + '\n\n' + ctx() }, ...hist.slice(-16), { role: 'user', content: text }];
     return { url: P.url, init: { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + keyOf(prov) }, body: JSON.stringify({ model: modelOf(prov), messages, stream: true, temperature: 0.4 }) } };
   }
   window.__mfChatBuild = buildRequest;
