@@ -106,14 +106,14 @@ function ringGear(z, m, w, rOut, mat = M.dark) {
 // ---------------- part catalogue ----------------
 const AX = 2.6, GAP = 0.5, X0 = -9.5;
 const PT = {
-  motor: { he: 'מנוע DC 18V', en: 'DC motor 18 V', she: '18,000 סל"ד · 1.6 N·m', sen: '18,000 rpm · 1.6 N·m', kind: 'src', len: 3.2, r: 1.4, w0: 18000, Ts: 1.6, Is: 80, I0: 1.5, cost: 14, mass: 310 },
-  hobby: { he: 'מנוע צעצוע 3V', en: 'Hobby motor 3 V', she: '12,000 סל"ד · 0.06 N·m', sen: '12,000 rpm · 0.06 N·m', kind: 'src', len: 2.0, r: 0.8, w0: 12000, Ts: 0.06, Is: 2.2, I0: 0.2, cost: 3, mass: 40 },
-  stepper: { he: 'מנוע צעד NEMA17', en: 'Stepper NEMA 17', she: '1,200 סל"ד · 0.45 N·m', sen: '1,200 rpm · 0.45 N·m', kind: 'src', len: 2.2, r: 1.2, w0: 1200, Ts: 0.45, Is: 4, I0: 1.0, cost: 18, mass: 350 },
-  pl4: { he: 'שלב פלנטרי 4:1', en: 'Planetary stage 4:1', she: 'יחס 4 · נצילות 95%', sen: 'ratio 4 · η 95%', kind: 'gear', len: 1.1, r: 2.15, i: 4, eta: 0.95, cost: 6, mass: 120, zs: 12, zp: 12, zr: 36, m: 0.09 },
-  pl5: { he: 'שלב פלנטרי 5:1', en: 'Planetary stage 5:1', she: 'יחס 5 · נצילות 95%', sen: 'ratio 5 · η 95%', kind: 'gear', len: 1.1, r: 2.15, i: 5, eta: 0.95, cost: 6, mass: 130, zs: 12, zp: 18, zr: 48, m: 0.072 },
-  clutch: { he: 'מצמד מומנט', en: 'Torque clutch', she: 'מחליק בעומס יתר', sen: 'slips on overload', kind: 'clutch', len: 1.2, r: 1.6, i: 1, eta: 0.98, cost: 5, mass: 90 },
-  worm: { he: 'בורג אינסופי 30:1', en: 'Worm drive 30:1', she: 'יציאה ב-90°', sen: '90° output', kind: 'bad', len: 2.0, r: 1.6, cost: 9, bad: ['יציאה בזווית 90° – הצ\'אק חייב להיות על אותו ציר', '90° output – the chuck must stay on the motor axis'] },
-  spur: { he: 'זוג גלגלי שיניים', en: 'Spur gear pair', she: 'מסיט את הציר', sen: 'offsets the axis', kind: 'bad', len: 1.0, r: 1.6, cost: 4, bad: ['מסיט את הציר ב-18 מ"מ – לא נכנס בגוף המברגה', 'Offsets the axis by 18 mm – won\'t fit the drill body'] },
+  motor: { he: 'מנוע DC 18V (DC Motor)', en: 'DC motor 18 V', she: '18,000 סל"ד · 1.6 N·m', sen: '18,000 rpm · 1.6 N·m', kind: 'src', len: 3.2, r: 1.4, w0: 18000, Ts: 1.6, Is: 80, I0: 1.5, cost: 14, mass: 310 },
+  hobby: { he: 'מנוע צעצוע 3V (Toy Motor)', en: 'Hobby motor 3 V', she: '12,000 סל"ד · 0.06 N·m', sen: '12,000 rpm · 0.06 N·m', kind: 'src', len: 2.0, r: 0.8, w0: 12000, Ts: 0.06, Is: 2.2, I0: 0.2, cost: 3, mass: 40 },
+  stepper: { he: 'מנוע צעד NEMA17 (Stepper Motor)', en: 'Stepper NEMA 17', she: '1,200 סל"ד · 0.45 N·m', sen: '1,200 rpm · 0.45 N·m', kind: 'src', len: 2.2, r: 1.2, w0: 1200, Ts: 0.45, Is: 4, I0: 1.0, cost: 18, mass: 350 },
+  pl4: { he: 'שלב פלנטרי 4:1 (Planetary Stage)', en: 'Planetary stage 4:1', she: 'יחס 4 · נצילות 95%', sen: 'ratio 4 · η 95%', kind: 'gear', len: 1.1, r: 2.15, i: 4, eta: 0.95, cost: 6, mass: 120, zs: 12, zp: 12, zr: 36, m: 0.09 },
+  pl5: { he: 'שלב פלנטרי 5:1 (Planetary Stage)', en: 'Planetary stage 5:1', she: 'יחס 5 · נצילות 95%', sen: 'ratio 5 · η 95%', kind: 'gear', len: 1.1, r: 2.15, i: 5, eta: 0.95, cost: 6, mass: 130, zs: 12, zp: 18, zr: 48, m: 0.072 },
+  clutch: { he: 'מצמד מומנט (Torque Clutch)', en: 'Torque clutch', she: 'מחליק בעומס יתר', sen: 'slips on overload', kind: 'clutch', len: 1.2, r: 1.6, i: 1, eta: 0.98, cost: 5, mass: 90 },
+  worm: { he: 'בורג אינסופי 30:1 (Worm Drive)', en: 'Worm drive 30:1', she: 'יציאה ב-90°', sen: '90° output', kind: 'bad', len: 2.0, r: 1.6, cost: 9, bad: ['יציאה בזווית 90° – הצ\'אק חייב להיות על אותו ציר', '90° output – the chuck must stay on the motor axis'] },
+  spur: { he: 'זוג גלגלי שיניים (Gear Pair)', en: 'Spur gear pair', she: 'מסיט את הציר', sen: 'offsets the axis', kind: 'bad', len: 1.0, r: 1.6, cost: 4, bad: ['מסיט את הציר ב-18 מ"מ – לא נכנס בגוף המברגה', 'Offsets the axis by 18 mm – won\'t fit the drill body'] },
 };
 const PAL = ['motor', 'pl4', 'pl5', 'clutch', 'worm', 'spur', 'hobby', 'stepper'];
 
@@ -287,7 +287,8 @@ const TH = thumbs();
 const palList = $('palList');
 for (const t of PAL) {
   const d = PT[t], el = document.createElement('div'); el.className = 'pitem'; el.dataset.t = t;
-  el.innerHTML = `<img src="${TH[t]}" alt=""><div><div class="n">${EN ? d.en : d.he}</div><div class="s">${EN ? d.sen : d.she}</div></div>`;
+  el.innerHTML = `<img src="${TH[t]}" alt=""><div style="flex:1"><div class="n">${EN ? d.en : d.he}</div><div class="s">${EN ? d.sen : d.she}</div></div><button class="pwhy" title="${L('מה זה?', 'What is it?')}">?</button>`;
+  el.querySelector('.pwhy').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); window.mfPartWhy && window.mfPartWhy(t); });
   palList.appendChild(el);
   el.addEventListener('pointerdown', e => startDrag(e, t));
 }
@@ -322,7 +323,7 @@ function endDrag() {
   let idx, why;
   if (!d.moved) { idx = PT[d.t].kind === 'src' ? 0 : chain.length; why = canInsert(d.t, idx); }
   else { if (!d.sock) { if (TUT && TUT.want === d.t) { idx = TUT.idx; why = null; insertPart(d.t, idx); } return; } idx = d.sock.userData.s.i; why = d.why; }
-  if (why) { toast(why, true); acadReject(d.t, why); return; }
+  if (why) { toast(why, true, d.t); acadReject(d.t, why); return; }
   insertPart(d.t, idx);
 }
 
@@ -378,7 +379,7 @@ function evaluate(a) {
 }
 function updateStats() {
   const a = analyse();
-  $('stats').innerHTML = `<span>${L('יחס', 'Ratio')} <b>${a.i.toFixed(0)}:1</b></span><span>η <b>${(a.eta * 100).toFixed(0)}%</b></span><span>${L('רכיבים', 'Parts')} <b>${a.n}/5</b></span><span>${L('עלות', 'Cost')} <b>$${a.cost}</b></span>`;
+  $('stats').innerHTML = `<span>${L('יחס', 'Ratio')} <b>${a.i.toFixed(0)}:1</b></span><span>${L('נצילות', 'Efficiency')} <b>${(a.eta * 100).toFixed(0)}%</b></span><span>${L('רכיבים', 'Parts')} <b>${a.n}/5</b></span><span>${L('עלות', 'Cost')} <b>$${a.cost}</b></span>`;
   $('bRun').disabled = !a.src || mode !== 'build';
   $('hint').textContent = !chain.length ? L('גרור מנוע מהספרייה אל טבעת החיבור', 'Drag a motor from the library onto the connection ring')
     : a.n === 1 ? L('הוסף תמסורת בין המנוע לצ\'אק כדי להוריד סל"ד ולהעלות מומנט', 'Add a gearbox between motor and chuck: lower rpm, raise torque')
@@ -582,7 +583,7 @@ function frame(instant) {
   const dir = MOBILE ? new THREE.Vector3(0.62, 0.55, 0.56).normalize() : new THREE.Vector3(0.38, 0.42, 0.82).normalize();
   const T = new THREE.Vector3(cx, MOBILE ? 1.2 : 2.0, 0); camGoal = { t: T, p: T.clone().addScaledVector(dir, dist) }; if (instant) { controls.target.copy(camGoal.t); camera.position.copy(camGoal.p); camGoal = null; }
 }
-function toast(msg, bad) { const t = $('toast'); t.textContent = msg; t.className = 'show' + (bad ? ' bad' : ''); clearTimeout(t._h); t._h = setTimeout(() => t.className = '', 2600); }
+function toast(msg, bad, part) { const t = $('toast'); t.textContent = msg; if (part && window.mfPartWhy) { const b = document.createElement('button'); b.className = 'twhy'; b.textContent = L('❓ למה? הסבר', '❓ Why? Explain'); b.onclick = e => { e.stopPropagation(); window.mfPartWhy(part); t.className = ''; }; t.appendChild(b); } t.className = 'show' + (bad ? ' bad' : '') + (part ? ' act' : ''); clearTimeout(t._h); t._h = setTimeout(() => t.className = '', part ? 7000 : 2600); }
 function showBrief() {
   $('briefCard').innerHTML = `<p class="sub">${L('אתגר 1 מתוך 10 · קל', 'Challenge 1 of 10 · Easy')}</p><h2>${L('מברגה חשמלית', 'Cordless drill driver')}</h2>
   <p class="sub">${L('המנוע מהיר מאוד וחלש. הבורג צריך סיבוב איטי וחזק. תכנן את התמסורת שביניהם.', 'The motor is very fast and weak. A screw needs slow, strong rotation. Design the drivetrain in between.')}</p>
@@ -620,25 +621,25 @@ const fmt = n => Math.round(n).toLocaleString('en-US');
 const SVG = {
   motor: `<svg viewBox="0 0 220 120"><line x1="30" y1="100" x2="210" y2="100" class="ax"/><line x1="30" y1="100" x2="30" y2="10" class="ax"/><line x1="30" y1="18" x2="200" y2="100" class="cv"/><circle cx="30" cy="18" r="4" class="pt"/><circle cx="200" cy="100" r="4" class="pt"/><text x="36" y="16">${L('מומנט עצירה 1.6', 'stall 1.6')} N·m</text><text x="150" y="92">18,000 rpm</text><text x="120" y="116">${L('סל"ד', 'speed')} →</text><text x="4" y="60" transform="rotate(-90 12 60)">T ↑</text></svg>`,
   gear: (zs, zp, zr) => `<svg viewBox="0 0 220 150"><circle cx="110" cy="75" r="66" class="ring"/><circle cx="110" cy="75" r="58" class="ring2"/>${[0, 1, 2].map(k => { const a = k * 2.094 - 1.57, x = 110 + Math.cos(a) * 37, y = 75 + Math.sin(a) * 37; return `<line x1="110" y1="75" x2="${x}" y2="${y}" class="car"/><circle cx="${x}" cy="${y}" r="20" class="pl"/>`; }).join('')}<circle cx="110" cy="75" r="16" class="sun"/><text x="110" y="79" text-anchor="middle" class="dk">Zs ${zs}</text><text x="110" y="28" text-anchor="middle">Zp ${zp}</text><text x="196" y="16" text-anchor="middle">Zr ${zr}</text></svg>
-   <p class="fx">i = 1 + Z<sub>r</sub>/Z<sub>s</sub> = 1 + ${zr}/${zs} = <b>${1 + zr / zs}</b></p>`,
+   <p class="fx">${zr} ÷ ${zs} + 1 = <b>${1 + zr / zs}</b> (${L("טבעת חלקי שמש, ועוד 1", "ring ÷ sun, plus 1")})</p>`,
   clutch: `<svg viewBox="0 0 220 110"><rect x="20" y="15" width="18" height="80" class="pl2"/><rect x="92" y="15" width="14" height="80" class="pl2"/>${[30, 55, 80].map(y => `<circle cx="65" cy="${y}" r="10" class="ball"/>`).join('')}<polyline points="106,55 116,40 126,70 136,40 146,70 156,40 166,70 176,55" class="spr"/><rect x="176" y="15" width="14" height="80" class="pl2"/><text x="20" y="108">${L('צלחת מונעת', 'drive plate')}</text><text x="120" y="108">${L('קפיץ = מומנט החלקה', 'spring = slip torque')}</text></svg>`,
 };
 const INFO = {
-  motor: { what: ['מנוע DC בעל מברשות, 18V. הופך אנרגיה חשמלית מהסוללה לסיבוב.', 'Brushed 18 V DC motor – turns battery power into rotation.'],
-    how: ['ככל שהעומס (המומנט) גדל, הסל"ד יורד באופן ליניארי והזרם עולה. ללא עומס: 18,000 סל"ד. בעצירה: 1.6 N·m ו-80 A.', 'As load torque rises, speed drops linearly and current rises. No-load 18,000 rpm; stall 1.6 N·m at 80 A.'],
-    why: ['זה "המקור" – תמיד ראשון בשרשרת. הבעיה: מהיר פי 20 ממה שבורג צריך, וחלש פי 12.', 'It is the source – always first. Problem: 20× too fast for a screw and 12× too weak.'], svg: SVG.motor,
-    q: { q: ['המנוע נותן 1.6 N·m. כמה פעמים צריך להגדיל את המומנט כדי להגיע ל-20 N·m?', 'The motor gives 1.6 N·m. By how much must torque be multiplied to reach 20 N·m?'], o: ['×2', '×5', '×12.5', '×100'], c: 2, e: ['20 / 1.6 = 12.5. לכן נצטרך תמסורת ביחס של לפחות ~14 (בגלל הפסדי נצילות).', '20 / 1.6 = 12.5 – so we need a ratio of at least ~14 (efficiency losses).'] } },
-  pl4: { what: ['תמסורת פלנטרית: גלגל שמש במרכז, 3 גלגלי לוויין, וטבעת שיניים פנימית קבועה בגוף.', 'Planetary gearbox: a central sun gear, 3 planets and a fixed internal ring gear.'],
-    how: ['הכניסה מסובבת את השמש. הלוויינים מתגלגלים בתוך הטבעת הקבועה ומסובבים את הנשא (Carrier) – שהוא היציאה. הנשא מסתובב פי 4 לאט יותר, והמומנט גדל פי 4 (פחות 5% הפסד).', 'Input drives the sun. The planets roll inside the fixed ring and turn the carrier – the output. The carrier turns 4× slower and torque rises 4× (minus 5% loss).'],
-    why: ['קומפקטי, קואקסיאלי (כניסה ויציאה על אותו ציר) ומחלק את העומס על 3 לוויינים – בדיוק מה שנכנס בקנה של מברגה.', 'Compact, coaxial (in and out on the same axis) and load shared by 3 planets – exactly what fits a drill barrel.'], svg: SVG.gear(12, 12, 36),
-    q: { q: ['השמש מסתובבת ב-18,000 סל"ד. מה סל"ד הנשא (היציאה) בשלב 4:1?', 'The sun turns at 18,000 rpm. What is the carrier (output) speed of the 4:1 stage?'], o: ['72,000', '18,000', '4,500', '1,800'], c: 2, e: ['n_out = n_in / i = 18,000 / 4 = 4,500 סל"ד. עדיין מהיר מדי – היעד 500–1200.', 'n_out = n_in / i = 18,000 / 4 = 4,500 rpm. Still too fast – the target is 500–1200.'] } },
+  motor: { what: ['{motor|מנוע חשמלי} של 18 וולט. הוא הופך חשמל מהסוללה לסיבוב.', 'An 18 V {motor|electric motor} – turns battery power into spinning.'],
+    how: ['בלי עומס הוא מסתובב 18,000 פעם בדקה. ככל שקשה לו יותר, הוא מאט ומושך יותר חשמל. אם מחזיקים אותו עד שהוא עוצר, הכוח שלו הוא רק 1.6.', 'With no load it spins 18,000 times a minute. The harder the job, the slower it goes and the more current it draws. Held until it stops, its force is only 1.6.'],
+    why: ['הוא תמיד ראשון. הבעיה: הוא מהיר פי 20 ממה שבורג צריך, וחלש בערך פי 12. לכן צריך גלגלי שיניים.', 'It always goes first. Problem: it is 20 times too fast for a screw and about 12 times too weak – so we need gears.'], svg: SVG.motor,
+    q: { q: ['המנוע נותן 1.6 N·m. כמה פעמים צריך להגדיל את המומנט כדי להגיע ל-20 N·m?', 'The motor gives 1.6 N·m. By how much must torque be multiplied to reach 20 N·m?'], o: ['×2', '×5', '×12.5', '×100'], c: 2, e: ['20 חלקי 1.6 זה 12.5. בגלל קצת חיכוך צריך להגביר בערך פי 14 ומעלה.', '20 divided by 1.6 is 12.5. With a little friction loss we need about 14 times or more.'] } },
+  pl4: { what: ['{planetary|תמסורת פלנטרית}: גלגל קטן באמצע ({sun|שמש}), 3 גלגלים סביבו ({planet|לוויינים}), ו{ring|טבעת} עם שיניים מבפנים שתקועה בגוף.', '{planetary|Planetary gearbox}: a small middle gear ({sun|sun}), 3 gears around it ({planet|planets}) and a {ring|ring} with inner teeth fixed to the body.'],
+    how: ['המנוע מסובב את השמש. הלוויינים מתגלגלים בתוך הטבעת וגוררים איתם את הצלחת שמחזיקה אותם ({carrier|נשא}). הצלחת היא היציאה. היא מסתובבת פי 4 לאט יותר, והכוח גדל בערך פי 4.', 'The motor turns the sun. The planets roll inside the ring, dragging the plate holding them ({carrier|carrier}) – that is the output. It turns 4 times slower and the force grows about 4 times.'],
+    why: ['קטן, הכניסה והיציאה בקו אחד, ושלושה לוויינים מתחלקים בעבודה. בדיוק מה שנכנס בגוף העגול של מברגה.', 'Small, input and output in one line, and three planets share the work – exactly what fits a round drill body.'], svg: SVG.gear(12, 12, 36),
+    q: { q: ['השמש מסתובבת ב-18,000 סל"ד. מה סל"ד הנשא (היציאה) בשלב 4:1?', 'The sun turns at 18,000 rpm. What is the carrier (output) speed of the 4:1 stage?'], o: ['72,000', '18,000', '4,500', '1,800'], c: 2, e: ['18,000 חלקי 4 זה 4,500 סיבובים בדקה. עדיין מהיר מדי, היעד הוא 500–1200.', '18,000 ÷ 4 = 4,500 turns a minute. Still too fast – the target is 500–1200.'] } },
   pl5: { what: ['שלב פלנטרי שני, יחס 5:1 (טבעת 48 שיניים, שמש 12).', 'A second planetary stage, 5:1 (ring 48 teeth, sun 12).'],
-    how: ['הנשא של השלב הקודם מסובב את השמש של השלב הזה. בשלבים בטור היחסים <b>מוכפלים</b>: 4 × 5 = 20, והנצילויות מוכפלות: 0.95 × 0.95 ≈ 90%.', 'The previous carrier drives this sun. Ratios of stages in series <b>multiply</b>: 4 × 5 = 20, and efficiencies multiply: 0.95 × 0.95 ≈ 90%.'],
-    why: ['<div class="why2"><b>למה לחבר 4:1 ו-5:1?</b><br>① המנוע מסתובב <b>18,000 סל"ד</b>, ובמברגה צריך בערך <b>900 סל"ד</b> → יחס נדרש 18,000/900 = <b>20:1</b>.<br>② בשלב פלנטרי אחד היחס הוא <b>1 + טבעת/שמש</b>. ל-20:1 צריך טבעת גדולה פי 19 מהשמש: שמש של 12 שיניים → טבעת של 228 שיניים! השמש קטנה מדי והטבעת לא נכנסת בקנה. בפועל שלב אחד מוגבל לבערך <b>6–7:1</b>.<br>③ שלבים בטור <b>מוכפלים</b>: 4 × 5 = <b>20</b>. 18,000/20 = <b>900 סל"ד</b>.<br>④ המומנט גדל פי 20 כפול הנצילות: 1.6 × 20 × 0.95 × 0.95 ≈ <b>28.9 N·m</b> ≥ 20 ✓.<br>⑤ במברגות אמיתיות יש בדרך כלל <b>2–3 שלבים</b> (השלישי הוא ההילוך 1/2 בבורר).</div>', '<div class="why2"><b>Why connect 4:1 and 5:1?</b><br>① The motor turns <b>18,000 rpm</b>; a drill needs about <b>900 rpm</b> → required ratio 18,000/900 = <b>20:1</b>.<br>② One planetary stage gives <b>1 + Ring/Sun</b>. 20:1 needs a ring 19× the sun: a 12-tooth sun → a 228-tooth ring! The sun gets too small and the ring won\'t fit the barrel. A single stage is practically limited to about <b>6–7:1</b>.<br>③ Stages in series <b>multiply</b>: 4 × 5 = <b>20</b>. 18,000/20 = <b>900 rpm</b>.<br>④ Torque grows ×20 times efficiency: 1.6 × 20 × 0.95 × 0.95 ≈ <b>28.9 N·m</b> ≥ 20 ✓.<br>⑤ Real drills usually have <b>2–3 stages</b> (the third is the 1/2 speed selector).</div>'], svg: SVG.gear(12, 18, 48),
-    q: { pre: true, q: ['נבא לפני שמסתובב: מה יהיה הסל"ד ביציאה אחרי 4:1 ואז 5:1?', 'Predict before it spins: output speed after 4:1 then 5:1?'], o: ['3,600', '900', '4,500', '22,500'], c: 1, e: ['18,000 / (4×5) = 900 סל"ד ✓ בטווח. מומנט: 1.6 × 20 × 0.9 ≈ 28.9 N·m ✓', '18,000 / (4×5) = 900 rpm ✓ in range. Torque: 1.6 × 20 × 0.9 ≈ 28.9 N·m ✓'] } },
-  clutch: { what: ['מצמד מומנט: צלחת עם כדורים שנלחצים לשקעים ע"י קפיצים. זו הטבעת הממוספרת בחזית מברגה אמיתית.', 'Torque clutch: a plate with balls pressed into detents by springs – the numbered collar on a real drill.'],
-    how: ['כל עוד המומנט נמוך – הכדורים נשארים בשקעים והכול מסתובב יחד. כשהמומנט עובר את הסף – הכדורים קופצים החוצה והמצמד מחליק ("טרררר"). הסף נקבע לפי כוח הקפיצים.', 'Below the threshold the balls stay seated and everything turns together. Above it, the balls ride out and the clutch slips (the familiar ratchet). Spring force sets the threshold.'],
-    why: ['כשהבורג מתיישב העומס קופץ לאינסוף. בלי מצמד – המנוע נעצר, מושך 80 A ונשרף, או שהראש של הבורג נהרס.', 'When the screw seats the load jumps to "infinite". Without a clutch the motor stalls, draws 80 A and burns, or the screw head strips.'], svg: SVG.clutch,
+    how: ['היציאה של השלב הקודם מסובבת את השמש של השלב הזה. שלבים אחד אחרי השני <b>מוכפלים</b>: 4 × 5 = 20. מהחיכוך הולכים לאיבוד בערך 10 מכל 100.', 'The previous stage\'s output turns this stage\'s sun. Stages in a row <b>multiply</b>: 4 × 5 = 20. About 10 of every 100 are lost to friction.'],
+    why: ['<div class="why2"><b>למה לחבר 4:1 ו-5:1?</b><br>① המנוע מסתובב <b>18,000 סל"ד</b>, ובמברגה צריך בערך <b>900 סל"ד</b> → יחס נדרש 18,000/900 = <b>20:1</b>.<br>② בשלב {planetary|פלנטרי} אחד, כדי להאט פי 20 צריך {ring|טבעת} גדולה פי 19 מה{sun|שמש}: שמש של 12 שיניים → טבעת של 228 שיניים! השמש קטנה מדי והטבעת לא נכנסת בקנה. בפועל שלב אחד מוגבל לבערך <b>6–7:1</b>.<br>③ שלבים בטור <b>מוכפלים</b>: 4 × 5 = <b>20</b>. 18,000/20 = <b>900 סל"ד</b>.<br>④ הכוח גדל בערך פי 20, פחות קצת חיכוך: 1.6 פי 20 זה 32, ובפועל בערך <b>29</b> ≥ 20 ✓.<br>⑤ במברגות אמיתיות יש בדרך כלל <b>2–3 שלבים</b> (השלישי הוא ההילוך 1/2 בבורר).</div>', '<div class="why2"><b>Why connect 4:1 and 5:1?</b><br>① The motor turns <b>18,000 rpm</b>; a drill needs about <b>900 rpm</b> → required ratio 18,000/900 = <b>20:1</b>.<br>② In one {planetary|planetary} stage, slowing 20 times needs a {ring|ring} 19× the {sun|sun}: a 12-tooth sun → a 228-tooth ring! The sun gets too small and the ring won\'t fit the barrel. A single stage is practically limited to about <b>6–7:1</b>.<br>③ Stages in series <b>multiply</b>: 4 × 5 = <b>20</b>. 18,000/20 = <b>900 rpm</b>.<br>④ Force grows about 20 times minus a little friction: 1.6 × 20 = 32, really about <b>29</b> ≥ 20 ✓.<br>⑤ Real drills usually have <b>2–3 stages</b> (the third is the 1/2 speed selector).</div>'], svg: SVG.gear(12, 18, 48),
+    q: { pre: true, q: ['נבא לפני שמסתובב: מה יהיה הסל"ד ביציאה אחרי 4:1 ואז 5:1?', 'Predict before it spins: output speed after 4:1 then 5:1?'], o: ['3,600', '900', '4,500', '22,500'], c: 1, e: ['4×5 = 20, ו-18,000 חלקי 20 זה 900 ✓. הכוח: 1.6 פי 20 זה 32, ופחות קצת חיכוך יוצא בערך 29 ✓', '4×5 = 20, and 18,000 ÷ 20 = 900 ✓. Force: 1.6 times 20 is 32, minus a little friction ≈ 29 ✓'] } },
+  clutch: { what: ['{clutch|מצמד}: צלחת עם כדורים שקפיצים לוחצים לתוך גומות. זו הטבעת הממוספרת בחזית של מברגה אמיתית.', '{clutch|Clutch}: a plate with balls pushed into dimples by springs – the numbered ring at the front of a real drill.'],
+    how: ['כל עוד קל, הכדורים נשארים בגומות והכול מסתובב יחד. כשקשה מדי, הכדורים קופצים החוצה והמברגה מחליקה ("טררר"). כמה חזק הקפיץ לוחץ קובע מתי זה קורה.', 'While it is easy, the balls stay in the dimples and everything turns together. When it gets too hard they pop out and the drill slips (rattle). How hard the spring presses decides when.'],
+    why: ['כשהבורג נכנס עד הסוף, פתאום אי אפשר לסובב יותר. בלי מצמד המנוע נתקע, מושך הרבה חשמל ומתחמם, או שראש הבורג נהרס.', 'When the screw is fully in, suddenly it can\'t turn any more. Without a clutch the motor jams, draws lots of current and heats up – or the screw head is ruined.'], svg: SVG.clutch,
     q: { q: ['המצמד מכוון ל-12 N·m והבורג מתיישב. מה קורה?', 'Clutch set to 12 N·m and the screw seats. What happens?'], o: [L('המנוע נעצר ומושך 80 A', 'Motor stalls at 80 A'), L('המצמד מחליק, המומנט נשאר 12 N·m', 'Clutch slips, torque stays 12 N·m'), L('הסל"ד עולה', 'Speed rises'), L('התמסורת נשברת', 'Gearbox breaks')], c: 1, e: ['נכון – המצמד מגביל את המומנט ל-12 N·m, המנוע ממשיך להסתובב והזרם נשאר נמוך.', 'Right – the clutch caps torque at 12 N·m; the motor keeps turning and current stays low.'] } },
   hobby: { what: ['מנוע צעצוע 3V – זול וקטן.', 'Small cheap 3 V hobby motor.'], how: ['מומנט עצירה 0.06 N·m בלבד.', 'Only 0.06 N·m stall torque.'], why: ['גם עם 20:1 ייתן רק ~1 N·m – חלש מדי למברגה.', 'Even with 20:1 it gives only ~1 N·m – far too weak.'] },
   stepper: { what: ['מנוע צעד NEMA17 – מדויק, איטי.', 'NEMA 17 stepper – precise, slow.'], how: ['1,200 סל"ד ו-0.45 N·m.', '1,200 rpm and 0.45 N·m.'], why: ['כבר איטי; כל תמסורת שתגדיל מומנט תוריד את הסל"ד מתחת ל-500.', 'Already slow; any gearbox big enough for torque drops speed below 500.'] },
@@ -654,13 +655,14 @@ function chainMath() {
     else if (d.kind === 'clutch') { const lim = Math.min(T, clutchTc); rows.push([EN ? d.en : d.he, n, lim, L(`מוגבל ל-${clutchTc}`, `capped ${clutchTc}`)]); } }
   const okN = n >= LIM.rpmLo && n <= LIM.rpmHi, okT = T >= LIM.tq;
   return `<table class="mt"><tr><th>${L('רכיב', 'Part')}</th><th>${L('סל"ד', 'rpm')}</th><th>N·m ${L('מרבי', 'max')}</th><th></th></tr>${rows.map(r => `<tr><td>${r[0]}</td><td>${fmt(r[1])}</td><td>${r[2].toFixed(1)}</td><td class="op">${r[3]}</td></tr>`).join('') || `<tr><td colspan="4">${L('השרשרת ריקה', 'Chain is empty')}</td></tr>`}</table>
-  <div class="mtot"><span>i = <b>${i}:1</b></span><span>η = <b>${(eta * 100).toFixed(0)}%</b></span><span class="${okN ? 'ok' : 'no'}">${fmt(n)} rpm ${okN ? '✓' : '✗'}</span><span class="${okT ? 'ok' : 'no'}">${T.toFixed(1)} N·m ${okT ? '✓' : '✗'}</span></div>
-  <p class="fx">n<sub>out</sub> = n<sub>motor</sub> / i · T<sub>out</sub> = T<sub>motor</sub> × i × η</p>`;
+  <div class="mtot"><span>${L("יחס", "Ratio")} <b>${i}:1</b></span><span>${L("נצילות", "Efficiency")} <b>${(eta * 100).toFixed(0)}%</b></span><span class="${okN ? 'ok' : 'no'}">${fmt(n)} rpm ${okN ? '✓' : '✗'}</span><span class="${okT ? 'ok' : 'no'}">${T.toFixed(1)} N·m ${okT ? '✓' : '✗'}</span></div>
+  <p class="fx">${L("מאטים פי X → הכוח גדל בערך פי X (פחות קצת חיכוך)", "Slow down X times → force grows about X times (minus a little friction)")}</p>`;
 }
+const G2 = x => window.mfGloss ? window.mfGloss(x) : x.replace(/\{[a-z]+\|([^}]+)\}/g, '$1');
 function infoHTML(t) {
   const f = INFO[t], d = PT[t];
   return `<div class="kb"><h4>${EN ? d.en : d.he} <small>${EN ? d.sen : d.she}</small></h4>
-  <h6>${L('מה זה', 'What it is')}</h6><p>${L(...f.what)}</p><h6>${L('איך זה עובד', 'How it works')}</h6><p>${L(...f.how)}</p><h6>${L('למה כאן', 'Why here')}</h6><p>${L(...f.why)}</p>${f.svg ? `<div class="dg">${f.svg}</div>` : ''}</div>`;
+  <h6>${L('מה זה', 'What it is')}</h6><p>${G2(L(...f.what))}</p><h6>${L('איך זה עובד', 'How it works')}</h6><p>${G2(L(...f.how))}</p><h6>${L('למה כאן', 'Why here')}</h6><p>${G2(L(...f.why))}</p>${f.svg ? `<div class="dg">${f.svg}</div>` : ''}</div>`;
 }
 // ---------- side panel ----------
 const side = document.createElement('aside'); side.id = 'side';
@@ -791,7 +793,7 @@ function bindQuiz(q, next) {
   document.querySelectorAll('.qo').forEach(b => b.onclick = () => {
     const k = +b.dataset.k, fb = document.querySelector('.qfb');
     if (k === q.c) { b.classList.add('right'); document.querySelectorAll('.qo').forEach(x => x.disabled = true); fb.innerHTML = `<p class="ok">✓ ${L(...q.e)}</p><div class="row"><button class="primary" id="qN">${L('המשך', 'Continue')}</button></div>`; $('qN').onclick = next; }
-    else { b.classList.add('wrong'); b.disabled = true; fb.innerHTML = `<p class="no">✗ ${L('לא בדיוק – נסה שוב. רמז: ', 'Not quite – try again. Hint: ')}${L('חשב לפי n_out = n_in / i ו-T_out = T_in × i × η', 'use n_out = n_in / i and T_out = T_in × i × η')}</p>`; }
+    else { b.classList.add('wrong'); b.disabled = true; fb.innerHTML = `<p class="no">✗ ${L('לא בדיוק – נסה שוב. רמז: ', 'Not quite – try again. Hint: ')}${L('מחלקים את מהירות המנוע בכמה שמאטים, והכוח גדל בערך פי אותו מספר.', 'Divide motor speed by how many times you slow down; force grows about the same number of times.')}</p>`; }
   });
 }
 function acadShowMe() { if (TUT) insertPart(TUT.want, TUT.idx); }
