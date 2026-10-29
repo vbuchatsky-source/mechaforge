@@ -12,10 +12,10 @@ export default {
   excl: [['rigid', 'cross1'], ['rubber', 'cross1'], ['bevel', 'cross1']],
   SUB: { inshaft: ['מתיבת ההילוכים', 'from the gearbox'], cross1: ['מפרק ראשון', 'first joint'], mid: ['ציר אמצעי עם החלקה', 'middle shaft, sliding'], cross2: ['מפרק שני', 'second joint'], outshaft: ['אל הסרן', 'to the axle'], guard: ['מגן שקוף ומסבים', 'see-through guard + bearings'], rigid: ['מצמד ישר', 'straight coupling'], rubber: ['דיסק גומי', 'rubber disc'], bevel: ['גלגלים קוניים', 'bevel gears'] },
   WHY_BAD: { rigid: ['מצמד קשיח לא מתכופף בכלל – הציר לא יגיע לסרן הנמוך.', 'A rigid coupling cannot bend at all – the shaft will not reach the lower axle.'], rubber: ['דיסק גומי מתכופף רק כמה מעלות. ב-20 מעלות הוא נקרע.', 'A rubber disc bends only a few degrees. At 20° it tears.'], bevel: ['גלגלים קוניים מסובבים בזווית קבועה של 90 מעלות, לא בזווית קטנה שמשתנה כשהמשאית קופצת.', 'Bevel gears turn a fixed 90°, not a small angle that changes as the truck bounces.'] },
-  param: { label: ['זווית', 'Angle'], opts: [['10°', '10°', 10], ['20°', '20°', 20], ['25°', '25°', 25], ['30°', '30°', 30], ['40°', '40°', 40]], def: 4 },
+  param: { label: ['זווית', 'Angle'], opts: [['10°', '10°', 10], ['20°', '20°', 20], ['25°', '25°', 25], ['30°', '30°', 30], ['40°', '40°', 40]], def: 2 },
   flag: ['מזלגות מיושרים (Phasing)', 'Yokes lined up (phasing)'],
   scen: { slow: ['סיבוב איטי', 'Slow turn'], fast: ['מהירות נסיעה', 'Road speed'], single: ['רק מפרק אחד', 'One joint only'] },
-  cam: [3, 6, 13], target: [2, 0.6, 0], gridY: -2.4,
+  cam: [2, 7, 16], target: [1.5, 0.8, 0], gridY: -2.4,
   stats: st => [[['זווית', 'Angle'], st.p + '°'], [['רעידות מהירות', 'Speed wobble'], ripple(st).toFixed(1) + '%']],
   live: st => { if (!st.running && st.placed.length < 3) return ''; const r = st.scen === 'single' ? (1 / Math.cos(st.p * D2R) - Math.cos(st.p * D2R)) * 100 : ripple(st); return `<b>${document.documentElement.lang === 'en' ? 'Output speed' : 'מהירות יציאה'}</b><div class="lbar"><i style="width:${Math.min(100, 50 + r * 2 * Math.sin(st.t * 4))}%"></i></div><small>±${(r / 2).toFixed(1)}%</small>`; },
   evaluate(st) { const r = ripple(st);
@@ -40,7 +40,7 @@ export default {
       const y2h = new THREE.Group(); y2h.position.x = LEN; const y2 = yoke(M.alu, false); y2h.add(y2); S.y2h = y2h; sp.add(y1, tube, slip, y2h); }
     { const g = mk('cross2'); S.c2w = new THREE.Group(); S.c2 = crossM(); S.c2w.add(S.c2); g.add(S.c2w); }
     { const g = mk('outshaft'); S.outW = new THREE.Group(); g.add(S.outW); const sp = new THREE.Group(); S.out = sp; S.outW.add(sp); const y = yoke(M.steel, false); y.rotation.y = Math.PI; const sh = cyl(0.22, 2.6, M.steel, 24); sh.rotation.z = Math.PI / 2; sh.position.x = 1.8; sp.add(y, sh);
-      const ax = box(0.9, 1.2, 3.6, M.dark); ax.position.x = 3.4; S.outW.add(ax); for (const s of [1, -1]) { const w = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.32, 14, 36), M.rubber); w.position.set(3.4, 0, s * 2.2); sp.add(w); S.wheels = (S.wheels || []).concat(w); } }
+      const ax = box(0.9, 1.2, 3.6, M.dark); ax.position.x = 3.4; S.outW.add(ax); for (const s of [1, -1]) { const w = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.32, 14, 36), M.rubber); w.position.set(3.4, 0, s * 2.2); for (let k = 0; k < 3; k++) { const sk = box(1.3, 0.12, 0.12, M.steel); sk.rotation.z = k * Math.PI / 3; w.add(sk); } S.outW.add(w); S.wheels = (S.wheels || []).concat(w); } }
     { const g = mk('guard'); S.gd = new THREE.Group(); g.add(S.gd); const t = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, LEN - 1.4, 40, 1, true), M.caseM); t.rotation.z = Math.PI / 2; t.position.x = LEN / 2; S.gd.add(t);
       for (const x of [0.9, LEN - 0.9]) { const r = new THREE.Mesh(new THREE.TorusGeometry(0.75, 0.05, 8, 40), M.dark); r.rotation.y = Math.PI / 2; r.position.x = x; S.gd.add(r); }
       const hb = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.5, 32), M.caseM); hb.rotation.z = Math.PI / 2; hb.position.x = LEN / 2; S.gd.add(hb); const ft = box(0.4, 1.4, 0.9, M.dark); ft.position.set(LEN / 2, -0.95, 0); S.gd.add(ft); }
@@ -53,5 +53,5 @@ export default {
     const ph1 = Math.atan2(Math.sin(th), Math.cos(th) * Math.cos(a)), u = n => n + Math.round((th - n) / (2 * Math.PI)) * 2 * Math.PI;
     const p1 = u(ph1); let out = st.flag ? th : u(Math.atan2(Math.sin(p1), Math.cos(p1) * Math.cos(a)));
     if (st.scen === 'single') out = p1;
-    S.in.rotation.x = th; S.mid.rotation.x = p1; S.c1.rotation.x = th; S.c2.rotation.x = out; S.out.rotation.x = out; }
+    S.in.rotation.x = th; S.mid.rotation.x = p1; S.c1.rotation.x = th; S.c2.rotation.x = out; S.out.rotation.x = out; (S.wheels || []).forEach(w => w.rotation.z = -out * 0.4); }
 };
