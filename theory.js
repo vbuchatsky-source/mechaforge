@@ -63,7 +63,8 @@
   const btn = document.createElement('button'); btn.className = 'tb'; btn.id = 'bTheory'; btn.textContent = L('📚 חומר תיאורטי', '📚 Theory');
   const tb = document.querySelector('#top .tbtns'); tb.insertBefore(btn, tb.firstChild);
   let tab = 'th';
-  const GL = x => (window.mfGloss || (y => y))(x);
+  const GL = x => (window.mfGloss || (y => y))(window.mfAuto ? window.mfAuto(x) : x);
+  const TH_ = (q, a) => { const k = window.mfFirstKey && window.mfFirstKey(q + ' ' + a); const u = k && window.mfGlossThumb && window.mfGlossThumb(k); return u ? `<img class="qthumb gterm" data-g="${k}" src="${u}" alt="" title="3D">` : ''; };
   function render() {
     box.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === tab));
     const B = $('tBody');
@@ -79,7 +80,7 @@
       } else if (uMode === 'read') {
         const u = UNITS[unit];
         B.innerHTML = bar + `<button class="uback">→ ${L('כל היחידות', 'All units')}</button><h3>${L('יחידה', 'Unit')} ${unit + 1}: ${L(u.he, u.en)}</h3>` +
-          u.items.map((c, i) => `<details${i ? '' : ' open'}><summary>${i + 1}. ${L(c[0], c[1])}</summary><p>${GL(L(c[2], c[3]))}</p></details>`).join('') +
+          u.items.map((c, i) => `<details${i ? '' : ' open'}><summary>${i + 1}. ${L(c[0], c[1])}</summary><div class="qa">${TH_(L(c[0], c[1]), L(c[2], c[3]))}<p>${GL(L(c[2], c[3]))}</p></div></details>`).join('') +
           `<button id="uGo" class="pr ubig">📝 ${L(`התחל מבחן ${unit + 1}`, `Start test ${unit + 1}`)}</button>`;
         $('uGo').onclick = () => { uMode = 'quiz'; uOrder = u.items.map(c => c[4].map((o, j) => j).sort(() => Math.random() - 0.5)); render(); };
       } else {

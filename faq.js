@@ -165,7 +165,7 @@
   function render(q) {
     q = (q || '').trim().toLowerCase(); let html = '', n = 0;
     for (const k in C) { const items = F.filter(f => f[0] === k && (!q || (f[1] + f[2] + f[3] + f[4]).replace(/\{[a-z]+\|/g,'').toLowerCase().includes(q))); if (!items.length) continue;
-      html += `<h5>${L(...C[k])}</h5>` + items.map(f => `<details${q ? ' open' : ''}><summary>${L(f[1], f[2])}</summary><p>${(window.mfGloss || (x => x))(L(f[3], f[4]))}</p></details>`).join(''); n += items.length; }
+      html += `<h5>${L(...C[k])}</h5>` + items.map(f => `<details${q ? ' open' : ''}><summary>${L(f[1], f[2])}</summary><p>${(window.mfGloss || (x => x))(window.mfAuto ? window.mfAuto(L(f[3], f[4])) : L(f[3], f[4]))}</p></details>`).join(''); n += items.length; }
     $('faqList').innerHTML = html || `<p>${L('לא נמצא.', 'Nothing found.')}</p>`; $('fCnt').textContent = `${n} ${L('שאלות', 'questions')}`;
   }
   function open(o) { box.classList.toggle('show', o); btn.classList.toggle('on', o); if (o) { ['chat','theory'].forEach(i => { const c = $(i); if (c) c.classList.remove('show'); }); render($('fQ').value); } }

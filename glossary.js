@@ -30,7 +30,21 @@ const G = {
   spider: ['גלגלי לוויין של הדיפרנציאל (Spider Gears)', 'Spider gears', 'שני גלגלים קוניים קטנים על פין בתוך הבית. בנסיעה ישרה הם לא מסתובבים. בפנייה הם מסתובבים ונותנים לגלגל אחד לרוץ מהר יותר.', 'Two small bevel gears on a pin inside the case. Going straight they do not turn; in a turn they spin and let one wheel run faster.', 'diff', 'spider'],
   side: ['גלגלי צד (Side Gears)', 'Side gears', 'שני גלגלים קוניים שמחוברים לצירים של הגלגלים, אחד לכל צד.', 'Two bevel gears attached to the wheel axles, one per side.', 'diff', 'side'],
   lsd: ['דיפרנציאל מוגבל החלקה (LSD)', 'Limited-slip diff (LSD)', 'דיפרנציאל עם דסקיות חיכוך. אם גלגל אחד על קרח, הוא עדיין מעביר כוח גם לגלגל השני.', 'A differential with friction plates. If one wheel is on ice, it still sends power to the other wheel.', 'diff', 'lsd'],
-  axle: ['ציר גלגל (Axle Shaft)', 'Axle shaft', 'מוט פלדה שמחבר את גלגל הצד אל הגלגל של הרכב.', 'A steel bar connecting the side gear to the road wheel.', 'diff', 'axle']
+  axle: ['ציר גלגל (Axle Shaft)', 'Axle shaft', 'מוט פלדה שמחבר את גלגל הצד אל הגלגל של הרכב.', 'A steel bar connecting the side gear to the road wheel.', 'diff', 'axle'],
+  brushed: ['מנוע עם מברשות (Brushed Motor)', 'Brushed motor', 'בתוך המנוע יש מגנטים קבועים מסביב, ובאמצע סליל שמסתובב (רוטור). שתי "מברשות" פחם נוגעות בטבעת נחושת מחולקת (קומוטטור) ומחליפות את כיוון החשמל בכל חצי סיבוב. זול ופשוט, אבל המברשות נשחקות.', 'Fixed magnets around, a spinning coil (rotor) in the middle. Two carbon "brushes" rub on a split copper ring (commutator) and flip the current every half turn. Cheap and simple, but the brushes wear out.', 'brushed'],
+  brushless: ['מנוע בלי מברשות (Brushless Motor)', 'Brushless motor', 'הסלילים עומדים במקום (סטטור), והמגנטים מסתובבים. כרטיס אלקטרוני מדליק את הסלילים אחד אחרי השני, והמגנטים "רודפים" אחריהם. אין מה שיישחק: יעיל ומחזיק שנים.', 'The coils stay still (stator) and the magnets spin. An electronic board switches the coils on one after another and the magnets "chase" them. Nothing rubs: efficient and long-lasting.', 'brushless'],
+  stator: ['סטטור (Stator)', 'Stator', 'החלק של המנוע שלא זז. במנוע בלי מברשות אלה הסלילים שמסביב.', 'The part of the motor that stays still. In a brushless motor, the ring of coils.', 'brushless'],
+  rotor: ['רוטור (Rotor)', 'Rotor', 'החלק של המנוע שמסתובב, עם הציר.', 'The part of the motor that spins, with the shaft.', 'brushed', 'rotor'],
+  magnet: ['מגנט (Magnet)', 'Magnet', 'מגנט קבוע: צד אדום (צפון) וצד כחול (דרום). הסליל נמשך ונדחף ממנו, וכך נוצר סיבוב.', 'A permanent magnet: red (north) and blue (south). The coil is pulled and pushed by it, which makes the spin.', 'brushed', 'magnet'],
+  commutator: ['קומוטטור (Commutator)', 'Commutator', 'טבעת נחושת מחולקת לחתיכות על ציר המנוע. המברשות נוגעות בה, והיא מחליפה את כיוון החשמל בסליל בכל חצי סיבוב.', 'A copper ring split into segments on the motor shaft. The brushes touch it and it flips the coil current every half turn.', 'brushed', 'commutator'],
+  brush: ['מברשת פחם (Carbon Brush)', 'Carbon brush', 'קובייה קטנה של פחם שקפיץ לוחץ על הקומוטטור. מעבירה חשמל לחלק המסתובב, ונשחקת עם הזמן.', 'A small carbon block pressed by a spring onto the commutator. It feeds current to the spinning part and wears over time.', 'brushed', 'brush'],
+  controller: ['בקר (Controller)', 'Controller', 'כרטיס אלקטרוני שקובע כמה חשמל נכנס למנוע. כשהמנוע נתקע, הבקר מגביל את החשמל (הנקודות הכתומות מאטות) כדי שהמנוע לא יישרף.', 'An electronic board that decides how much current goes to the motor. When the motor stalls, it limits the current (the orange dots slow down) so the motor will not burn.', 'controller'],
+  fuse: ['נתיך חום (Thermal Fuse)', 'Thermal fuse', 'חוט דק בתוך שפופרת. כשהוא מתחמם יותר מדי הוא נמס ונפתח, והחשמל נעצר. ככה המנוע או הסוללה לא נשרפים.', 'A thin wire in a tube. When it gets too hot it melts open and the current stops – so the motor or battery does not burn.', 'fuse'],
+  spring: ['קפיץ (Spring)', 'Spring', 'סליל מתכת שנלחץ וחוזר. במצמד הוא לוחץ על הכדורים, ובמתג הוא מחזיר את ההדק.', 'A metal coil that squeezes and springs back. In the clutch it presses the balls; in the switch it returns the trigger.', 'spring'],
+  ratchet: ['ראצ׳ט (Ratchet)', 'Ratchet', 'גלגל עם שיניים משופעות ולשונית. לכיוון אחד הלשונית קופצת על השיניים (קליק-קליק), לכיוון השני היא נתפסת ועוצרת.', 'A wheel with slanted teeth and a pawl. One way the pawl clicks over the teeth; the other way it catches and stops.', 'ratchet'],
+  trigger: ['הדק (Trigger)', 'Trigger', 'המתג שלוחצים עליו. ככל שלוחצים חזק יותר, הבקר שולח יותר חשמל והמנוע מהיר יותר. קפיץ מחזיר אותו.', 'The switch you squeeze. The harder you press, the more current the controller sends and the faster the motor. A spring returns it.', 'trigger'],
+  battery: ['סוללה (Battery)', 'Battery', 'כמה תאים קטנים (כמו סוללות AA גדולות) מחוברים יחד. 5 תאים של 3.6 וולט נותנים 18 וולט.', 'Several small cells (like big AA batteries) joined together. 5 cells of 3.6 V give 18 V.', 'battery'],
+  bushing: ['תותב (Bushing)', 'Bushing', 'שרוול מתכת חלק בלי כדורים. הציר מסתובב בתוכו עם קצת שמן. זול וקטן.', 'A smooth metal sleeve without balls. The shaft turns inside it with a little oil. Cheap and small.', 'bearing'],
 };
 window.MF_GLOSS = G;
 
@@ -42,6 +56,11 @@ window.mfGloss = s => { const seen = {}; return String(s).replace(/\{([a-z]+)\|(
   let en = '';
   if (isHe() && !par && !/[A-Za-z]/.test(t) && !seen[k]) en = ` <span class="gen">(${EN_OF(k)})</span>`;
   seen[k] = 1; return `<span class="gterm" data-g="${k}">${t}</span>${par || ''}${en}`; }); };
+const SYN = [['בלי מברשות', 'brushless'], ['עם מברשות', 'brushed'], ['מצמד', 'clutch'], ['צ׳אק', 'chuck'], ["צ'אק", 'chuck'], ['מסבים', 'bearing'], ['מסב', 'bearing'], ['קפיץ', 'spring'], ['בקר', 'controller'], ['נתיך', 'fuse'], ['סוללה', 'battery'], ['מגנטים', 'magnet'], ['הדק', 'trigger'], ['ראצ׳ט', 'ratchet'], ['פלנטרי', 'planetary'], ['בורג אינסופי', 'worm'], ['פיניון', 'pinion'], ['גלגל הכתר', 'crown'], ['גלגלי הצד', 'side'], ['גלגלי צד', 'side'], ['תותב', 'bushing'], ['קומוטטור', 'commutator'], ['סטטור', 'stator'], ['רוטור', 'rotor'], ['משחק בין שיניים', 'backlash'], ['שמש', 'sun'], ['נשא', 'carrier'], ['טבעת שיניים', 'ring'], ['קוני', 'bevel'], ['משופע', 'helical'], ['LSD', 'lsd'], ['Brushless', 'brushless'], ['Brushed', 'brushed'], ['Chuck', 'chuck'], ['Bearing', 'bearing'], ['Ratchet', 'ratchet'], ['Torque Clutch', 'clutch'], ['clutch', 'clutch'], ['chuck', 'chuck'], ['bearing', 'bearing'], ['controller', 'controller'], ['fuse', 'fuse'], ['spring', 'spring'], ['battery', 'battery'], ['trigger', 'trigger'], ['magnet', 'magnet'], ['planetary', 'planetary'], ['pinion', 'pinion'], ['crown', 'crown'], ['brushes', 'brushed'], ['ratchet', 'ratchet'], ['bushing', 'bushing']];
+const KW = () => { const sp = window.MF_C2 ? 'spider' : 'planet'; return [...SYN, ['גלגלי לוויין', sp], ['גלגלי הלוויין', sp], ['דיפרנציאל', 'diff']].filter(([w, k]) => G[k]).sort((a, b) => b[0].length - a[0].length); };
+window.mfAuto = s => { const seen = {}; String(s).replace(/\{([a-z]+)\|/g, (m, k) => seen[k] = 1); const kws = KW();
+  return String(s).split(/(\{[^}]*\}|<[^>]+>)/).map(part => { if (/^[{<]/.test(part)) return part; for (const [w, k] of kws) { if (seen[k]) continue; const i = part.indexOf(w); if (i < 0) continue; const before = part.slice(0, i); if ((before.match(/\(/g) || []).length > (before.match(/\)/g) || []).length) continue; part = before + `{${k}|${w}}` + part.slice(i + w.length); seen[k] = 1; } return part; }).join(''); };
+window.mfFirstKey = s => { const m = /\{([a-z]+)\|/.exec(window.mfAuto(s)); return m ? m[1] : null; };
 window.mfGlossPlain = s => String(s).replace(/\{([a-z]+)\|([^}]+)\}/g, '$2');
 
 // ---------- shared renderer ----------
@@ -56,7 +75,16 @@ const MAT = {
   brass: new THREE.MeshPhysicalMaterial({ color: 0xb59a6a, metalness: 1, roughness: 0.32 }),
   hi: new THREE.MeshPhysicalMaterial({ color: 0xff7a1a, metalness: 0.6, roughness: 0.35, emissive: 0x3a1500 }),
   ghost: new THREE.MeshPhysicalMaterial({ color: 0x8a9099, metalness: 0.5, roughness: 0.5, transparent: true, opacity: 0.22, depthWrite: false }),
-  spring: new THREE.MeshPhysicalMaterial({ color: 0xd8b35a, metalness: 1, roughness: 0.3 })
+  spring: new THREE.MeshPhysicalMaterial({ color: 0xd8b35a, metalness: 1, roughness: 0.3 }),
+  copper: new THREE.MeshPhysicalMaterial({ color: 0xc8743a, metalness: 1, roughness: 0.3, emissive: 0x000000 }),
+  red: new THREE.MeshPhysicalMaterial({ color: 0xb23a3a, metalness: 0.4, roughness: 0.45 }),
+  blue: new THREE.MeshPhysicalMaterial({ color: 0x3a5ab2, metalness: 0.4, roughness: 0.45 }),
+  pcb: new THREE.MeshPhysicalMaterial({ color: 0x1f3a2c, metalness: 0.2, roughness: 0.6 }),
+  chip: new THREE.MeshPhysicalMaterial({ color: 0x1a1b1e, metalness: 0.3, roughness: 0.5 }),
+  carbon: new THREE.MeshPhysicalMaterial({ color: 0x2a2b2e, metalness: 0.1, roughness: 0.9 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: 0xdfe8f0, metalness: 0, roughness: 0.05, transparent: true, opacity: 0.25, depthWrite: false }),
+  led: new THREE.MeshPhysicalMaterial({ color: 0x40ff90, emissive: 0x20ff70, emissiveIntensity: 1 }),
+  sleeve: new THREE.MeshPhysicalMaterial({ color: 0x3a3f46, metalness: 0.85, roughness: 0.4, transparent: true, opacity: 0.38, depthWrite: false, side: THREE.DoubleSide })
 };
 function init() {
   if (R) return;
@@ -136,10 +164,63 @@ const B = {
     const balls = new THREE.Group(); for (let k = 0; k < 6; k++) { const q = k / 6 * Math.PI * 2, s = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 16), MAT.steel); s.position.set(Math.cos(q) * 1.1, 0, Math.sin(q) * 1.1); balls.add(s); }
     const sp = helix(0.9, 0.3, 5, 0.07, MAT.spring); sp.position.y = 1.45; g.add(a, b, balls, sp);
     return { g, d: 8, tick: t => { const slip = (t % 4) > 2.5, ph = (t % 0.5) / 0.5; a.rotation.y = t; const lift = slip ? Math.sin(ph * Math.PI) * 0.18 : 0; b.position.y = 0.5 + lift; balls.position.y = lift * 0.5; sp.scale.y = 1 - lift * 0.8; balls.rotation.y = slip ? t * 0.5 : t; b.rotation.y = slip ? 0 : t; } }; },
-  chuck(hl) { const g = new THREE.Group(), body = cyl(1, 2, MAT.dark, 48); body.rotation.z = Math.PI / 2; const nose = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 1, 0.8, 48), MAT.steel); nose.rotation.z = Math.PI / 2; nose.position.x = -1.4;
-    const jaws = []; for (let k = 0; k < 3; k++) { const j = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.18, 0.28), MAT.steel); g.add(j); jaws.push([j, k * Math.PI * 2 / 3]); }
-    const bit = cyl(0.12, 3, MAT.alu, 16); bit.rotation.z = Math.PI / 2; bit.position.x = -2.4; g.add(body, nose, bit);
-    return { g, d: 9, tick: t => { const r = 0.2 + (Math.sin(t) * 0.5 + 0.5) * 0.4; g.rotation.x = t * 0.5; jaws.forEach(([j, a]) => { j.position.set(-1.6, Math.cos(a) * r, Math.sin(a) * r); j.rotation.x = a; }); } }; },
+  chuck(hl) { const g = new THREE.Group();
+    const body = cyl(1.05, 1.6, MAT.dark, 48); body.rotation.z = Math.PI / 2; body.position.x = 1.2;
+    const sleeve = new THREE.Group(); const sl = cyl(1.18, 1.8, MAT.sleeve, 48); sl.rotation.z = Math.PI / 2; sleeve.add(sl);
+    for (let k = 0; k < 24; k++) { const r = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.07, 0.07), MAT.dark); const a = k / 24 * Math.PI * 2; r.position.set(0, Math.cos(a) * 1.2, Math.sin(a) * 1.2); sleeve.add(r); }
+    sleeve.position.x = -0.3;
+    const nose = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 1.0, 1.0, 48, 1, true), MAT.sleeve); nose.rotation.z = Math.PI / 2; nose.position.x = -1.7;
+    const bit = new THREE.Group(); const sh = cyl(0.13, 2.4, MAT.alu, 20); sh.rotation.z = Math.PI / 2; const tw = helix(0.11, 0.35, 5, 0.05, MAT.alu); tw.rotation.z = Math.PI / 2; tw.position.x = -2.0; const sh2 = cyl(0.09, 1.8, MAT.alu, 12); sh2.rotation.z = Math.PI / 2; sh2.position.x = -2.0; bit.add(sh, tw, sh2); bit.position.x = -1.9;
+    const AN = 0.26, jaws = [];
+    for (let k = 0; k < 3; k++) { const a = k * Math.PI * 2 / 3, jg = new THREE.Group(), j = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.22, 0.3), MAT.steel); j.rotation.z = AN; jg.add(j); jg.rotation.x = a; g.add(jg); jaws.push(j); }
+    g.add(body, sleeve, nose, bit);
+    return { g, d: 9, tick: t => { const c = t % 6, close = c < 2 ? c / 2 : c < 3.5 ? 1 : c < 5.5 ? 1 - (c - 3.5) / 2 : 0, e = close * close * (3 - 2 * close);
+      sleeve.rotation.x = (c < 2 ? c : c < 3.5 ? 2 : c < 5.5 ? 2 - (c - 3.5) : 0) * 1.6;
+      const o = 1 - e; jaws.forEach(j => { j.position.set(-2.55 + o * 1.0, 0.42 + o * 0.3, 0); }); } }; },
+  brushed(hl) { const g = new THREE.Group(), H = (k, m) => hl === k ? MAT.hi : m;
+    const can = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 2.4, 48, 1, true), MAT.ghost); can.rotation.z = Math.PI / 2;
+    for (const [s, m] of [[1, MAT.red], [-1, MAT.blue]]) { const mg = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 2.0, 32, 1, true, 0, Math.PI * 0.7), H('magnet', m)); mg.material.side = THREE.DoubleSide; mg.rotation.z = Math.PI / 2; mg.rotation.x = s > 0 ? -Math.PI * 0.35 : Math.PI * 0.65; g.add(mg); }
+    const rot = new THREE.Group(); const core = cyl(0.25, 3.6, MAT.steel, 16); core.rotation.z = Math.PI / 2; rot.add(core);
+    for (let k = 0; k < 3; k++) { const a = k * Math.PI * 2 / 3, arm = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.9, 0.35), H('rotor', MAT.dark)); arm.position.set(0, Math.cos(a) * 0.7, Math.sin(a) * 0.7); arm.rotation.x = -a; rot.add(arm);
+      const coil = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.12, 10, 24), H('rotor', MAT.copper)); coil.rotation.y = Math.PI / 2; coil.position.copy(arm.position).multiplyScalar(1.0); coil.rotation.x = -a; rot.add(coil);
+      const seg = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.5, 16, 1, false, a + 0.1, Math.PI * 2 / 3 - 0.2), H('commutator', MAT.copper)); seg.rotation.z = Math.PI / 2; seg.position.x = 1.6; rot.add(seg); }
+    const brushes = []; for (const s of [1, -1]) { const br = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.45, 0.3), H('brush', MAT.carbon)); br.position.set(1.6, s * 0.66, 0); const sp = helix(0.1, 0.12, 4, 0.025, MAT.spring); sp.position.set(1.6, s * 1.1, 0); g.add(br, sp); brushes.push(br); }
+    g.add(can, rot);
+    return { g, d: 8, tick: t => { rot.rotation.x = t * 2.5; brushes.forEach((b, i) => b.position.x = 1.6 + Math.sin(t * 40 + i) * 0.006); } }; },
+  brushless(hl) { const g = new THREE.Group(), coils = [];
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.18, 12, 48), MAT.dark); g.add(ring);
+    for (let k = 0; k < 9; k++) { const a = k / 9 * Math.PI * 2, tooth = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.22, 0.6), MAT.dark); tooth.position.set(Math.cos(a) * 1.35, Math.sin(a) * 1.35, 0); tooth.rotation.z = a; const m = MAT.copper.clone(); const c = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.08, 8, 16), m); c.position.copy(tooth.position); c.rotation.set(0, Math.PI / 2, a); g.add(tooth, c); coils.push([m, a]); }
+    const rot = new THREE.Group(); const can = new THREE.Mesh(new THREE.CylinderGeometry(2.0, 2.0, 0.8, 48, 1, true), MAT.sleeve); can.rotation.x = Math.PI / 2; rot.add(can);
+    for (let k = 0; k < 12; k++) { const a = k / 12 * Math.PI * 2, mg = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.6, 0.7), k % 2 ? MAT.red : MAT.blue); mg.position.set(Math.cos(a) * 1.85, Math.sin(a) * 1.85, 0); mg.rotation.z = a; rot.add(mg); }
+    const pcb = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.4, 0.08), MAT.pcb); pcb.position.set(0, -3.0, -0.6); const chip = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.1), MAT.chip); chip.position.set(0.4, -3.0, -0.52); const led = new THREE.Mesh(new THREE.SphereGeometry(0.08), MAT.led); led.position.set(-0.7, -2.6, -0.5);
+    g.add(rot, pcb, chip, led);
+    return { g, d: 9, tick: t => { const ph = t * 2; rot.rotation.z = ph; coils.forEach(([m, a]) => { const on = Math.cos(a - ph * 1.0) > 0.75; m.emissive.setHex(on ? 0xff5a10 : 0x000000); }); led.visible = (t * 4 | 0) % 2 === 0; } }; },
+  controller(hl) { const g = new THREE.Group(), pcb = new THREE.Mesh(new THREE.BoxGeometry(4, 0.1, 2.6), MAT.pcb); g.add(pcb);
+    const mos = []; for (let k = 0; k < 6; k++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.25, 0.5), MAT.chip); m.position.set(-1.4 + k * 0.56, 0.18, -0.8); g.add(m); mos.push(m); }
+    const mcu = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.12, 0.9), MAT.chip); mcu.position.set(0.6, 0.12, 0.5); const cap = cyl(0.25, 0.7, MAT.alu, 20); cap.position.set(-1.3, 0.45, 0.6);
+    const led = new THREE.Mesh(new THREE.SphereGeometry(0.1), MAT.led); led.position.set(1.6, 0.15, 0.9); g.add(mcu, cap, led);
+    const dots = []; for (let k = 0; k < 10; k++) { const d = new THREE.Mesh(new THREE.SphereGeometry(0.07), MAT.hi); g.add(d); dots.push(d); }
+    const wire = cyl(0.06, 3, MAT.copper, 8); wire.rotation.z = Math.PI / 2; wire.position.set(-3.5, 0.1, 0); g.add(wire);
+    return { g, d: 8, tick: t => { const lim = (t % 6) > 3; dots.forEach((d, i) => { const u = ((t * (lim ? 0.4 : 1.2) + i / 10) % 1); d.position.set(-5 + u * 5, 0.2, 0); }); led.material.emissiveIntensity = lim ? (Math.sin(t * 12) > 0 ? 2 : 0.1) : 1; mos.forEach((m, i) => m.position.y = 0.18 + (Math.sin(t * 20 + i) > 0.6 ? 0.02 : 0)); } }; },
+  fuse(hl) { const g = new THREE.Group(), tube = cyl(0.45, 2.6, MAT.glass, 32); tube.rotation.z = Math.PI / 2; const c1 = cyl(0.5, 0.5, MAT.steel, 32), c2 = c1.clone(); c1.rotation.z = c2.rotation.z = Math.PI / 2; c1.position.x = 1.45; c2.position.x = -1.45;
+    const wm = MAT.copper.clone(), wa = cyl(0.04, 1.3, wm, 8), wb = wa.clone(); wa.rotation.z = wb.rotation.z = Math.PI / 2; wa.position.x = 0.65; wb.position.x = -0.65; const blob = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 8), wm); g.add(tube, c1, c2, wa, wb, blob);
+    return { g, d: 6, tick: t => { const c = t % 6, heat = Math.min(1, c / 3), open = c > 3 && c < 5.5; wm.emissive.setRGB(heat * 1.0, heat * 0.25, 0); const gap = open ? Math.min(0.35, (c - 3) * 0.6) : 0; wa.scale.y = wb.scale.y = 1 - gap / 1.3 * 1.6; wa.position.x = 0.65 + gap * 0.5; wb.position.x = -0.65 - gap * 0.5; blob.visible = !open; } }; },
+  spring(hl) { const g = new THREE.Group(), sp = helix(0.6, 0.45, 8, 0.07, MAT.spring), top = cyl(0.8, 0.12, MAT.dark, 32); g.add(sp, top);
+    return { g, d: 7, tick: t => { const k = 0.7 + 0.3 * Math.cos(t * 2); sp.scale.y = k; top.position.y = 1.8 * k + 0.08; } }; },
+  ratchet(hl) { const g = new THREE.Group(), sh = new THREE.Shape(), z = 18, r1 = 1.0, r2 = 1.3;
+    for (let k = 0; k < z; k++) { const a = k / z * Math.PI * 2, b = (k + 1) / z * Math.PI * 2; if (!k) sh.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); sh.lineTo(Math.cos(b - 0.02) * r2, Math.sin(b - 0.02) * r2); sh.lineTo(Math.cos(b) * r1, Math.sin(b) * r1); }
+    const wh = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: 0.4, bevelEnabled: false }), MAT.steel); wh.geometry.translate(0, 0, -0.2);
+    const pw = new THREE.Group(), p = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.16, 0.3), MAT.hi); p.position.x = -0.5; pw.add(p); pw.position.set(0.9, 1.55, 0); g.add(wh, pw);
+    return { g, d: 6, tick: t => { const fw = (t % 6) < 3; const a = fw ? t * 0.8 : 0; if (fw) wh.rotation.z = -a; const ph = (wh.rotation.z * -z / (Math.PI * 2)) % 1; pw.rotation.z = fw ? -0.35 + (1 - ((ph + 1) % 1)) * 0.3 : -0.35; } }; },
+  trigger(hl) { const g = new THREE.Group(), grip = new THREE.Mesh(new THREE.BoxGeometry(0.9, 2.6, 0.7), MAT.dark); grip.position.set(0.3, -1.2, 0); grip.rotation.z = -0.2;
+    const tg = new THREE.Group(), tr = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.0, 0.4), MAT.hi); tr.position.y = -0.5; tg.add(tr); tg.position.set(-0.55, 0, 0);
+    const sp = helix(0.12, 0.12, 5, 0.03, MAT.spring); sp.rotation.z = Math.PI / 2; sp.position.set(-0.15, -0.4, 0); const led = new THREE.Mesh(new THREE.SphereGeometry(0.12), MAT.led); led.position.set(0.3, 0.4, 0.3);
+    const fan = gear(10, 0.1, 0.2); fan.position.set(1.4, 0.6, 0); g.add(grip, tg, sp, led, fan); let sp_ = 0;
+    return { g, d: 7, tick: t => { const pr = (Math.sin(t * 1.3) * 0.5 + 0.5); tg.rotation.z = -pr * 0.35; sp.scale.x = 1 - pr * 0.4; led.material.emissiveIntensity = pr * 2; sp_ += pr * 0.4; fan.rotation.z = sp_; } }; },
+  battery(hl) { const g = new THREE.Group(), box = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.2, 2.0), MAT.sleeve); g.add(box);
+    for (let i = 0; i < 5; i++) for (let j = 0; j < 2; j++) { const c = cyl(0.3, 1.0, MAT.blue, 20); c.position.set(-1.2 + i * 0.6, 0, -0.45 + j * 0.9); g.add(c); }
+    const bars = []; for (let i = 0; i < 4; i++) { const b = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.1, 0.2), MAT.led.clone()); b.position.set(-0.75 + i * 0.5, 0.66, 1.0); g.add(b); bars.push(b); }
+    return { g, d: 7, tick: t => { const lv = Math.floor(((t * 0.6) % 5)); bars.forEach((b, i) => b.material.emissiveIntensity = i < lv ? 1.5 : 0.02); } }; },
   backlash(hl) { const g = new THREE.Group(), a = gear(16, 0.25, 0.6), b = gear(16, 0.25, 0.6, { mat: MAT.alu }); b.position.x = 4 + 0.08; g.add(a, b);
     return { g, d: 6, tick: t => { const s = Math.sin(t * 1.2) * 0.25, gap = 0.035; a.rotation.z = s; b.rotation.z = Math.PI / 16 - (Math.abs(s) > gap ? s - Math.sign(s) * gap : 0); } }; },
   motor(hl) { const g = new THREE.Group(), can = cyl(1, 2.4, MAT.alu, 48); can.rotation.z = Math.PI / 2; const cap = cyl(0.95, 0.3, MAT.dark, 48); cap.rotation.z = Math.PI / 2; cap.position.x = 1.35;
@@ -174,7 +255,13 @@ function open(key) {
   const loop = () => { if (!pop.classList.contains('show')) return; anim.tick((performance.now() - t0) / 1000); ctl.update(); R.render(scene, cam); raf = requestAnimationFrame(loop); }; loop();
 }
 window.mfGlossOpen = open;
+const THC = {};
+window.mfGlossThumb = key => { if (THC[key]) return THC[key]; const d = G[key]; if (!d || !B[d[4]]) return ''; init();
+  const prev = root; if (prev) scene.remove(prev); const M = B[d[4]](d[5]); M.tick(1.3); const bx = new THREE.Box3().setFromObject(M.g); M.g.position.sub(bx.getCenter(new THREE.Vector3())); scene.add(M.g);
+  cam.position.set(M.d * 0.55, M.d * 0.45, M.d * 0.75); cam.lookAt(0, 0, 0); cam.aspect = 4 / 3; cam.updateProjectionMatrix(); R.setSize(160, 120, false); R.render(scene, cam);
+  const url = R.domElement.toDataURL('image/png'); scene.remove(M.g); if (prev) scene.add(prev); THC[key] = url; return url; };
 document.getElementById('gX').onclick = () => pop.classList.remove('show', 'part');
+addEventListener('keydown', e => { if (e.key === 'Escape') pop.classList.remove('show', 'part'); });
 document.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.gterm'); if (t) { e.preventDefault(); e.stopPropagation(); open(t.dataset.g); } }, true);
 
 // ---------- library-part explanations (plain language) ----------

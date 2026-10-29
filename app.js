@@ -658,7 +658,7 @@ function chainMath() {
   <div class="mtot"><span>${L("יחס", "Ratio")} <b>${i}:1</b></span><span>${L("נצילות", "Efficiency")} <b>${(eta * 100).toFixed(0)}%</b></span><span class="${okN ? 'ok' : 'no'}">${fmt(n)} rpm ${okN ? '✓' : '✗'}</span><span class="${okT ? 'ok' : 'no'}">${T.toFixed(1)} N·m ${okT ? '✓' : '✗'}</span></div>
   <p class="fx">${L("מאטים פי X → הכוח גדל בערך פי X (פחות קצת חיכוך)", "Slow down X times → force grows about X times (minus a little friction)")}</p>`;
 }
-const G2 = x => window.mfGloss ? window.mfGloss(x) : x.replace(/\{[a-z]+\|([^}]+)\}/g, '$1');
+const G2 = x => window.mfGloss ? window.mfGloss(window.mfAuto ? window.mfAuto(x) : x) : x.replace(/\{[a-z]+\|([^}]+)\}/g, '$1');
 function infoHTML(t) {
   const f = INFO[t], d = PT[t];
   return `<div class="kb"><h4>${EN ? d.en : d.he} <small>${EN ? d.sen : d.she}</small></h4>
