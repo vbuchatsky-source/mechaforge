@@ -287,7 +287,7 @@ const TH = thumbs();
 const palList = $('palList');
 for (const t of PAL) {
   const d = PT[t], el = document.createElement('div'); el.className = 'pitem'; el.dataset.t = t;
-  el.innerHTML = `<img src="${TH[t]}" alt=""><div style="flex:1"><div class="n">${EN ? d.en : d.he}</div><div class="s">${EN ? d.sen : d.she}</div></div><button class="pwhy" title="${L('מה זה?', 'What is it?')}">?</button>`;
+  el.innerHTML = `<img src="${TH[t]}" alt=""><div style="flex:1"><div class="n">${EN ? d.en : d.he.replace(/\s*\(([^)]+)\)$/, '<small class="en2">$1</small>')}</div><div class="s">${EN ? d.sen : d.she}</div></div><button class="pwhy" title="${L('מה זה?', 'What is it?')}">?</button>`;
   el.querySelector('.pwhy').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); window.mfPartWhy && window.mfPartWhy(t); });
   palList.appendChild(el);
   el.addEventListener('pointerdown', e => startDrag(e, t));

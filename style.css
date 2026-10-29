@@ -191,3 +191,16 @@ body.sideOn #insp{inset-inline-end:404px}body.sideOn #graphs{inset-inline-end:40
 .ucard:hover{background:rgba(255,122,26,.15)}.ucard.lock{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.1)}.ucard span{font-size:12px;color:#c9ced6}
 .uback{background:none;border:0;color:#ff9a4a;cursor:pointer;font:inherit;padding:4px 0}
 .ubig{display:block;width:100%;margin-top:12px;padding:12px;font-size:15px}
+.pitem .n .en2{display:block;font-size:10.5px;font-weight:500;color:#9aa3ad;direction:ltr;text-align:start}
+/* challenge 2 */
+.c2 .pitem{cursor:pointer}.c2 .pitem .dot{width:12px;height:12px;border-radius:50%;background:#3fb27f;flex:none}.c2 .pitem .dot.bad{background:#e5484d}
+.c2 .pitem.done{opacity:.5}.c2 .pitem.tutHi{border-color:#ff7a1a;box-shadow:0 0 0 2px rgba(255,122,26,.35)}
+#modeTip{position:fixed;top:54px;left:50%;transform:translateX(-50%);font-size:12px;color:#9aa3ad;z-index:3}
+#learnCard{position:fixed;top:80px;inset-inline-end:12px;width:300px;padding:12px 14px;border-radius:10px;background:rgba(28,31,36,.85);border:1px solid rgba(255,154,74,.4);z-index:4;display:none;font-size:13px;line-height:1.55}
+#learnCard.show{display:block}#learnCard .lh{color:#ff9a4a;font-weight:700;margin-bottom:6px}.ghost.sm{padding:5px 10px;font-size:12px;margin-top:8px}
+#scnLbl{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);font-size:14px;color:#e3e6ea;z-index:3;text-align:center;max-width:80vw;text-shadow:0 1px 3px #000}
+.c2 #dock{flex-wrap:wrap;justify-content:center;max-width:96vw}.c2 #stats span{margin-inline-end:12px;font-size:12px;color:#9aa3ad}.c2 #stats b{color:#e3e6ea}
+#ratio{background:#22252a;color:#e3e6ea;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:6px}
+.lsdc{font-size:12px;color:#c9ced5;display:flex;gap:5px;align-items:center}.sbtns{display:flex;gap:4px}
+.cks{list-style:none;padding:0!important}.cks li{margin:4px 0}.cks li.ok{color:#3fb27f}.cks li.bad{color:#e5484d}.badge2{color:#ffb070;font-weight:700}
+.card .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}

@@ -108,7 +108,7 @@ const B = {
   helical(hl) { const g = new THREE.Group(), a = gear(20, 0.2, 1.2, { twist: 0.45 }), b = gear(12, 0.2, 1.2, { twist: -0.75 }); b.position.x = 3.2; g.add(a, b);
     return { g, d: 10, tick: t => { a.rotation.z = t * 0.6; b.rotation.z = -t * 0.6 * 20 / 12 + Math.PI / 12; } }; },
   bevel(hl) { const g = new THREE.Group(), a = gear(20, 0.2, 0.8, { cone: 0.4 }), b = gear(20, 0.2, 0.8, { cone: 0.4, mat: MAT.alu });
-    a.position.z = -1.75; const pb = new THREE.Group(); b.rotation.y = Math.PI / 2; b.position.x = -1.75; pb.add(b); g.add(a, pb);
+    g.rotation.set(0.35, -0.75, 0); a.position.z = -1.75; const pb = new THREE.Group(); b.rotation.y = Math.PI / 2; b.position.x = -1.75; pb.add(b); g.add(a, pb);
     const sa = cyl(0.25, 2.5, MAT.dark, 20); sa.rotation.x = Math.PI / 2; sa.position.z = -2.8; const sb = cyl(0.25, 2.5, MAT.dark, 20); sb.rotation.z = Math.PI / 2; sb.position.x = -2.8; g.add(sa, sb);
     return { g, d: 9, tick: t => { a.rotation.z = t * 0.6; pb.rotation.x = -t * 0.6; } }; },
   worm(hl) { const g = new THREE.Group(), w = new THREE.Group(); w.add(cyl(0.45, 3, MAT.steel), helix(0.5, 0.38, 6, 0.13, MAT.steel)); w.rotation.z = Math.PI / 2; w.position.y = 1.95;
@@ -189,8 +189,8 @@ const PARTS = {
   spur: ['spur', 'זוג גלגלי שיניים (Gear Pair)', 'Spur gear pair', 'שני גלגלי שיניים רגילים, אחד ליד השני.', 'Two ordinary gears side by side.', 'הוא מזיז את הציר הצידה (18 מ"מ), כך שהצ׳אק כבר לא בקו אחד עם המנוע והמברגה לא נכנסת לגוף הצר.', 'It shifts the shaft sideways (18 mm), so the chuck is no longer in line with the motor and won\'t fit the slim body.', 'בשעונים, במכונות כביסה, בתיבות הילוכים ידניות ובהמון מכונות.', 'In clocks, washing machines, manual gearboxes and countless machines.']
 };
 window.mfPartWhy = key => {
-  const p = PARTS[key] || (window.MF_PARTS && window.MF_PARTS[key]); if (!p) return;
-  G['_p'] = [p[1], p[2], '', '', p[0]]; open('_p');
+  const p = (window.MF_PARTS && window.MF_PARTS[key]) || PARTS[key]; if (!p) return;
+  const [mk, mh] = p[0].split(':'); G['_p'] = [p[1], p[2], '', '', mk, mh]; open('_p');
   document.getElementById('gP').innerHTML = `<h6>${L('מה זה', 'What it is')}</h6>${L(p[3], p[4])}<h6>${L('מתאים כאן?', 'Does it fit here?')}</h6>${L(p[5], p[6])}<h6>${L('איפה כן משתמשים בו', 'Where it IS used')}</h6>${L(p[7], p[8])}`;
 };
 window.MF_GLOSS_OPEN_PART = window.mfPartWhy;
