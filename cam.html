@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>MechaForge – Differential</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1b1e23">
+<link rel="stylesheet" href="style.css?v=17">
+<script async src="./vendor/es-module-shims.js"></script>
+<script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/jsm/"}}</script>
+<script src="mkit.js?v=17"></script><script src="c5data.js?v=17"></script>
+</head>
+<body class="c2 mech" data-cfg="c5.js">
+<canvas id="c"></canvas>
+<header id="top">
+  <div class="brand"><span class="logo"></span>Mecha<b>Forge</b></div>
+  <div id="lvl"></div>
+  <div class="tbtns"><button id="mL" class="tb mbtn on" data-m="learn"></button><button id="mP" class="tb mbtn" data-m="practice"></button><button id="mT" class="tb mbtn" data-m="test"></button><button id="bExp" class="tb"></button><button id="bX" class="tb"></button><button id="bSec" class="tb"></button><button id="bAX" class="tb"></button><button id="bBrief" class="tb"></button><button id="bLang" class="tb">EN</button></div>
+</header>
+<aside id="palette"><h4 id="palT"></h4><div id="palList"></div></aside>
+<div id="hint"></div>
+<div id="modeTip"></div>
+<div id="learnCard"></div>
+<div id="scnLbl"></div><div id="live"></div>
+<div id="dock">
+  <div id="stats"></div>
+  <select id="ratio"></select>
+  <label class="lsdc"><input type="checkbox" id="lsd"> <span id="lsdL"></span></label>
+  <div class="sbtns"></div>
+  <div class="dbtns"><button id="bClear" class="ghost"></button><button id="bRun" class="primary"></button></div>
+</div>
+<div id="toast"></div>
+<div id="start" class="ov show"><div class="card hero"><div class="logoBig"><span class="logo"></span>Mecha<b>Forge</b></div><h2 id="sTitle"></h2><p id="sTag"></p><button id="bPlay" class="primary big"></button></div></div>
+<div id="brief" class="ov"><div class="card" id="briefCard"></div></div>
+<div id="result" class="ov"><div class="card" id="resCard"></div></div>
+<script type="module" src="mech.js?v=17"></script>
+<script type="module" src="glossary.js?v=17"></script>
+<script src="selector.js?v=17" defer></script>
+<script src="theory.js?v=17" defer></script>
+<script src="faq.js?v=17" defer></script>
+</body>
+</html>

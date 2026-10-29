@@ -10,7 +10,7 @@ const M = [
   { k: 'diff', he: 'דיפרנציאל', en: 'Differential', dh: 'מאפשר לגלגלים להסתובב במהירות שונה בסיבוב.', de: 'Lets the wheels turn at different speeds in a corner.', url: 'diff.html', uk: 'mf_units_c2', pk: 'mf_prog_c2' },
   { k: 'ratchet', he: 'ראצ׳ט / מצמד', en: 'Ratchet / Clutch', dh: 'מסתובב לכיוון אחד בלבד, או מחליק כשהכוח גדול מדי.', de: 'Turns one way only, or slips when force is too high.', url: 'ratchet.html', uk: 'mf_units_c3', pk: 'mf_prog_c3' },
   { k: 'ujoint', he: 'מפרק קרדן', en: 'Universal Joint', dh: 'מעביר סיבוב בין שני צירים בזווית.', de: 'Passes rotation between two shafts at an angle.', url: 'ujoint.html', uk: 'mf_units_c4', pk: 'mf_prog_c4' },
-  { k: 'camshaft', he: 'גל זיזים', en: 'Camshaft', dh: 'הופך סיבוב לתנועה של שסתומים למעלה ולמטה.', de: 'Turns rotation into valves moving up and down.' },
+  { k: 'camshaft', he: 'גל זיזים', en: 'Camshaft', dh: 'הופך סיבוב לתנועה של שסתומים למעלה ולמטה.', de: 'Turns rotation into valves moving up and down.', url: 'cam.html', uk: 'mf_units_c5', pk: 'mf_prog_c5' },
   { k: 'fourbar', he: 'מנגנון ארבע מוטות', en: 'Four-Bar Linkage', dh: 'ארבעה מוטות – סיבוב מלא הופך לנדנוד.', de: 'Four bars – full rotation becomes a swing.' }
 ];
 document.getElementById('hT').textContent = L('בחר מנגנון לתרגול', 'Pick a mechanism to practice');
