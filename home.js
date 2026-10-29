@@ -11,7 +11,7 @@ const M = [
   { k: 'ratchet', he: 'ראצ׳ט / מצמד', en: 'Ratchet / Clutch', dh: 'מסתובב לכיוון אחד בלבד, או מחליק כשהכוח גדול מדי.', de: 'Turns one way only, or slips when force is too high.', url: 'ratchet.html', uk: 'mf_units_c3', pk: 'mf_prog_c3' },
   { k: 'ujoint', he: 'מפרק קרדן', en: 'Universal Joint', dh: 'מעביר סיבוב בין שני צירים בזווית.', de: 'Passes rotation between two shafts at an angle.', url: 'ujoint.html', uk: 'mf_units_c4', pk: 'mf_prog_c4' },
   { k: 'camshaft', he: 'גל זיזים', en: 'Camshaft', dh: 'הופך סיבוב לתנועה של שסתומים למעלה ולמטה.', de: 'Turns rotation into valves moving up and down.', url: 'cam.html', uk: 'mf_units_c5', pk: 'mf_prog_c5' },
-  { k: 'fourbar', he: 'מנגנון ארבע מוטות', en: 'Four-Bar Linkage', dh: 'ארבעה מוטות – סיבוב מלא הופך לנדנוד.', de: 'Four bars – full rotation becomes a swing.' }
+  { k: 'fourbar', he: 'מנגנון ארבע מוטות', en: 'Four-Bar Linkage', dh: 'ארבעה מוטות – סיבוב מלא הופך לנדנוד.', de: 'Four bars – full rotation becomes a swing.', url: 'fourbar.html', uk: 'mf_units_c6', pk: 'mf_prog_c6' }
 ];
 document.getElementById('hT').textContent = L('בחר מנגנון לתרגול', 'Pick a mechanism to practice');
 document.getElementById('hS').textContent = L('לחץ על כרטיס כדי לפתוח את האתגר. כרטיסים שמסומנים "בקרוב" מציגים רק תצוגה מקדימה.', 'Click a card to open its challenge. Cards marked "Coming soon" show a preview only.');
