@@ -27,7 +27,7 @@ export default {
       { ok: st.p <= 4, t: ['הזיזים לא נשחקים (קפיץ עד 4)', 'Lobes do not wear (spring up to 4)'], v: st.p + '' } ],
       bonus: [st.flag, st.p === 3],
       fail: lim < 6500 ? ['הקפיצים חלשים מדי: בסל״ד גבוה השסתום לא חוזר בזמן, "מרחף", ויכול אפילו לפגוע בבוכנה.', 'Springs too weak: at high revs the valve does not close in time, it "floats" and can even hit the piston.'] : st.p > 4 ? ['קפיץ קשה מדי: הזיזים והעוקבים נלחצים חזק מאוד ונשחקים מהר, והמנוע מבזבז כוח על חיכוך.', 'Spring too stiff: lobes and followers press very hard and wear fast, and the engine wastes power on friction.'] : '' }; },
-  text(st) { const f = st.has('springs') && RPM[st.scen || 'idle'] > limit(st); return f ? ['השסתומים לא מספיקים לחזור – ריחוף! ✗', 'The valves cannot keep up – float! ✗'] : ['כל זיז דוחף את השסתום שלו, והקפיץ מחזיר אותו ✓', 'Each lobe pushes its valve and the spring brings it back ✓']; },
+  text(st) { const f = st.has('springs') && RPM[st.scen || 'idle'] > limit(st); return f ? ['⚠ ריחוף שסתומים: הקפיצים חלשים מדי לסל״ד הזה, והשסתומים לא נסגרים בזמן', '⚠ Valve float: the springs are too weak for this rpm, so the valves do not close in time'] : ['כל זיז דוחף את השסתום שלו, והקפיץ מחזיר אותו ✓', 'Each lobe pushes its valve and the spring brings it back ✓']; },
   build({ THREE, M, mk, cyl, box, helix, S }) {
     const lobeGeo = () => { const s = new THREE.Shape(); for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2, r = RB + 0.42 * Math.max(0, Math.cos(a)) ** 2; const x = Math.cos(a) * r, y = Math.sin(a) * r; i ? s.lineTo(x, y) : s.moveTo(x, y); } return new THREE.ExtrudeGeometry(s, { depth: 0.5, bevelEnabled: false }); };
     { const g = mk('head'); const blk = box(9.4, 1.6, 2.6, M.caseM); blk.position.y = 0.9; g.add(blk); const cov = box(9.4, 0.15, 2.6, M.caseM); cov.position.y = 4.5; g.add(cov);
@@ -48,6 +48,6 @@ export default {
   animate(st, dt, { S }) { const rpm = RPM[st.scen || 'idle'], spd = st.running || st.placed.length >= 2 ? rpm / 800 * 1.6 : 0; S.a = (S.a || 0) + spd * dt; const a = S.a;
     const hasCam = st.has('shaft'), fl = st.has('springs') && rpm > limit(st), L = st.flag ? 0.52 : 0.42; S.cs.rotation.x = a; S.pul[0].rotation.x = a; S.pul[1].rotation.x = 2 * a; S.lift = S.lift || [0, 0, 0, 0];
     XS.forEach((x, i) => { const th = a + PH[i]; let lift = hasCam ? L * Math.max(0, -Math.sin(th)) ** 2 : 0;
-      if (fl) lift = Math.max(lift, S.lift[i] - dt * 0.6) + 0.04 * Math.abs(Math.sin(a * 9 + i)); S.lift[i] = lift;
+      if (fl) { /* valve float: the weak spring cannot pull the valve back in time – it lags behind the lobe and bounces on its seat */ const prev = S.lift[i]; lift = Math.max(lift, prev + (lift * 0.5 + 0.18 - prev) * Math.min(1, dt * 5)) + 0.07 * Math.abs(Math.sin(a * 6 + i * 1.7)); } S.lift[i] = lift;
       const top = CY - RB - lift; S.fol[i].position.y = top - 0.22; S.val[i].position.y = top - 3.0; S.spr[i].scale.y = Math.max(0.45, (top - 0.45 - 1.7) / (0.17 * 7)); }); }
 };

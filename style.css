@@ -231,3 +231,4 @@ body:has(#theory.show) #resCard{visibility:hidden}
 @media (max-width:1300px){#top .brand{font-size:0}#top .brand .logo{font-size:initial}#top .chsel{max-width:240px;min-width:0;overflow:hidden}.tbtns{-webkit-mask-image:linear-gradient(to left,#000 92%,transparent);mask-image:linear-gradient(to left,#000 92%,transparent)}}
 @media (max-width:600px){#modeTip{display:none}}
 .hcard .view{overflow:hidden;position:relative}
+@media (max-width:760px){body.mech #live{inset-inline-start:12px;inset-inline-end:auto;min-width:0;padding:6px 10px}#learnCard{top:54px;inset-inline-start:12px;inset-inline-end:12px;width:auto}#scnLbl{max-width:calc(100vw - 24px);width:max-content;background:rgba(28,31,36,.92);border:1px solid #333a42;border-radius:8px;padding:6px 10px;font-size:13px;text-shadow:none}#scnLbl:empty{display:none}}

@@ -95,7 +95,7 @@ $('sTitle').textContent = T(C.title); $('sTag').textContent = T(C.tag); document
 $('bPlay').textContent = L('התחל', 'Start'); $('bPlay').onclick = () => { $('start').classList.remove('show'); brief(); };
 function brief() { $('briefCard').innerHTML = `<h2>${L('המשימה', 'The task')}</h2><p class="sub">${T(C.brief.task)}</p><ul>${C.brief.goals.map(g => `<li>${T(g)}</li>`).join('')}</ul><button class="primary" id="bGo">${L('יאללה!', "Let's go!")}</button>`; $('brief').classList.add('show'); $('bGo').onclick = () => $('brief').classList.remove('show'); }
 $('bBrief').textContent = L('📋 משימה', '📋 Task'); $('bBrief').onclick = brief;
-function scnText() { $('scnLbl').textContent = st.running || st.placed.length ? T(C.text(st)) : ''; }
+function scnText() { stats(); $('scnLbl').textContent = st.running || st.placed.length ? T(C.text(st)) : ''; }
 function run() { const bad = st.placed.filter(k => BAD.includes(k)), miss = ORDER.filter(k => !st.has(k) && !(C.alt && C.alt[k] && st.has(C.alt[k])));
   const ev = C.evaluate(st);
   const ck = [{ ok: !miss.length && !bad.length, t: L(`כל ${N} החלקים הנכונים במקום`, `All ${N} correct parts in place`), v: bad.length ? bad.map(nm).join(', ') : miss.length ? L('חסר: ', 'Missing: ') + miss.map(nm).join(', ') : '' }, ...ev.ck.map(c => ({ ok: c.ok, t: T(c.t), v: c.v || '' }))];
@@ -119,7 +119,12 @@ function frame(now) { const dt = Math.min(0.05, (now - tPrev) / 1000); tPrev = n
   for (const k in G) { const g = G[k]; if (g.userData.t !== undefined && g.userData.t < 1) { g.userData.t += dt * 3; g.scale.setScalar(0.6 + 0.4 * Math.min(1, g.userData.t)); } }
   const xr = XRAY || (AUTOX && (st.running || st.placed.some(k => (C.inner || []).includes(k)))); M.caseM.transparent = xr; M.caseM.opacity = xr ? 0.26 : 1; M.caseM.depthWrite = !xr; M.caseM.roughness = xr ? 0.15 : 0.42;
   st.t += dt; C.animate(st, dt, ctx); if (C.live) { const s = C.live(st); if (s) $('live').innerHTML = s; }
-  ctl.update(); R.render(scene, cam); requestAnimationFrame(frame); }
+  mobLayout(); ctl.update(); R.render(scene, cam); requestAnimationFrame(frame); }
+// phone: stack overlays so they never cover the step card – card, then live readout under it; labels sit just above the dock
+function mobLayout() { const lv = $('live'), lc = $('learnCard'), sl = $('scnLbl'), to = $('toast'), dk = $('dock');
+  if (innerWidth > 760) { lv.style.top = sl.style.bottom = to.style.bottom = ''; return; }
+  const cb = lc.classList.contains('show') ? lc.getBoundingClientRect().bottom : 50; lv.style.top = Math.round(cb + 8) + 'px';
+  const db = dk ? innerHeight - dk.getBoundingClientRect().top + 8 : 160; sl.style.bottom = Math.round(db) + 'px'; to.style.bottom = Math.round(db + (sl.textContent ? sl.offsetHeight + 6 : 0)) + 'px'; }
 requestAnimationFrame(frame);
 setMode('learn'); stats(); hint();
 if (QS.get('demo') === 'all') { $('start').classList.remove('show'); ORDER.forEach(add); }
