@@ -1,7 +1,7 @@
 html:has(body.homeb){overflow:auto;height:auto;touch-action:auto}
 body.homeb{touch-action:auto}
 body.homeb{overflow:auto;height:auto;min-height:100vh;background:radial-gradient(ellipse at top,#262a31,#141619 70%)}
-#hc{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:2}
+#hc{position:fixed;top:0;left:0;width:100%;height:100%;max-width:100%;pointer-events:none;z-index:2}
 #htop{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:12px 22px;background:rgba(20,22,26,.85);backdrop-filter:blur(6px);z-index:3;border-bottom:1px solid #2a2e35}
 #home{max-width:1180px;margin:0 auto;padding:22px 22px 60px}
 #home h1{font-size:26px;margin:6px 0 4px;color:#eef1f5}#home>p{color:#9aa1ab;margin:0 0 20px}
@@ -20,3 +20,7 @@ body.homeb{overflow:auto;height:auto;min-height:100vh;background:radial-gradient
 .hcard.soon .view{filter:saturate(.6)}
 #gpop{z-index:50}
 .chsel a.home{font-weight:700}
+
+html:has(body.homeb),body.homeb{overflow-x:hidden;max-width:100%}
+#htop{box-sizing:border-box;width:100%}
+body.no3d #hc{display:none}
