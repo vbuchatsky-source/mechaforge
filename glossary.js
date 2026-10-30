@@ -71,9 +71,20 @@ window.mfGloss = s => { const seen = {}; return String(s).replace(/\{([a-z]+)\|(
   if (isHe() && !par && !/[A-Za-z]/.test(t) && !seen[k]) en = ` <span class="gen">(${EN_OF(k)})</span>`;
   seen[k] = 1; return `<span class="gterm" data-g="${k}">${t}</span>${par || ''}${en}`; }); };
 const SYN = [['לשונית', 'pawl'], ['מזלג', 'yoke'], ['זיז', 'lobe'], ['עוקב', 'follower'], ['שסתום', 'valve'], ['ארכובה', 'crank'], ['מתנדנד', 'rocker'], ['מוט מחבר', 'coupler'], ['מפרק קרדן', 'ujoint'], ['גל זיזים', 'camshaft'], ['בלי מברשות', 'brushless'], ['עם מברשות', 'brushed'], ['מצמד', 'clutch'], ['צ׳אק', 'chuck'], ["צ'אק", 'chuck'], ['מסבים', 'bearing'], ['מסב', 'bearing'], ['קפיץ', 'spring'], ['בקר', 'controller'], ['נתיך', 'fuse'], ['סוללה', 'battery'], ['מגנטים', 'magnet'], ['הדק', 'trigger'], ['ראצ׳ט', 'ratchet'], ['פלנטרי', 'planetary'], ['בורג אינסופי', 'worm'], ['פיניון', 'pinion'], ['גלגל הכתר', 'crown'], ['גלגלי הצד', 'side'], ['גלגלי צד', 'side'], ['תותב', 'bushing'], ['קומוטטור', 'commutator'], ['סטטור', 'stator'], ['רוטור', 'rotor'], ['משחק בין שיניים', 'backlash'], ['שמש', 'sun'], ['נשא', 'carrier'], ['טבעת שיניים', 'ring'], ['קוני', 'bevel'], ['משופע', 'helical'], ['LSD', 'lsd'], ['Brushless', 'brushless'], ['Brushed', 'brushed'], ['Chuck', 'chuck'], ['Bearing', 'bearing'], ['Ratchet', 'ratchet'], ['Torque Clutch', 'clutch'], ['clutch', 'clutch'], ['chuck', 'chuck'], ['bearing', 'bearing'], ['controller', 'controller'], ['fuse', 'fuse'], ['spring', 'spring'], ['battery', 'battery'], ['trigger', 'trigger'], ['magnet', 'magnet'], ['planetary', 'planetary'], ['pinion', 'pinion'], ['crown', 'crown'], ['brushes', 'brushed'], ['ratchet', 'ratchet'], ['bushing', 'bushing']];
-const KW = () => { const sp = window.MF_C2 ? 'spider' : 'planet'; return [...SYN, ['גלגלי לוויין', sp], ['גלגלי הלוויין', sp], ['דיפרנציאל', 'diff']].filter(([w, k]) => G[k]).sort((a, b) => b[0].length - a[0].length); };
+const ONLY = { helical: /drill/, sun: /drill/, carrier: /drill/, planet: /drill/, planetary: /drill/, axle: /diff/, dcase: /diff/ };
+const KW = () => { const sp = window.MF_C2 ? 'spider' : 'planet'; return [...SYN, ['גלגלי לוויין', sp], ['גלגלי הלוויין', sp], ['דיפרנציאל', 'diff']].filter(([w, k]) => G[k] && (!ONLY[k] || ONLY[k].test(location.pathname))).sort((a, b) => b[0].length - a[0].length); };
+const HEB = /[\u0590-\u05FF]/, LAT = /[A-Za-z]/;
+const PRE = new Set(['', 'ו', 'ה', 'ב', 'ל', 'ש', 'כ', 'וה', 'שה', 'וב', 'ול', 'כש', 'שב', 'של', 'וש', 'לה', 'בה']);
+const SUF = new Set(['', 'ים', 'ות', 'י']);
+const BADW = new Set(['מזיז','הזיז','להזיז','תזיז','יזיז','מזיזים','מזיזה','הזיזו','לשמש','משמש','משמשת','משמשים']);
+window.mfWordAt = (txt, w) => { const heb = HEB.test(w[0]); let i = -1;
+  while ((i = txt.indexOf(w, i + 1)) >= 0) { const pre = txt.slice(0, i); if ((pre.match(/\{/g) || []).length > (pre.match(/\}/g) || []).length) continue; let a = i, b = i + w.length;
+    if (heb) { while (a > 0 && /[\u05D0-\u05EA\u05F3\u05F4׳"']/.test(txt[a - 1]) && HEB.test(txt[a - 1])) a--; while (b < txt.length && HEB.test(txt[b])) b++;
+      if (!BADW.has(txt.slice(a, b)) && PRE.has(txt.slice(a, i)) && SUF.has(txt.slice(i + w.length, b))) return i; }
+    else if (!(i > 0 && LAT.test(txt[i - 1])) && !LAT.test(txt[b] || '')) return i; }
+  return -1; };
 window.mfAuto = s => { const seen = {}; String(s).replace(/\{([a-z]+)\|/g, (m, k) => seen[k] = 1); const kws = KW();
-  return String(s).split(/(\{[^}]*\}|<[^>]+>)/).map(part => { if (/^[{<]/.test(part)) return part; for (const [w, k] of kws) { if (seen[k]) continue; const i = part.indexOf(w); if (i < 0) continue; if (w === 'שמש' && part[i + 3] === 'ה') continue; const before = part.slice(0, i); if ((before.match(/\(/g) || []).length > (before.match(/\)/g) || []).length) continue; part = before + `{${k}|${w}}` + part.slice(i + w.length); seen[k] = 1; } return part; }).join(''); };
+  return String(s).split(/(\{[^}]*\}|<[^>]+>)/).map(part => { if (/^[{<]/.test(part)) return part; for (const [w, k] of kws) { if (seen[k]) continue; const i = mfWordAt(part, w); if (i < 0) continue; const before = part.slice(0, i); if ((before.match(/\(/g) || []).length > (before.match(/\)/g) || []).length) continue; part = before + `{${k}|${w}}` + part.slice(i + w.length); seen[k] = 1; } return part; }).join(''); };
 window.mfFirstKey = s => { const m = /\{([a-z]+)\|/.exec(window.mfAuto(s)); return m ? m[1] : null; };
 window.mfGlossPlain = s => String(s).replace(/\{([a-z]+)\|([^}]+)\}/g, '$2');
 
