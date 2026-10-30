@@ -38,7 +38,7 @@ export default {
       for (let k = 0; k < 6; k++) { const ba = new THREE.Mesh(new THREE.SphereGeometry(0.1, 14, 10), M.steel); const an = k / 6 * Math.PI * 2; ba.position.set(Math.cos(an) * 0.5, Math.sin(an) * 0.5, 0.75); g.add(ba); S.balls.push(ba); }
       const sp = helix(0.45, 0.07, 5, 0.03, M.spring); sp.rotation.x = Math.PI / 2; sp.position.z = 1.0; g.add(sp); S.clB = b; }
     { const g = mk('drive'); const sq = box(0.42, 0.42, 0.5, M.steel); sq.position.z = 1.55; const so = cyl(0.5, 0.9, M.alu, 6); so.rotation.x = Math.PI / 2; so.position.z = 2.1; const bolt = new THREE.Group(); const hh = cyl(0.36, 0.3, M.dark, 6); hh.rotation.x = Math.PI / 2; const th = helix(0.16, 0.08, 14, 0.03, M.steel); th.rotation.x = Math.PI / 2; th.position.z = 0.15; const core = cyl(0.14, 1.2, M.steel, 12); core.rotation.x = Math.PI / 2; core.position.z = 0.75; bolt.add(hh, th, core); bolt.position.z = 2.45;
-      const plate = box(2.6, 2.6, 0.3, M.dark); plate.position.z = 3.1; g.add(sq, so, bolt, plate); S.drive = [sq, so, bolt]; }
+      const pm = M.dark.clone(); pm.transparent = true; pm.opacity = 0.28; pm.depthWrite = false; const plate = box(2.6, 2.6, 0.3, pm); plate.position.z = 3.1; g.add(sq, so, bolt, plate); S.drive = [sq, so, bolt]; }
     { const g = mk('gearpair'); const s = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.95, 0.4, 20), M.bad); s.rotation.x = Math.PI / 2; g.add(s); const s2 = cyl(0.45, 0.4, M.bad, 12); s2.rotation.x = Math.PI / 2; s2.position.set(0.9, 1.0, 0); g.add(s2); }
     { const g = mk('friction'); const d = cyl(0.95, 0.25, M.bad, 40); d.rotation.x = Math.PI / 2; g.add(d); }
     { const g = mk('rigid'); const c = cyl(0.55, 0.6, M.bad, 6); c.rotation.x = Math.PI / 2; c.position.z = 0.75; g.add(c); } },

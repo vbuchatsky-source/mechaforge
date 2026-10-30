@@ -1,4 +1,4 @@
-// MechaForge – generic challenge engine (challenges 3–6). Config module: body[data-cfg]
+// MechaForge – generic challenge engine (challenges \u20663–6\u2069). Config module: body[data-cfg]
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';

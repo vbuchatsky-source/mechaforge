@@ -21,9 +21,9 @@ M.forEach((m, i) => {
   const c = document.createElement('button'); c.className = 'hcard' + (m.url ? '' : ' soon'); c.dataset.k = m.k;
   let ft;
   if (m.url) { let p = J(m.pk); if (!p || typeof p !== 'object') p = {}; let u = 0; try { u = units(m.uk); } catch (e) {} const st = Math.max(0, Math.min(3, +p.best || 0));
-    ft = `<span class="chip">${L('מבחנים', 'Tests')} ${u}/5</span><span class="chip">${'★'.repeat(st)}${'☆'.repeat(3 - st)}</span>${p.badge ? `<span class="chip">🏅</span>` : ''}<span class="chip go">${L('לתרגול ←', 'Practice →')}</span>`;
+    ft = `<span class="chip">${L(`מבחנים: ${u} מתוך 5`, `Tests: ${u} of 5`)}</span><span class="chip">${'★'.repeat(st)}${'☆'.repeat(3 - st)}</span>${p.badge ? `<span class="chip">🏅</span>` : ''}<span class="chip go">${L('לתרגול ←', 'Practice →')}</span>`;
   } else ft = `<span class="chip soon">${L('בקרוב (Coming soon)', 'Coming soon')}</span><span class="chip">${L('תצוגה מקדימה', 'Preview')}</span>`;
-  c.innerHTML = `<span class="num">${i + 1}</span><div class="view"></div><div class="bd"><div class="nm">${EN ? m.en : `${m.he} (${m.en})`}${EN ? '' : `<small>${m.en}</small>`}</div><div class="ds">${L(m.dh, m.de)}</div><div class="ft">${ft}</div></div>`;
+  c.innerHTML = `<span class="num">${i + 1}</span><div class="view"></div><div class="bd"><div class="nm">${EN ? m.en : `${m.he} (${m.en})`}</div><div class="ds">${L(m.dh, m.de)}</div><div class="ft">${ft}</div></div>`;
   c.onclick = () => { if (m.url) location.href = m.url; else if (window.mfGlossOpen) window.mfGlossOpen(m.k); };
   grid.appendChild(c); m.el = c.querySelector('.view');
 });
