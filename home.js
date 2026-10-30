@@ -29,23 +29,29 @@ M.forEach((m, i) => {
 });
 try {
 // one shared renderer, scissor per card
-const R = new THREE.WebGLRenderer({ canvas: document.getElementById('hc'), antialias: true, alpha: true });
-R.setPixelRatio(Math.min(devicePixelRatio, 1.5)); R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.1; R.setScissorTest(true);
+const R = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+R.setPixelRatio(Math.min(devicePixelRatio, 1.5)); R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.1;
 const env = new THREE.PMREMGenerator(R).fromScene(new RoomEnvironment(R), 0.04).texture;
 const mk = () => { const s = new THREE.Scene(); s.environment = env; s.add(new THREE.HemisphereLight(0xdfe6ef, 0x15171a, 0.4)); const k = new THREE.DirectionalLight(0xffffff, 2); k.position.set(5, 9, 7); s.add(k); const r2 = new THREE.DirectionalLight(0x9fb6d6, 0.8); r2.position.set(-6, 3, -7); s.add(r2); return s; };
 M.forEach(m => { const b = window.MF_B && window.MF_B[m.k]; if (!b) return; try { m.s = mk(); m.mod = b(); m.mod.tick(0.5);
   const piv = new THREE.Group(); const bx = new THREE.Box3().setFromObject(m.mod.g); m.mod.g.position.sub(bx.getCenter(new THREE.Vector3())); piv.add(m.mod.g); m.s.add(piv); m.piv = piv;
   const sz = bx.getSize(new THREE.Vector3()).length(); m.cam = new THREE.PerspectiveCamera(32, 1.4, 0.1, 200); m.cam.position.set(sz * 0.7, sz * 0.42, sz * 1.35); m.cam.lookAt(0, 0, 0); } catch (e) { console.warn('preview', m.k, e); m.s = null; } });
 const t0 = performance.now();
+const hc = document.getElementById('hc'); if (hc) hc.style.display = 'none';
+// offscreen renderer; each card gets its own 2D canvas that scrolls natively with the card
+M.forEach(m => { if (!m.s) return; const cv = document.createElement('canvas'); cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none'; if (getComputedStyle(m.el).position === 'static') m.el.style.position = 'relative'; m.el.appendChild(cv); m.cv = cv; m.cx = cv.getContext('2d'); });
+const PR = Math.min(devicePixelRatio, 1.5);
 function frame() {
-  const W = innerWidth, H = innerHeight; if (R.domElement.width !== Math.floor(W * R.getPixelRatio())) R.setSize(W, H, false);
-  R.setClearColor(0, 0); R.setScissor(0, 0, W, H); R.clear();
+  const H = (window.visualViewport ? visualViewport.height : innerHeight) + 200;
   const t = (performance.now() - t0) / 1000, hov = document.querySelector('.hcard:hover');
-  for (const m of M) { if (!m.s) continue; const r = m.el.getBoundingClientRect(); if (r.bottom < 56 || r.top > H || r.right < 0 || r.left > W) continue;
-    const top = Math.max(r.top, 56), h = r.bottom - top; if (h <= 0) continue;
-    try { const act = hov && hov.dataset.k === m.k; m.mod.tick(act ? t * 1.6 : t * 0.5); m.piv.rotation.y = t * 0.25;
-    m.cam.aspect = r.width / r.height; m.cam.updateProjectionMatrix();
-    R.setViewport(r.left, H - r.bottom, r.width, r.height); R.setScissor(r.left, H - r.bottom, r.width, h); R.render(m.s, m.cam); } catch (e) { m.s = null; } }
+  for (const m of M) { if (!m.s || !m.cv) continue; const r = m.el.getBoundingClientRect(); if (r.bottom < -200 || r.top > H || r.width < 2) continue;
+    try { const w = Math.round(r.width * PR), h = Math.round(r.height * PR);
+      if (m.cv.width !== w || m.cv.height !== h) { m.cv.width = w; m.cv.height = h; }
+      const sz = R.getSize(new THREE.Vector2()); if (sz.x !== Math.round(r.width) || sz.y !== Math.round(r.height)) R.setSize(Math.round(r.width), Math.round(r.height), false);
+      const act = hov && hov.dataset.k === m.k; m.mod.tick(act ? t * 1.6 : t * 0.5); m.piv.rotation.y = t * 0.25;
+      m.cam.aspect = r.width / r.height; m.cam.updateProjectionMatrix();
+      R.setClearColor(0, 0); R.clear(); R.render(m.s, m.cam);
+      m.cx.clearRect(0, 0, w, h); m.cx.drawImage(R.domElement, 0, 0, w, h); } catch (e) { m.s = null; } }
   requestAnimationFrame(frame);
 }
 frame();
